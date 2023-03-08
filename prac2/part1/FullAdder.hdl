@@ -1,0 +1,35 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/02/FullAdder.hdl
+
+/**
+ * Computes the sum of three bits.
+ */
+
+CHIP FullAdder {
+    IN a, b, c;  // 1-bit inputs
+    OUT sum,     // Right bit of a + b + c
+        carry;   // Left bit of a + b + c
+
+    PARTS:
+    // Put you code here:
+    Not(in=a, out=NotA); Not(in=b, out=NotB); Not(in=c, out=NotC);
+
+    // carry stuffs
+    And(a=NotA, b=b, out=AndNotAB); And(a=AndNotAB, b=c, out=AndCarryFirst);
+    And(a=a, b=NotB, out=AndANotB); And(a=AndANotB, b=c, out=AndCarrySecond);
+    And(a=a, b=b, out=AndAB); And(a=AndAB, b=NotC, out=AndCarryThird);
+    And(a=AndAB, b=c, out=AndCarryFourth);
+    Or(a=AndCarryFirst, b=AndCarrySecond, out=OrCarryFirst); Or(a=AndCarryThird, b=AndCarryFourth, out=OrCarrySecond);
+    Or(a=OrCarryFirst, b=OrCarrySecond, out=carry);
+
+    And(a=NotA, b=NotB, out=AndNotANotB); And(a=AndNotANotB, b=c, out=AndSumFirst);
+    And(a=AndNotAB, b=NotC, out=AndSumSecond); // AndNotAB was calculated in the first instance
+    And(a=AndANotB, b=NotC, out=AndSumThird); // AndANotB was calculated in first instance
+    Or(a=AndSumFirst, b=AndSumSecond, out=OrSumFirst);
+    Or(a=AndSumThird, b=AndCarryFourth, out=OrSumSecond);
+    Or(a=OrSumFirst, b=OrSumSecond, out=sum);
+
+
+}
