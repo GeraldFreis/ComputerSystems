@@ -43,4 +43,48 @@ CHIP ALU {
 
     PARTS:
    // Put you code here:
+   // if zx == 1:
+   Xor(a=zx, b=true, out=XorZX); Not(in=XorZX, out=NZX);
+   And(a=x[0], b=NZX, out=new_x_0); And(a=x[1], b=NZX, out=new_x_1); And(a=x[2], b=NZX, out=new_x_2); And(a=x[3], b=NZX, out=new_x_3);
+   And(a=x[4], b=NZX, out=new_x_4); And(a=x[5], b=NZX, out=new_x_5); And(a=x[6], b=NZX, out=new_x_6); And(a=x[7], b=NZX, out=new_x_7);
+   And(a=x[8], b=NZX, out=new_x_8); And(a=x[9], b=NZX, out=new_x_9); And(a=x[10], b=NZX, out=new_x_10); And(a=x[11], b=NZX, out=new_x_11);
+   And(a=x[12], b=NZX, out=new_x_12); And(a=x[13], b=NZX, out=new_x_13); And(a=x[14], b=NZX, out=new_x_14); And(a=x[15], b=NZX, out=new_x_15);
+    
+   // if nx == 1:
+   Not(in=nx, out=Nnx); 
+   Not(in=new_x_0, out=Not_new_x_0); Not(in=new_x_1, out=Not_new_x_1); Not(in=new_x_2, out=Not_new_x_2); Not(in=new_x_3, out=Not_new_x_3);
+   Not(in=new_x_4, out=Not_new_x_4); Not(in=new_x_5, out=Not_new_x_5); Not(in=new_x_6, out=Not_new_x_6); Not(in=new_x_7, out=Not_new_x_7);
+   Not(in=new_x_8, out=Not_new_x_8); Not(in=new_x_9, out=Not_new_x_9); Not(in=new_x_10, out=Not_new_x_10); Not(in=new_x_11, out=Not_new_x_11);
+   Not(in=new_x_12, out=Not_new_x_12); Not(in=new_x_13, out=Not_new_x_13); Not(in=new_x_14, out=Not_new_x_14); Not(in=new_x_15, out=Not_new_x_15);
+   
+   // first set of ANDS (Not(nx) and x[0...15])
+   And(a=x[0], b=Nnx, out=And_x_Nnx_0); And(a=x[1], b=Nnx, out=And_x_Nnx_1); And(a=x[2], b=Nnx, out=And_x_Nnx_2); And(a=x[3], b=Nnx, out=And_x_Nnx_3);
+   And(a=x[4], b=Nnx, out=And_x_Nnx_4); And(a=x[5], b=Nnx, out=And_x_Nnx_5); And(a=x[6], b=Nnx, out=And_x_Nnx_6); And(a=x[7], b=Nnx, out=And_x_Nnx_7);
+   And(a=x[8], b=Nnx, out=And_x_Nnx_8); And(a=x[9], b=Nnx, out=And_x_Nnx_9); And(a=x[10], b=Nnx, out=And_x_Nnx_10); And(a=x[11], b=Nnx, out=And_x_Nnx_11);
+   And(a=x[12], b=Nnx, out=And_x_Nnx_12); And(a=x[13], b=Nnx, out=And_x_Nnx_13); And(a=x[14], b=Nnx, out=And_x_Nnx_14); And(a=x[15], b=Nnx, out=And_x_Nnx_15);
+   
+   // second set of ANDS(nx and Not_new_x_[0...15]);
+   And(a=Not_new_x_0, b=nx, out=And_Not_new_x_nx_0); And(a=Not_new_x_1, b=nx, out=And_Not_new_x_nx_1); And(a=Not_new_x_2, b=nx, out=And_Not_new_x_nx_2); And(a=Not_new_x_3, b=nx, out=And_Not_new_x_nx_3);
+   And(a=Not_new_x_4, b=nx, out=And_Not_new_x_nx_4); And(a=Not_new_x_5, b=nx, out=And_Not_new_x_nx_5); And(a=Not_new_x_6, b=nx, out=And_Not_new_x_nx_6); And(a=Not_new_x_7, b=nx, out=And_Not_new_x_nx_7);
+   And(a=Not_new_x_8, b=nx, out=And_Not_new_x_nx_8); And(a=Not_new_x_9, b=nx, out=And_Not_new_x_nx_9); And(a=Not_new_x_10, b=nx, out=And_Not_new_x_nx_10); And(a=Not_new_x_11, b=nx, out=And_Not_new_x_nx_11);
+   And(a=Not_new_x_12, b=nx, out=And_Not_new_x_nx_12); And(a=Not_new_x_13, b=nx, out=And_Not_new_x_nx_13); And(a=Not_new_x_14, b=nx, out=And_Not_new_x_nx_14); And(a=Not_new_x_15, b=nx, out=And_Not_new_x_nx_15);
+   // ors
+   Or(a=And_x_Nnx_0, b=And_Not_new_x_nx_0, out=new_new_x_0); Or(a=And_x_Nnx_1, b=And_Not_new_x_nx_1, out=new_new_x_1);
+   Or(a=And_x_Nnx_2, b=And_Not_new_x_nx_2, out=new_new_x_2); Or(a=And_x_Nnx_3, b=And_Not_new_x_nx_3, out=new_new_x_3);
+   Or(a=And_x_Nnx_4, b=And_Not_new_x_nx_4, out=new_new_x_4); Or(a=And_x_Nnx_5, b=And_Not_new_x_nx_5, out=new_new_x_5);
+   Or(a=And_x_Nnx_6, b=And_Not_new_x_nx_6, out=new_new_x_6); Or(a=And_x_Nnx_7, b=And_Not_new_x_nx_7, out=new_new_x_7);
+   Or(a=And_x_Nnx_8, b=And_Not_new_x_nx_8, out=new_new_x_8); Or(a=And_x_Nnx_9, b=And_Not_new_x_nx_9, out=new_new_x_9);
+   Or(a=And_x_Nnx_10, b=And_Not_new_x_nx_10, out=new_new_x_10); Or(a=And_x_Nnx_11, b=And_Not_new_x_nx_11, out=new_new_x_11);
+   Or(a=And_x_Nnx_12, b=And_Not_new_x_nx_12, out=new_new_x_12); Or(a=And_x_Nnx_13, b=And_Not_new_x_nx_13, out=new_new_x_13);
+   Or(a=And_x_Nnx_14, b=And_Not_new_x_nx_14, out=new_new_x_14); Or(a=And_x_Nnx_15, b=And_Not_new_x_nx_15, out=new_new_x_15);
+
+   
+   // if zy == 1:
+   Xor(a=zy, b=true, out=XorZY); Not(in=XorZY, out=NZY);
+   And(a=y[0], b=NZY, out=new_y_0); And(a=y[1], b=NZY, out=new_y_1); And(a=y[2], b=NZY, out=new_y_2); And(a=y[3], b=NZY, out=new_y_3);
+   And(a=y[4], b=NZY, out=new_y_4); And(a=y[5], b=NZY, out=new_y_5); And(a=y[6], b=NZY, out=new_y_6); And(a=y[7], b=NZY, out=new_y_7);
+   And(a=y[8], b=NZY, out=new_y_8); And(a=y[9], b=NZY, out=new_y_9); And(a=y[10], b=NZY, out=new_y_10); And(a=y[11], b=NZY, out=new_y_11);
+   And(a=y[12], b=NZY, out=new_y_12); And(a=y[13], b=NZY, out=new_y_13); And(a=y[14], b=NZY, out=new_y_14); And(a=y[15], b=NZY, out=new_y_15);
+   
+   
 }
