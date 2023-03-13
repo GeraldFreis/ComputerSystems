@@ -43,8 +43,9 @@ CHIP ALU {
 
     PARTS:
    // Put you code here:
-   // if zx == 1:
-   Xor(a=zx, b=true, out=XorZX); Not(in=XorZX, out=NZX);
+   // if zx == 1: 
+   Xor(a=zx, b=zx, out=Te);
+   Xor(a=zx, b=Te, out=XorZX); Not(in=XorZX, out=NZX);
    And(a=x[0], b=NZX, out=new_x_0); And(a=x[1], b=NZX, out=new_x_1); And(a=x[2], b=NZX, out=new_x_2); And(a=x[3], b=NZX, out=new_x_3);
    And(a=x[4], b=NZX, out=new_x_4); And(a=x[5], b=NZX, out=new_x_5); And(a=x[6], b=NZX, out=new_x_6); And(a=x[7], b=NZX, out=new_x_7);
    And(a=x[8], b=NZX, out=new_x_8); And(a=x[9], b=NZX, out=new_x_9); And(a=x[10], b=NZX, out=new_x_10); And(a=x[11], b=NZX, out=new_x_11);
@@ -114,7 +115,7 @@ CHIP ALU {
    Or(a=And_y_Nny_12, b=And_Not_new_y_ny_12, out=new_new_y_12); Or(a=And_y_Nny_13, b=And_Not_new_y_ny_13, out=new_new_y_13);
    Or(a=And_y_Nny_14, b=And_Not_new_y_ny_14, out=new_new_y_14); Or(a=And_y_Nny_15, b=And_Not_new_y_ny_15, out=new_new_y_15);
 
-	// if g == 1:
+	// if f == 1:
 	// we add the x and y values
 	HalfAdder(a=new_new_x_0, b=new_new_y_0, carry=carr0, sum=Add_0);
 	FullAdder(a=new_new_x_1, b=new_new_y_1, c=carr1, carry=carr2, sum=Add_1);
@@ -133,16 +134,57 @@ CHIP ALU {
 	FullAdder(a=new_new_x_14, b=new_new_y_14, c=carr14, carry=carr15, sum=Add_14);
 	FullAdder(a=new_new_x_15, b=new_new_y_15, c=carr15, carry=carr16, sum=Add_15);
 	
-	And(a=g, b=Add_0, out=Out_g_0); And(a=g, b=Add_1, out=Out_g_1); And(a=g, b=Add_2, out=Out_g_2); And(a=g, b=Add_3, out=Out_g_3);
-	And(a=g, b=Add_4, out=Out_g_4); And(a=g, b=Add_5, out=Out_g_5); And(a=g, b=Add_6, out=Out_g_6); And(a=g, b=Add_7, out=Out_g_7);
-	And(a=g, b=Add_8, out=Out_g_8); And(a=g, b=Add_9, out=Out_g_9); And(a=g, b=Add_10, out=Out_g_10); And(a=g, b=Add_11, out=Out_g_11);
-	And(a=g, b=Add_12, out=Out_g_12); And(a=g, b=Add_13, out=Out_g_13); And(a=g, b=Add_14, out=Out_g_14); And(a=g, b=Add_15, out=Out_g_15);
+	And(a=f, b=Add_0, out=Out_g_0); And(a=f, b=Add_1, out=Out_g_1); And(a=f, b=Add_2, out=Out_g_2); And(a=f, b=Add_3, out=Out_g_3);
+	And(a=f, b=Add_4, out=Out_g_4); And(a=f, b=Add_5, out=Out_g_5); And(a=f, b=Add_6, out=Out_g_6); And(a=f, b=Add_7, out=Out_g_7);
+	And(a=f, b=Add_8, out=Out_g_8); And(a=f, b=Add_9, out=Out_g_9); And(a=f, b=Add_10, out=Out_g_10); And(a=f, b=Add_11, out=Out_g_11);
+	And(a=f, b=Add_12, out=Out_g_12); And(a=f, b=Add_13, out=Out_g_13); And(a=f, b=Add_14, out=Out_g_14); And(a=f, b=Add_15, out=Out_g_15);
 	
-	// if g == 0
+	// if f == 0
+	/**
+	problem: combining shit together? need f==0 and f==1 to behave differently
+	And(a=new_new_x_0, b=new_new_y_0, out=And_0); And(a=new_new_x_1, b=new_new_x_1, out=And_1); And(a=new_new_x_2, b=new_new_x_2, out=And_2);
+	And(a=new_new_x_3, b=new_new_y_3, out=And_3); And(a=new_new_x_4, b=new_new_x_4, out=And_4); And(a=new_new_x_5, b=new_new_x_5, out=And_5);
+	And(a=new_new_x_6, b=new_new_y_6, out=And_6); And(a=new_new_x_7, b=new_new_x_7, out=And_7); And(a=new_new_x_8, b=new_new_x_8, out=And_8);
+	And(a=new_new_x_9, b=new_new_y_9, out=And_9); And(a=new_new_x_10, b=new_new_x_10, out=And_10); And(a=new_new_x_11, b=new_new_x_11, out=And_11);
+	And(a=new_new_x_12, b=new_new_y_12, out=And_12); And(a=new_new_x_13, b=new_new_x_13, out=And_13); And(a=new_new_x_14, b=new_new_x_14, out=And_14);
+	And(a=new_new_x_15, b=new_new_y_15, out=And_15);
+	**/
+	// if no==1:
+	Not(in=out_g_0, out=Nout_f_0); Not(in=out_g_1, out=Nout_f_1); Not(in=out_g_2, out=Nout_f_2); Not(in=out_g_3, out=Nout_f_3);
+	Not(in=out_g_4, out=Nout_f_4); Not(in=out_g_5, out=Nout_f_5); Not(in=out_g_6, out=Nout_f_6); Not(in=out_g_7, out=Nout_f_7);
+	Not(in=out_g_8, out=Nout_f_8); Not(in=out_g_9, out=Nout_f_9); Not(in=out_g_10, out=Nout_f_10); Not(in=out_g_11, out=Nout_f_11);
+	Not(in=out_g_12, out=Nout_f_12); Not(in=out_g_13, out=Nout_f_13); Not(in=out_g_14, out=Nout_f_14); Not(in=out_g_15, out=Nout_f_15);
+	
+	Not(in=no, out=Nno);
+	
+	And(a=out_g_0, b=Nno, out=Out_1_N_0); And(a=out_g_1, b=Nno, out=Out_1_N_1); And(a=out_g_2, b=Nno, out=Out_1_N_2);
+	And(a=out_g_3, b=Nno, out=Out_1_N_3); And(a=out_g_4, b=Nno, out=Out_1_N_4); And(a=out_g_5, b=Nno, out=Out_1_N_5);
+	And(a=out_g_6, b=Nno, out=Out_1_N_6); And(a=out_g_7, b=Nno, out=Out_1_N_7); And(a=out_g_8, b=Nno, out=Out_1_N_8);
+	And(a=out_g_9, b=Nno, out=Out_1_N_9); And(a=out_g_10, b=Nno, out=Out_1_N_10); And(a=out_g_11, b=Nno, out=Out_1_N_11);
+	And(a=out_g_12, b=Nno, out=Out_1_N_12); And(a=out_g_13, b=Nno, out=Out_1_N_13); And(a=out_g_14, b=Nno, out=Out_1_N_14);
+	And(a=out_g_15, b=Nno, out=Out_1_N_15);
+	
+	And(a=Nout_f_0, b=no, out=Out_2_N_0); And(a=Nout_f_1, b=no, out=Out_2_N_1); And(a=Nout_f_2, b=no, out=Out_2_N_2);
+	And(a=Nout_f_3, b=no, out=Out_2_N_3); And(a=Nout_f_4, b=no, out=Out_2_N_4); And(a=Nout_f_5, b=no, out=Out_2_N_5);
+	And(a=Nout_f_6, b=no, out=Out_2_N_6); And(a=Nout_f_7, b=no, out=Out_2_N_7); And(a=Nout_f_8, b=no, out=Out_2_N_8);
+	And(a=Nout_f_9, b=no, out=Out_2_N_9); And(a=Nout_f_10, b=no, out=Out_2_N_10); And(a=Nout_f_11, b=no, out=Out_2_N_11);
+	And(a=Nout_f_12, b=no, out=Out_2_N_12); And(a=Nout_f_13, b=no, out=Out_2_N_13); And(a=Nout_f_14, b=no, out=Out_2_N_14);
+	And(a=Nout_f_15, b=no, out=Out_2_N_15);
+	
+	And(a=Out_1_N_0, b=Out_2_N_0, out=out[0]); And(a=Out_1_N_1, b=Out_2_N_1, out=out[1]); And(a=Out_1_N_2, b=Out_2_N_2, out=out[2]);
+	And(a=Out_1_N_3, b=Out_2_N_3, out=out[3]); And(a=Out_1_N_4, b=Out_2_N_4, out=out[4]); And(a=Out_1_N_5, b=Out_2_N_5, out=out[5]);
+	And(a=Out_1_N_6, b=Out_2_N_6, out=out[6]); And(a=Out_1_N_7, b=Out_2_N_7, out=out[7]); And(a=Out_1_N_8, b=Out_2_N_8, out=out[8]);
+	And(a=Out_1_N_9, b=Out_2_N_9, out=out[9]); And(a=Out_1_N_10, b=Out_2_N_10, out=out[10]); And(a=Out_1_N_11, b=Out_2_N_11, out=out[11]);
+	And(a=Out_1_N_12, b=Out_2_N_12, out=out[12]); And(a=Out_1_N_13, b=Out_2_N_13, out=out[13]); And(a=Out_1_N_14, b=Out_2_N_14, out=out[14]);
+	And(a=Out_1_N_15, b=Out_2_N_15, out=out[15]);
+	
+	// if out == 1:
+	Or(a=out[0], b=out[1], out=or1); Or(a=or1, b=out[2], out=or2); Or(a=or2, b=out[3], out=or3); Or(a=or3, b=out[4], out=or4);
+	Or(a=or4, b=out[5], out=or5); Or(a=or5, b=out[6], out=or6); Or(a=or6, b=out[7], out=or7); Or(a=or7, b=out[8], out=or8);
+	Or(a=or8, b=out[9], out=or9); Or(a=or9, b=out[10], out=or10); Or(a=or10, b=out[11], out=or11); Or(a=or11, b=out[12], out=or12);
+	Or(a=or12, b=out[13], out=or13); Or(a=or13, b=out[14], out=or14); Or(a=or14, b=out[15], out=zr);
+	
+	And(a=out[0], b=out[0], out=ng); // if it is a 1: then out < 0 (two's complement (negative numbers start with a 1))
 	
 	
-	
-	
-
-   
 }
