@@ -14,4 +14,54 @@ CHIP Inc16 {
 
     PARTS:
    // Put you code here:
+   Xor(a=in[15], b=in[15], out=silly); Not(in=silly, out=notsilly);
+   HalfAdder(a=in[15], b=notsilly, carry=carr1, sum=out1);
+   Or(a=out1, b=out1, out=out[15]);
+   
+   FullAdder(a=in[14], b=carr1, c=out1, carry=carr2, sum=out2);
+   Or(a=out2, b=out2, out=out[14]);
+   
+   FullAdder(a=in[13], b=carr2, c=out2, carry=carr3, sum=out3);
+   Or(a=out3, b=out3, out=out[13]);
+   
+   FullAdder(a=in[12], b=carr3, c=out3, carry=carr4, sum=out4);
+   Or(a=out4, b=out4, out=out[12]);
+   
+   FullAdder(a=in[11], b=carr4, c=out4, carry=carr5, sum=out5);
+   Or(a=out5, b=out5, out=out[11]);
+   
+   FullAdder(a=in[10], b=carr5, c=out5, carry=carr6, sum=out6);
+   Or(a=out6, b=out6, out=out[10]);
+   
+   FullAdder(a=in[9], b=carr6, c=out6, carry=carr7, sum=out7);
+   Or(a=out7, b=out7, out=out[9]);
+   
+   FullAdder(a=in[8], b=carr7, c=out7, carry=carr8, sum=out8);
+   Or(a=out8, b=out8, out=out[8]);
+   
+   FullAdder(a=in[7], b=carr8, c=out8, carry=carr9, sum=out9);
+   Or(a=out9, b=out9, out=out[7]);
+   
+   FullAdder(a=in[6], b=carr9, c=out9, carry=carr10, sum=out10);
+   Or(a=out10, b=out10, out=out[6]);
+   
+   FullAdder(a=in[5], b=carr10, c=out10, carry=carr11, sum=out11);
+   Or(a=out11, b=out11, out=out[5]);
+   
+   FullAdder(a=in[4], b=carr11, c=out11, carry=carr12, sum=out12);
+   Or(a=out12, b=out12, out=out[4]);
+   
+   FullAdder(a=in[3], b=carr12, c=out12, carry=carr13, sum=out13);
+   Or(a=out13, b=out13, out=out[3]);
+   
+   FullAdder(a=in[2], b=carr13, c=out13, carry=carr14, sum=out14);
+   Or(a=out14, b=out14, out=out[2]);
+   
+   FullAdder(a=in[1], b=carr14, c=out14, carry=carr15, sum=out15);
+   Or(a=out15, b=out15, out=out[1]);
+   
+   FullAdder(a=in[0], b=carr15, c=out15, carry=carry, sum=out[0]);
+   
+   
+   
 }
