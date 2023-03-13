@@ -114,6 +114,35 @@ CHIP ALU {
    Or(a=And_y_Nny_12, b=And_Not_new_y_ny_12, out=new_new_y_12); Or(a=And_y_Nny_13, b=And_Not_new_y_ny_13, out=new_new_y_13);
    Or(a=And_y_Nny_14, b=And_Not_new_y_ny_14, out=new_new_y_14); Or(a=And_y_Nny_15, b=And_Not_new_y_ny_15, out=new_new_y_15);
 
+	// if g == 1:
+	// we add the x and y values
+	HalfAdder(a=new_new_x_0, b=new_new_y_0, carry=carr0, sum=Add_0);
+	FullAdder(a=new_new_x_1, b=new_new_y_1, c=carr1, carry=carr2, sum=Add_1);
+	FullAdder(a=new_new_x_2, b=new_new_y_2, c=carr2, carry=carr3, sum=Add_2);
+	FullAdder(a=new_new_x_3, b=new_new_y_3, c=carr3, carry=carr4, sum=Add_3);
+	FullAdder(a=new_new_x_4, b=new_new_y_4, c=carr4, carry=carr5, sum=Add_4);
+	FullAdder(a=new_new_x_5, b=new_new_y_5, c=carr5, carry=carr6, sum=Add_5);
+	FullAdder(a=new_new_x_6, b=new_new_y_6, c=carr6, carry=carr7, sum=Add_6);
+	FullAdder(a=new_new_x_7, b=new_new_y_7, c=carr7, carry=carr8, sum=Add_7);
+	FullAdder(a=new_new_x_8, b=new_new_y_8, c=carr8, carry=carr9, sum=Add_8);
+	FullAdder(a=new_new_x_9, b=new_new_y_9, c=carr9, carry=carr10, sum=Add_9);
+	FullAdder(a=new_new_x_10, b=new_new_y_10, c=carr10, carry=carr11, sum=Add_10);
+	FullAdder(a=new_new_x_11, b=new_new_y_11, c=carr11, carry=carr12, sum=Add_11);
+	FullAdder(a=new_new_x_12, b=new_new_y_12, c=carr12, carry=carr13, sum=Add_12);
+	FullAdder(a=new_new_x_13, b=new_new_y_13, c=carr13, carry=carr14, sum=Add_13);
+	FullAdder(a=new_new_x_14, b=new_new_y_14, c=carr14, carry=carr15, sum=Add_14);
+	FullAdder(a=new_new_x_15, b=new_new_y_15, c=carr15, carry=carr16, sum=Add_15);
+	
+	And(a=g, b=Add_0, out=Out_g_0); And(a=g, b=Add_1, out=Out_g_1); And(a=g, b=Add_2, out=Out_g_2); And(a=g, b=Add_3, out=Out_g_3);
+	And(a=g, b=Add_4, out=Out_g_4); And(a=g, b=Add_5, out=Out_g_5); And(a=g, b=Add_6, out=Out_g_6); And(a=g, b=Add_7, out=Out_g_7);
+	And(a=g, b=Add_8, out=Out_g_8); And(a=g, b=Add_9, out=Out_g_9); And(a=g, b=Add_10, out=Out_g_10); And(a=g, b=Add_11, out=Out_g_11);
+	And(a=g, b=Add_12, out=Out_g_12); And(a=g, b=Add_13, out=Out_g_13); And(a=g, b=Add_14, out=Out_g_14); And(a=g, b=Add_15, out=Out_g_15);
+	
+	// if g == 0
+	
+	
+	
+	
 
    
 }
