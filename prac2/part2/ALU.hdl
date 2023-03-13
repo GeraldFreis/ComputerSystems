@@ -86,5 +86,34 @@ CHIP ALU {
    And(a=y[8], b=NZY, out=new_y_8); And(a=y[9], b=NZY, out=new_y_9); And(a=y[10], b=NZY, out=new_y_10); And(a=y[11], b=NZY, out=new_y_11);
    And(a=y[12], b=NZY, out=new_y_12); And(a=y[13], b=NZY, out=new_y_13); And(a=y[14], b=NZY, out=new_y_14); And(a=y[15], b=NZY, out=new_y_15);
    
+   // if ny == 1:
+   Not(in=ny, out=Nny); 
+   Not(in=new_y_0, out=Not_new_y_0); Not(in=new_y_1, out=Not_new_y_1); Not(in=new_y_2, out=Not_new_y_2); Not(in=new_y_3, out=Not_new_y_3);
+   Not(in=new_y_4, out=Not_new_y_4); Not(in=new_y_5, out=Not_new_y_5); Not(in=new_y_6, out=Not_new_y_6); Not(in=new_y_7, out=Not_new_y_7);
+   Not(in=new_y_8, out=Not_new_y_8); Not(in=new_y_9, out=Not_new_y_9); Not(in=new_y_10, out=Not_new_y_10); Not(in=new_y_11, out=Not_new_y_11);
+   Not(in=new_y_12, out=Not_new_y_12); Not(in=new_y_13, out=Not_new_y_13); Not(in=new_y_14, out=Not_new_y_14); Not(in=new_y_15, out=Not_new_y_15);
+   
+   // first set of ANDS (Not(ny) and y[0...15])
+   And(a=y[0], b=Nny, out=And_y_Nny_0); And(a=y[1], b=Nny, out=And_y_Nny_1); And(a=y[2], b=Nny, out=And_y_Nny_2); And(a=y[3], b=Nny, out=And_y_Nny_3);
+   And(a=y[4], b=Nny, out=And_y_Nny_4); And(a=y[5], b=Nny, out=And_y_Nny_5); And(a=y[6], b=Nny, out=And_y_Nny_6); And(a=y[7], b=Nny, out=And_y_Nny_7);
+   And(a=y[8], b=Nny, out=And_y_Nny_8); And(a=y[9], b=Nny, out=And_y_Nny_9); And(a=y[10], b=Nny, out=And_y_Nny_10); And(a=y[11], b=Nny, out=And_y_Nny_11);
+   And(a=y[12], b=Nny, out=And_y_Nny_12); And(a=y[13], b=Nny, out=And_y_Nny_13); And(a=y[14], b=Nny, out=And_y_Nny_14); And(a=y[15], b=Nny, out=And_y_Nny_15);
+   
+   // second set of ANDS(ny and Not_new_y_[0...15]);
+   And(a=Not_new_y_0, b=ny, out=And_Not_new_y_ny_0); And(a=Not_new_y_1, b=ny, out=And_Not_new_y_ny_1); And(a=Not_new_y_2, b=ny, out=And_Not_new_y_ny_2); And(a=Not_new_y_3, b=ny, out=And_Not_new_y_ny_3);
+   And(a=Not_new_y_4, b=ny, out=And_Not_new_y_ny_4); And(a=Not_new_y_5, b=ny, out=And_Not_new_y_ny_5); And(a=Not_new_y_6, b=ny, out=And_Not_new_y_ny_6); And(a=Not_new_y_7, b=ny, out=And_Not_new_y_ny_7);
+   And(a=Not_new_y_8, b=ny, out=And_Not_new_y_ny_8); And(a=Not_new_y_9, b=ny, out=And_Not_new_y_ny_9); And(a=Not_new_y_10, b=ny, out=And_Not_new_y_ny_10); And(a=Not_new_y_11, b=ny, out=And_Not_new_y_ny_11);
+   And(a=Not_new_y_12, b=ny, out=And_Not_new_y_ny_12); And(a=Not_new_y_13, b=ny, out=And_Not_new_y_ny_13); And(a=Not_new_y_14, b=ny, out=And_Not_new_y_ny_14); And(a=Not_new_y_15, b=ny, out=And_Not_new_y_ny_15);
+   // ors
+   Or(a=And_y_Nny_0, b=And_Not_new_y_ny_0, out=new_new_y_0); Or(a=And_y_Nny_1, b=And_Not_new_y_ny_1, out=new_new_y_1);
+   Or(a=And_y_Nny_2, b=And_Not_new_y_ny_2, out=new_new_y_2); Or(a=And_y_Nny_3, b=And_Not_new_y_ny_3, out=new_new_y_3);
+   Or(a=And_y_Nny_4, b=And_Not_new_y_ny_4, out=new_new_y_4); Or(a=And_y_Nny_5, b=And_Not_new_y_ny_5, out=new_new_y_5);
+   Or(a=And_y_Nny_6, b=And_Not_new_y_ny_6, out=new_new_y_6); Or(a=And_y_Nny_7, b=And_Not_new_y_ny_7, out=new_new_y_7);
+   Or(a=And_y_Nny_8, b=And_Not_new_y_ny_8, out=new_new_y_8); Or(a=And_y_Nny_9, b=And_Not_new_y_ny_9, out=new_new_y_9);
+   Or(a=And_y_Nny_10, b=And_Not_new_y_ny_10, out=new_new_y_10); Or(a=And_y_Nny_11, b=And_Not_new_y_ny_11, out=new_new_y_11);
+   Or(a=And_y_Nny_12, b=And_Not_new_y_ny_12, out=new_new_y_12); Or(a=And_y_Nny_13, b=And_Not_new_y_ny_13, out=new_new_y_13);
+   Or(a=And_y_Nny_14, b=And_Not_new_y_ny_14, out=new_new_y_14); Or(a=And_y_Nny_15, b=And_Not_new_y_ny_15, out=new_new_y_15);
+
+
    
 }
