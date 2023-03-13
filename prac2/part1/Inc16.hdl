@@ -14,54 +14,78 @@ CHIP Inc16 {
 
     PARTS:
    // Put you code here:
-   Xor(a=in[15], b=in[15], out=silly); Not(in=silly, out=notsilly);
-   HalfAdder(a=in[15], b=notsilly, carry=carr1, sum=out1);
-   Or(a=out1, b=out1, out=out[15]);
    
-   FullAdder(a=in[14], b=carr1, c=out1, carry=carr2, sum=out2);
-   Or(a=out2, b=out2, out=out[14]);
+  Xor(a=in[0], b=in[0], out=sill); Not(in=sill, out=notsill0);
+  And(a=in[0], b=in[0], out=Andz);Not(in=Andz, out=Notz);
+  And(a=in[0], b=Notz, out=notsill1); And(a=in[0], b=Notz, out=notsill2);
+  And(a=in[0], b=Notz, out=notsill3); And(a=in[0], b=Notz, out=notsill4); 
+  And(a=in[0], b=Notz, out=notsill5); And(a=in[0], b=Notz, out=notsill6); 
+  And(a=in[0], b=Notz, out=notsill7); And(a=in[0], b=Notz, out=notsill8); 
+  And(a=in[0], b=Notz, out=notsill9); And(a=in[0], b=Notz, out=notsill10); 
+  And(a=in[0], b=Notz, out=notsill11); And(a=in[0], b=Notz, out=notsill12); 
+  And(a=in[0], b=Notz, out=notsill13); And(a=in[0], b=Notz, out=notsill14); 
+  And(a=in[0], b=Notz, out=notsill15);
+  
+   HalfAdder(a=in[0], b=notsill0, carry=carr1, sum=out[0]);
+   // Or(a=sumout1, b=sumout1, out=out[15]);
    
-   FullAdder(a=in[13], b=carr2, c=out2, carry=carr3, sum=out3);
-   Or(a=out3, b=out3, out=out[13]);
+   FullAdder(a=in[1], b=notsill1, c=carr1, carry=carr2, sum=out[1]);
+   //FullAdder(a=b[14], b=carr2, c=temp1, carry=carr3, sum=sumout2);
+   //Or(a=sumout2, b=sumout2, out=out[14]);
    
-   FullAdder(a=in[12], b=carr3, c=out3, carry=carr4, sum=out4);
-   Or(a=out4, b=out4, out=out[12]);
+   FullAdder(a=in[2], b=notsill2, c=carr2, carry=carr3, sum=out[2]);
+   //FullAdder(a=b[13], b=carr4, c=temp2, carry=carr5, sum=sumout3);
+   //Or(a=sumout3, b=sumout3, out=out[13]);
    
-   FullAdder(a=in[11], b=carr4, c=out4, carry=carr5, sum=out5);
-   Or(a=out5, b=out5, out=out[11]);
+   FullAdder(a=in[3], b=notsill3, c=carr3, carry=carr4, sum=out[3]);
+   //FullAdder(a=b[12], b=carr6, c=temp3, carry=carr7, sum=sumout4);
+   //Or(a=sumout4, b=sumout4, out=out[12]);
    
-   FullAdder(a=in[10], b=carr5, c=out5, carry=carr6, sum=out6);
-   Or(a=out6, b=out6, out=out[10]);
+   FullAdder(a=in[4], b=notsill4, c=carr4, carry=carr5, sum=out[4]);
+   //FullAdder(a=b[11], b=carr8, c=temp4, carry=carr9, sum=sumout5);
+   //Or(a=sumout5, b=sumout5, out=out[11]);
    
-   FullAdder(a=in[9], b=carr6, c=out6, carry=carr7, sum=out7);
-   Or(a=out7, b=out7, out=out[9]);
+   FullAdder(a=in[5], b=notsill5, c=carr5, carry=carr6, sum=out[5]);
+   //FullAdder(a=b[10], b=carr10, c=temp5, carry=carr11, sum=sumout6);
+   //Or(a=sumout6, b=sumout6, out=out[10]);
    
-   FullAdder(a=in[8], b=carr7, c=out7, carry=carr8, sum=out8);
-   Or(a=out8, b=out8, out=out[8]);
+   FullAdder(a=in[6], b=notsill6, c=carr6, carry=carr7, sum=out[6]);
+   //FullAdder(a=b[9], b=carr12, c=temp6, carry=carr13, sum=sumout7);
+   //Or(a=sumout7, b=sumout7, out=out[9]);
    
-   FullAdder(a=in[7], b=carr8, c=out8, carry=carr9, sum=out9);
-   Or(a=out9, b=out9, out=out[7]);
+   FullAdder(a=in[7], b=notsill7, c=carr7, carry=carr8, sum=out[7]);
+   //FullAdder(a=b[8], b=carr14, c=temp7, carry=carr15, sum=sumout8);
+   //Or(a=sumout8, b=sumout8, out=out[8]);
    
-   FullAdder(a=in[6], b=carr9, c=out9, carry=carr10, sum=out10);
-   Or(a=out10, b=out10, out=out[6]);
+   FullAdder(a=in[8], b=notsill8, c=carr8, carry=carr9, sum=out[8]);
+   //FullAdder(a=b[7], b=carr16, c=temp8, carry=carr17, sum=sumout9);
+   //Or(a=sumout9, b=sumout9, out=out[7]);
    
-   FullAdder(a=in[5], b=carr10, c=out10, carry=carr11, sum=out11);
-   Or(a=out11, b=out11, out=out[5]);
+   FullAdder(a=in[9], b=notsill9, c=carr9, carry=carr10, sum=out[9]);
+   //FullAdder(a=b[6], b=carr18, c=temp9, carry=carr19, sum=sumout10);
+   // Or(a=sumout10, b=sumout10, out=out[6]);
    
-   FullAdder(a=in[4], b=carr11, c=out11, carry=carr12, sum=out12);
-   Or(a=out12, b=out12, out=out[4]);
+   FullAdder(a=in[10], b=notsill10, c=carr10, carry=carr11, sum=out[10]);
+   //FullAdder(a=b[5], b=carr20, c=temp10, carry=carr21, sum=sumout11);
+   //Or(a=sumout11, b=sumout11, out=out[5]);
    
-   FullAdder(a=in[3], b=carr12, c=out12, carry=carr13, sum=out13);
-   Or(a=out13, b=out13, out=out[3]);
+   FullAdder(a=in[11], b=notsill11, c=carr11, carry=carr12, sum=out[11]);
+   //FullAdder(a=b[4], b=carr22, c=temp11, carry=carr23, sum=sumout12);
+   //Or(a=sumout12, b=sumout12, out=out[4]);
    
-   FullAdder(a=in[2], b=carr13, c=out13, carry=carr14, sum=out14);
-   Or(a=out14, b=out14, out=out[2]);
+   FullAdder(a=in[12], b=notsill12, c=carr12, carry=carr13, sum=out[12]);
+   //FullAdder(a=b[3], b=carr24, c=temp12, carry=carr25, sum=sumout13);
+   //Or(a=sumout13, b=sumout13, out=out[3]);
    
-   FullAdder(a=in[1], b=carr14, c=out14, carry=carr15, sum=out15);
-   Or(a=out15, b=out15, out=out[1]);
+   FullAdder(a=in[13], b=notsill13, c=carr13, carry=carr14, sum=out[13]);
+   //FullAdder(a=b[2], b=carr26, c=temp13, carry=carr27, sum=sumout14);
+   //Or(a=sumout14, b=sumout14, out=out[2]);
    
-   FullAdder(a=in[0], b=carr15, c=out15, carry=carry, sum=out[0]);
+   FullAdder(a=in[14], b=notsill14, c=carr14, carry=carr15, sum=out[14]);
+   //FullAdder(a=b[1], b=carr28, c=temp14, carry=carr29, sum=sumout15);
+   //Or(a=sumout15, b=sumout15, out=out[1]);
    
-   
-   
+   FullAdder(a=in[15], b=notsill15, c=carr15, carry=noo, sum=out[15]);
+   //FullAdder(a=b[0], b=carry30, c=sum30, carry=over, sum=out[0]);
+
 }
