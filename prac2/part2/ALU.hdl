@@ -43,148 +43,124 @@ CHIP ALU {
 
     PARTS:
    // Put you code here:
-   // if zx == 1: 
-   Xor(a=zx, b=zx, out=Te);
-   Xor(a=zx, b=Te, out=XorZX); Not(in=XorZX, out=NZX);
-   And(a=x[0], b=NZX, out=new_x_0); And(a=x[1], b=NZX, out=new_x_1); And(a=x[2], b=NZX, out=new_x_2); And(a=x[3], b=NZX, out=new_x_3);
-   And(a=x[4], b=NZX, out=new_x_4); And(a=x[5], b=NZX, out=new_x_5); And(a=x[6], b=NZX, out=new_x_6); And(a=x[7], b=NZX, out=new_x_7);
-   And(a=x[8], b=NZX, out=new_x_8); And(a=x[9], b=NZX, out=new_x_9); And(a=x[10], b=NZX, out=new_x_10); And(a=x[11], b=NZX, out=new_x_11);
-   And(a=x[12], b=NZX, out=new_x_12); And(a=x[13], b=NZX, out=new_x_13); And(a=x[14], b=NZX, out=new_x_14); And(a=x[15], b=NZX, out=new_x_15);
-    
-   // if nx == 1:
-   Not(in=nx, out=Nnx); 
-   Not(in=new_x_0, out=Not_new_x_0); Not(in=new_x_1, out=Not_new_x_1); Not(in=new_x_2, out=Not_new_x_2); Not(in=new_x_3, out=Not_new_x_3);
-   Not(in=new_x_4, out=Not_new_x_4); Not(in=new_x_5, out=Not_new_x_5); Not(in=new_x_6, out=Not_new_x_6); Not(in=new_x_7, out=Not_new_x_7);
-   Not(in=new_x_8, out=Not_new_x_8); Not(in=new_x_9, out=Not_new_x_9); Not(in=new_x_10, out=Not_new_x_10); Not(in=new_x_11, out=Not_new_x_11);
-   Not(in=new_x_12, out=Not_new_x_12); Not(in=new_x_13, out=Not_new_x_13); Not(in=new_x_14, out=Not_new_x_14); Not(in=new_x_15, out=Not_new_x_15);
+   // creating a set of '0' values
+   Xor(a=x[0], b=x[0], out=zero); Not(in=zero, out=one);
+   // taking the mux of zx: if it is zero we output x, if it is 1 we output the zero value
+   Mux(a=x[0], b=zero, sel=zx, out=firstcomp0); Mux(a=x[1], b=zero, sel=zx, out=firstcomp1); Mux(a=x[2], b=zero, sel=zx, out=firstcomp2);
+   Mux(a=x[3], b=zero, sel=zx, out=firstcomp3); Mux(a=x[4], b=zero, sel=zx, out=firstcomp4); Mux(a=x[5], b=zero, sel=zx, out=firstcomp5);
+   Mux(a=x[6], b=zero, sel=zx, out=firstcomp6); Mux(a=x[7], b=zero, sel=zx, out=firstcomp7); Mux(a=x[8], b=zero, sel=zx, out=firstcomp8);
+   Mux(a=x[9], b=zero, sel=zx, out=firstcomp9); Mux(a=x[10], b=zero, sel=zx, out=firstcomp10); Mux(a=x[11], b=zero, sel=zx, out=firstcomp11);
+   Mux(a=x[12], b=zero, sel=zx, out=firstcomp12); Mux(a=x[13], b=zero, sel=zx, out=firstcomp13); Mux(a=x[14], b=zero, sel=zx, out=firstcomp14);
+   Mux(a=x[15], b=zero, sel=zx, out=firstcomp15);
    
-   // first set of ANDS (Not(nx) and x[0...15])
-   And(a=x[0], b=Nnx, out=And_x_Nnx_0); And(a=x[1], b=Nnx, out=And_x_Nnx_1); And(a=x[2], b=Nnx, out=And_x_Nnx_2); And(a=x[3], b=Nnx, out=And_x_Nnx_3);
-   And(a=x[4], b=Nnx, out=And_x_Nnx_4); And(a=x[5], b=Nnx, out=And_x_Nnx_5); And(a=x[6], b=Nnx, out=And_x_Nnx_6); And(a=x[7], b=Nnx, out=And_x_Nnx_7);
-   And(a=x[8], b=Nnx, out=And_x_Nnx_8); And(a=x[9], b=Nnx, out=And_x_Nnx_9); And(a=x[10], b=Nnx, out=And_x_Nnx_10); And(a=x[11], b=Nnx, out=And_x_Nnx_11);
-   And(a=x[12], b=Nnx, out=And_x_Nnx_12); And(a=x[13], b=Nnx, out=And_x_Nnx_13); And(a=x[14], b=Nnx, out=And_x_Nnx_14); And(a=x[15], b=Nnx, out=And_x_Nnx_15);
+   // finding the not values of the first comp for the second comp
+   Not(in=firstcomp0, out=Notfirstcomp0); Not(in=firstcomp1, out=Notfirstcomp1); Not(in=firstcomp2, out=Notfirstcomp2);
+   Not(in=firstcomp3, out=Notfirstcomp3); Not(in=firstcomp4, out=Notfirstcomp4); Not(in=firstcomp5, out=Notfirstcomp5);
+   Not(in=firstcomp6, out=Notfirstcomp6); Not(in=firstcomp7, out=Notfirstcomp7); Not(in=firstcomp8, out=Notfirstcomp8);
+   Not(in=firstcomp9, out=Notfirstcomp9); Not(in=firstcomp10, out=Notfirstcomp10); Not(in=firstcomp11, out=Notfirstcomp11);
+   Not(in=firstcomp12, out=Notfirstcomp12); Not(in=firstcomp13, out=Notfirstcomp13); Not(in=firstcomp14, out=Notfirstcomp14);
+   Not(in=firstcomp15, out=Notfirstcomp15);
+   // taking the mux of nx: if it is zero we output the firstcompn, if it is 1 we output the not of the firstcompn
+   Mux(a=firstcomp0, b=Notfirstcomp0, sel=nx, out=secondcomp0); Mux(a=firstcomp1, b=Notfirstcomp1, sel=nx, out=secondcomp1);
+   Mux(a=firstcomp2, b=Notfirstcomp2, sel=nx, out=secondcomp2); Mux(a=firstcomp3, b=Notfirstcomp3, sel=nx, out=secondcomp3);
+   Mux(a=firstcomp4, b=Notfirstcomp4, sel=nx, out=secondcomp4); Mux(a=firstcomp5, b=Notfirstcomp5, sel=nx, out=secondcomp5);
+   Mux(a=firstcomp6, b=Notfirstcomp6, sel=nx, out=secondcomp6); Mux(a=firstcomp7, b=Notfirstcomp7, sel=nx, out=secondcomp7);
+   Mux(a=firstcomp8, b=Notfirstcomp8, sel=nx, out=secondcomp8); Mux(a=firstcomp9, b=Notfirstcomp9, sel=nx, out=secondcomp9);
+   Mux(a=firstcomp10, b=Notfirstcomp10, sel=nx, out=secondcomp10); Mux(a=firstcomp11, b=Notfirstcomp11, sel=nx, out=secondcomp11);
+   Mux(a=firstcomp12, b=Notfirstcomp12, sel=nx, out=secondcomp12); Mux(a=firstcomp13, b=Notfirstcomp13, sel=nx, out=secondcomp13);
+   Mux(a=firstcomp14, b=Notfirstcomp14, sel=nx, out=secondcomp14); Mux(a=firstcomp15, b=Notfirstcomp15, sel=nx, out=secondcomp15);
    
-   // second set of ANDS(nx and Not_new_x_[0...15]);
-   And(a=Not_new_x_0, b=nx, out=And_Not_new_x_nx_0); And(a=Not_new_x_1, b=nx, out=And_Not_new_x_nx_1); And(a=Not_new_x_2, b=nx, out=And_Not_new_x_nx_2); And(a=Not_new_x_3, b=nx, out=And_Not_new_x_nx_3);
-   And(a=Not_new_x_4, b=nx, out=And_Not_new_x_nx_4); And(a=Not_new_x_5, b=nx, out=And_Not_new_x_nx_5); And(a=Not_new_x_6, b=nx, out=And_Not_new_x_nx_6); And(a=Not_new_x_7, b=nx, out=And_Not_new_x_nx_7);
-   And(a=Not_new_x_8, b=nx, out=And_Not_new_x_nx_8); And(a=Not_new_x_9, b=nx, out=And_Not_new_x_nx_9); And(a=Not_new_x_10, b=nx, out=And_Not_new_x_nx_10); And(a=Not_new_x_11, b=nx, out=And_Not_new_x_nx_11);
-   And(a=Not_new_x_12, b=nx, out=And_Not_new_x_nx_12); And(a=Not_new_x_13, b=nx, out=And_Not_new_x_nx_13); And(a=Not_new_x_14, b=nx, out=And_Not_new_x_nx_14); And(a=Not_new_x_15, b=nx, out=And_Not_new_x_nx_15);
-   // ors
-   Or(a=And_x_Nnx_0, b=And_Not_new_x_nx_0, out=new_new_x_0); Or(a=And_x_Nnx_1, b=And_Not_new_x_nx_1, out=new_new_x_1);
-   Or(a=And_x_Nnx_2, b=And_Not_new_x_nx_2, out=new_new_x_2); Or(a=And_x_Nnx_3, b=And_Not_new_x_nx_3, out=new_new_x_3);
-   Or(a=And_x_Nnx_4, b=And_Not_new_x_nx_4, out=new_new_x_4); Or(a=And_x_Nnx_5, b=And_Not_new_x_nx_5, out=new_new_x_5);
-   Or(a=And_x_Nnx_6, b=And_Not_new_x_nx_6, out=new_new_x_6); Or(a=And_x_Nnx_7, b=And_Not_new_x_nx_7, out=new_new_x_7);
-   Or(a=And_x_Nnx_8, b=And_Not_new_x_nx_8, out=new_new_x_8); Or(a=And_x_Nnx_9, b=And_Not_new_x_nx_9, out=new_new_x_9);
-   Or(a=And_x_Nnx_10, b=And_Not_new_x_nx_10, out=new_new_x_10); Or(a=And_x_Nnx_11, b=And_Not_new_x_nx_11, out=new_new_x_11);
-   Or(a=And_x_Nnx_12, b=And_Not_new_x_nx_12, out=new_new_x_12); Or(a=And_x_Nnx_13, b=And_Not_new_x_nx_13, out=new_new_x_13);
-   Or(a=And_x_Nnx_14, b=And_Not_new_x_nx_14, out=new_new_x_14); Or(a=And_x_Nnx_15, b=And_Not_new_x_nx_15, out=new_new_x_15);
-
+   // taking the mux of zy: if it is zero we output y, if it is 1 we output the zero value:
+   Mux(a=y[0], b=zero, sel=zy, out=thirdcomp0); Mux(a=y[1], b=zero, sel=zy, out=thirdcomp1); Mux(a=y[2], b=zero, sel=zy, out=thirdcomp2);
+   Mux(a=y[3], b=zero, sel=zy, out=thirdcomp3); Mux(a=y[4], b=zero, sel=zy, out=thirdcomp4); Mux(a=y[5], b=zero, sel=zy, out=thirdcomp5);
+   Mux(a=y[6], b=zero, sel=zy, out=thirdcomp6); Mux(a=y[7], b=zero, sel=zy, out=thirdcomp7); Mux(a=y[8], b=zero, sel=zy, out=thirdcomp8);
+   Mux(a=y[9], b=zero, sel=zy, out=thirdcomp9); Mux(a=y[10], b=zero, sel=zy, out=thirdcomp10); Mux(a=y[11], b=zero, sel=zy, out=thirdcomp11);
+   Mux(a=y[12], b=zero, sel=zy, out=thirdcomp12); Mux(a=y[13], b=zero, sel=zy, out=thirdcomp13); Mux(a=y[14], b=zero, sel=zy, out=thirdcomp14);
+   Mux(a=y[15], b=zero, sel=zy, out=thirdcomp15);
    
-   // if zy == 1:
-   Xor(a=zy, b=true, out=XorZY); Not(in=XorZY, out=NZY);
-   And(a=y[0], b=NZY, out=new_y_0); And(a=y[1], b=NZY, out=new_y_1); And(a=y[2], b=NZY, out=new_y_2); And(a=y[3], b=NZY, out=new_y_3);
-   And(a=y[4], b=NZY, out=new_y_4); And(a=y[5], b=NZY, out=new_y_5); And(a=y[6], b=NZY, out=new_y_6); And(a=y[7], b=NZY, out=new_y_7);
-   And(a=y[8], b=NZY, out=new_y_8); And(a=y[9], b=NZY, out=new_y_9); And(a=y[10], b=NZY, out=new_y_10); And(a=y[11], b=NZY, out=new_y_11);
-   And(a=y[12], b=NZY, out=new_y_12); And(a=y[13], b=NZY, out=new_y_13); And(a=y[14], b=NZY, out=new_y_14); And(a=y[15], b=NZY, out=new_y_15);
+   // finding the not values of the third comp for the fourth comp
+   Not(in=thirdcomp0, out=Notthirdcomp0); Not(in=thirdcomp1, out=Notthirdcomp1); Not(in=thirdcomp2, out=Notthirdcomp2);
+   Not(in=thirdcomp3, out=Notthirdcomp3); Not(in=thirdcomp4, out=Notthirdcomp4); Not(in=thirdcomp5, out=Notthirdcomp5);
+   Not(in=thirdcomp6, out=Notthirdcomp6); Not(in=thirdcomp7, out=Notthirdcomp7); Not(in=thirdcomp8, out=Notthirdcomp8);
+   Not(in=thirdcomp9, out=Notthirdcomp9); Not(in=thirdcomp10, out=Notthirdcomp10); Not(in=thirdcomp11, out=Notthirdcomp11);
+   Not(in=thirdcomp12, out=Notthirdcomp12); Not(in=thirdcomp13, out=Notthirdcomp13); Not(in=thirdcomp14, out=Notthirdcomp14);
+   Not(in=thirdcomp15, out=Notthirdcomp15);
+   // taking the mux of ny: if it is zero we output the thirdcompn, if it is 1 we output the not of the thirdcompn
+   Mux(a=thirdcomp0, b=Notthirdcomp0, sel=ny, out=fourthcomp0); Mux(a=thirdcomp1, b=Notthirdcomp1, sel=ny, out=fourthcomp1);
+   Mux(a=thirdcomp2, b=Notthirdcomp2, sel=ny, out=fourthcomp2); Mux(a=thirdcomp3, b=Notthirdcomp3, sel=ny, out=fourthcomp3);
+   Mux(a=thirdcomp4, b=Notthirdcomp4, sel=ny, out=fourthcomp4); Mux(a=thirdcomp5, b=Notthirdcomp5, sel=ny, out=fourthcomp5);
+   Mux(a=thirdcomp6, b=Notthirdcomp6, sel=ny, out=fourthcomp6); Mux(a=thirdcomp7, b=Notthirdcomp7, sel=ny, out=fourthcomp7);
+   Mux(a=thirdcomp8, b=Notthirdcomp8, sel=ny, out=fourthcomp8); Mux(a=thirdcomp9, b=Notthirdcomp9, sel=ny, out=fourthcomp9);
+   Mux(a=thirdcomp10, b=Notthirdcomp10, sel=ny, out=fourthcomp10); Mux(a=thirdcomp11, b=Notthirdcomp11, sel=ny, out=fourthcomp11);
+   Mux(a=thirdcomp12, b=Notthirdcomp12, sel=ny, out=fourthcomp12); Mux(a=thirdcomp13, b=Notthirdcomp13, sel=ny, out=fourthcomp13);
+   Mux(a=thirdcomp14, b=Notthirdcomp14, sel=ny, out=fourthcomp14); Mux(a=thirdcomp15, b=Notthirdcomp15, sel=ny, out=fourthcomp15);
    
-   // if ny == 1:
-   Not(in=ny, out=Nny); 
-   Not(in=new_y_0, out=Not_new_y_0); Not(in=new_y_1, out=Not_new_y_1); Not(in=new_y_2, out=Not_new_y_2); Not(in=new_y_3, out=Not_new_y_3);
-   Not(in=new_y_4, out=Not_new_y_4); Not(in=new_y_5, out=Not_new_y_5); Not(in=new_y_6, out=Not_new_y_6); Not(in=new_y_7, out=Not_new_y_7);
-   Not(in=new_y_8, out=Not_new_y_8); Not(in=new_y_9, out=Not_new_y_9); Not(in=new_y_10, out=Not_new_y_10); Not(in=new_y_11, out=Not_new_y_11);
-   Not(in=new_y_12, out=Not_new_y_12); Not(in=new_y_13, out=Not_new_y_13); Not(in=new_y_14, out=Not_new_y_14); Not(in=new_y_15, out=Not_new_y_15);
+   // computing add for f == 1
+   HalfAdder(a=secondcomp0, b=fourthcomp0, carry=carr0, sum=Add0);
+   FullAdder(a=secondcomp1, b=fourthcomp1, c=carr0, carry=carr1, sum=Add1); FullAdder(a=secondcomp2, b=fourthcomp2, c=carr1,  carry=carr2, sum=Add2);
+   FullAdder(a=secondcomp3, b=fourthcomp3, c=carr2, carry=carr3, sum=Add3); FullAdder(a=secondcomp4, b=fourthcomp4, c=carr3, carry=carr4,
+sum=Add4);
+   FullAdder(a=secondcomp5, b=fourthcomp5, c=carr4, carry=carr5, sum=Add5); FullAdder(a=secondcomp6, b=fourthcomp6, c=carr5, carry=carr6, sum=Add6);
+   FullAdder(a=secondcomp7, b=fourthcomp7, c=carr6, carry=carr7, sum=Add7); FullAdder(a=secondcomp8, b=fourthcomp8, c=carr7, carry=carr8,
+sum=Add8);
+   FullAdder(a=secondcomp9, b=fourthcomp9, c=carr8, carry=carr9, sum=Add9); FullAdder(a=secondcomp10, b=fourthcomp10, c=carr9, carry=carr10,
+sum=Add10);
+   FullAdder(a=secondcomp11, b=fourthcomp11, c=carr10, carry=carr11, sum=Add11); FullAdder(a=secondcomp12, b=fourthcomp12, c=carr11, carry=carr12,
+sum=Add12);
+   FullAdder(a=secondcomp13, b=fourthcomp13, c=carr12, carry=carr13, sum=Add13); FullAdder(a=secondcomp14, b=fourthcomp14, c=carr13, carry=carr14,
+sum=Add14);
+   FullAdder(a=secondcomp15, b=fourthcomp15, c=carr14, carry=carr15, sum=Add15); 
+   // computing and for f == 1
+   And(a=secondcomp0, b=fourthcomp0, out=And0); And(a=secondcomp1, b=fourthcomp1, out=And1); And(a=secondcomp2, b=fourthcomp2, out=And2);
+   And(a=secondcomp3, b=fourthcomp3, out=And3); And(a=secondcomp4, b=fourthcomp4, out=And4); And(a=secondcomp5, b=fourthcomp5, out=And5);
+   And(a=secondcomp6, b=fourthcomp6, out=And6); And(a=secondcomp7, b=fourthcomp7, out=And7); And(a=secondcomp8, b=fourthcomp8, out=And8);
+   And(a=secondcomp9, b=fourthcomp9, out=And9); And(a=secondcomp10, b=fourthcomp10, out=And10); And(a=secondcomp11, b=fourthcomp11, out=And11);
+   And(a=secondcomp12, b=fourthcomp12, out=And12); And(a=secondcomp13, b=fourthcomp13, out=And13); And(a=secondcomp14, b=fourthcomp14, out=And14);
+   And(a=secondcomp15, b=fourthcomp15, out=And15);
    
-   // first set of ANDS (Not(ny) and y[0...15])
-   And(a=y[0], b=Nny, out=And_y_Nny_0); And(a=y[1], b=Nny, out=And_y_Nny_1); And(a=y[2], b=Nny, out=And_y_Nny_2); And(a=y[3], b=Nny, out=And_y_Nny_3);
-   And(a=y[4], b=Nny, out=And_y_Nny_4); And(a=y[5], b=Nny, out=And_y_Nny_5); And(a=y[6], b=Nny, out=And_y_Nny_6); And(a=y[7], b=Nny, out=And_y_Nny_7);
-   And(a=y[8], b=Nny, out=And_y_Nny_8); And(a=y[9], b=Nny, out=And_y_Nny_9); And(a=y[10], b=Nny, out=And_y_Nny_10); And(a=y[11], b=Nny, out=And_y_Nny_11);
-   And(a=y[12], b=Nny, out=And_y_Nny_12); And(a=y[13], b=Nny, out=And_y_Nny_13); And(a=y[14], b=Nny, out=And_y_Nny_14); And(a=y[15], b=Nny, out=And_y_Nny_15);
+   // taking mux for f == 1and f == 0; if f == 1: output add, else: output And
+   Mux(a=And0, b=Add0, sel=f, out=fifthcomp0); Mux(a=And1, b=Add1, sel=f, out=fifthcomp1); Mux(a=And2, b=Add2, sel=f, out=fifthcomp2);
+   Mux(a=And3, b=Add3, sel=f, out=fifthcomp3); Mux(a=And4, b=Add4, sel=f, out=fifthcomp4); Mux(a=And5, b=Add5, sel=f, out=fifthcomp5);
+   Mux(a=And6, b=Add6, sel=f, out=fifthcomp6); Mux(a=And7, b=Add7, sel=f, out=fifthcomp7); Mux(a=And8, b=Add8, sel=f, out=fifthcomp8);
+   Mux(a=And9, b=Add9, sel=f, out=fifthcomp9); Mux(a=And10, b=Add10, sel=f, out=fifthcomp10); Mux(a=And11, b=Add11, sel=f, out=fifthcomp11);
+   Mux(a=And12, b=Add12, sel=f, out=fifthcomp12); Mux(a=And13, b=Add13, sel=f, out=fifthcomp13); Mux(a=And14, b=Add14, sel=f, out=fifthcomp14);
+   Mux(a=And15, b=Add15, sel=f, out=fifthcomp15);
    
-   // second set of ANDS(ny and Not_new_y_[0...15]);
-   And(a=Not_new_y_0, b=ny, out=And_Not_new_y_ny_0); And(a=Not_new_y_1, b=ny, out=And_Not_new_y_ny_1); And(a=Not_new_y_2, b=ny, out=And_Not_new_y_ny_2); And(a=Not_new_y_3, b=ny, out=And_Not_new_y_ny_3);
-   And(a=Not_new_y_4, b=ny, out=And_Not_new_y_ny_4); And(a=Not_new_y_5, b=ny, out=And_Not_new_y_ny_5); And(a=Not_new_y_6, b=ny, out=And_Not_new_y_ny_6); And(a=Not_new_y_7, b=ny, out=And_Not_new_y_ny_7);
-   And(a=Not_new_y_8, b=ny, out=And_Not_new_y_ny_8); And(a=Not_new_y_9, b=ny, out=And_Not_new_y_ny_9); And(a=Not_new_y_10, b=ny, out=And_Not_new_y_ny_10); And(a=Not_new_y_11, b=ny, out=And_Not_new_y_ny_11);
-   And(a=Not_new_y_12, b=ny, out=And_Not_new_y_ny_12); And(a=Not_new_y_13, b=ny, out=And_Not_new_y_ny_13); And(a=Not_new_y_14, b=ny, out=And_Not_new_y_ny_14); And(a=Not_new_y_15, b=ny, out=And_Not_new_y_ny_15);
-   // ors
-   Or(a=And_y_Nny_0, b=And_Not_new_y_ny_0, out=new_new_y_0); Or(a=And_y_Nny_1, b=And_Not_new_y_ny_1, out=new_new_y_1);
-   Or(a=And_y_Nny_2, b=And_Not_new_y_ny_2, out=new_new_y_2); Or(a=And_y_Nny_3, b=And_Not_new_y_ny_3, out=new_new_y_3);
-   Or(a=And_y_Nny_4, b=And_Not_new_y_ny_4, out=new_new_y_4); Or(a=And_y_Nny_5, b=And_Not_new_y_ny_5, out=new_new_y_5);
-   Or(a=And_y_Nny_6, b=And_Not_new_y_ny_6, out=new_new_y_6); Or(a=And_y_Nny_7, b=And_Not_new_y_ny_7, out=new_new_y_7);
-   Or(a=And_y_Nny_8, b=And_Not_new_y_ny_8, out=new_new_y_8); Or(a=And_y_Nny_9, b=And_Not_new_y_ny_9, out=new_new_y_9);
-   Or(a=And_y_Nny_10, b=And_Not_new_y_ny_10, out=new_new_y_10); Or(a=And_y_Nny_11, b=And_Not_new_y_ny_11, out=new_new_y_11);
-   Or(a=And_y_Nny_12, b=And_Not_new_y_ny_12, out=new_new_y_12); Or(a=And_y_Nny_13, b=And_Not_new_y_ny_13, out=new_new_y_13);
-   Or(a=And_y_Nny_14, b=And_Not_new_y_ny_14, out=new_new_y_14); Or(a=And_y_Nny_15, b=And_Not_new_y_ny_15, out=new_new_y_15);
-
-	// if f == 1:
-	// we add the x and y values
-	HalfAdder(a=new_new_x_0, b=new_new_y_0, carry=carr0, sum=Add_0);
-	FullAdder(a=new_new_x_1, b=new_new_y_1, c=carr1, carry=carr2, sum=Add_1);
-	FullAdder(a=new_new_x_2, b=new_new_y_2, c=carr2, carry=carr3, sum=Add_2);
-	FullAdder(a=new_new_x_3, b=new_new_y_3, c=carr3, carry=carr4, sum=Add_3);
-	FullAdder(a=new_new_x_4, b=new_new_y_4, c=carr4, carry=carr5, sum=Add_4);
-	FullAdder(a=new_new_x_5, b=new_new_y_5, c=carr5, carry=carr6, sum=Add_5);
-	FullAdder(a=new_new_x_6, b=new_new_y_6, c=carr6, carry=carr7, sum=Add_6);
-	FullAdder(a=new_new_x_7, b=new_new_y_7, c=carr7, carry=carr8, sum=Add_7);
-	FullAdder(a=new_new_x_8, b=new_new_y_8, c=carr8, carry=carr9, sum=Add_8);
-	FullAdder(a=new_new_x_9, b=new_new_y_9, c=carr9, carry=carr10, sum=Add_9);
-	FullAdder(a=new_new_x_10, b=new_new_y_10, c=carr10, carry=carr11, sum=Add_10);
-	FullAdder(a=new_new_x_11, b=new_new_y_11, c=carr11, carry=carr12, sum=Add_11);
-	FullAdder(a=new_new_x_12, b=new_new_y_12, c=carr12, carry=carr13, sum=Add_12);
-	FullAdder(a=new_new_x_13, b=new_new_y_13, c=carr13, carry=carr14, sum=Add_13);
-	FullAdder(a=new_new_x_14, b=new_new_y_14, c=carr14, carry=carr15, sum=Add_14);
-	FullAdder(a=new_new_x_15, b=new_new_y_15, c=carr15, carry=carr16, sum=Add_15);
-	
-	And(a=f, b=Add_0, out=Out_g_0); And(a=f, b=Add_1, out=Out_g_1); And(a=f, b=Add_2, out=Out_g_2); And(a=f, b=Add_3, out=Out_g_3);
-	And(a=f, b=Add_4, out=Out_g_4); And(a=f, b=Add_5, out=Out_g_5); And(a=f, b=Add_6, out=Out_g_6); And(a=f, b=Add_7, out=Out_g_7);
-	And(a=f, b=Add_8, out=Out_g_8); And(a=f, b=Add_9, out=Out_g_9); And(a=f, b=Add_10, out=Out_g_10); And(a=f, b=Add_11, out=Out_g_11);
-	And(a=f, b=Add_12, out=Out_g_12); And(a=f, b=Add_13, out=Out_g_13); And(a=f, b=Add_14, out=Out_g_14); And(a=f, b=Add_15, out=Out_g_15);
-	
-	// if f == 0
-	/**
-	problem: combining shit together? need f==0 and f==1 to behave differently
-	And(a=new_new_x_0, b=new_new_y_0, out=And_0); And(a=new_new_x_1, b=new_new_x_1, out=And_1); And(a=new_new_x_2, b=new_new_x_2, out=And_2);
-	And(a=new_new_x_3, b=new_new_y_3, out=And_3); And(a=new_new_x_4, b=new_new_x_4, out=And_4); And(a=new_new_x_5, b=new_new_x_5, out=And_5);
-	And(a=new_new_x_6, b=new_new_y_6, out=And_6); And(a=new_new_x_7, b=new_new_x_7, out=And_7); And(a=new_new_x_8, b=new_new_x_8, out=And_8);
-	And(a=new_new_x_9, b=new_new_y_9, out=And_9); And(a=new_new_x_10, b=new_new_x_10, out=And_10); And(a=new_new_x_11, b=new_new_x_11, out=And_11);
-	And(a=new_new_x_12, b=new_new_y_12, out=And_12); And(a=new_new_x_13, b=new_new_x_13, out=And_13); And(a=new_new_x_14, b=new_new_x_14, out=And_14);
-	And(a=new_new_x_15, b=new_new_y_15, out=And_15);
-	**/
-	// if no==1:
-	Not(in=out_g_0, out=Nout_f_0); Not(in=out_g_1, out=Nout_f_1); Not(in=out_g_2, out=Nout_f_2); Not(in=out_g_3, out=Nout_f_3);
-	Not(in=out_g_4, out=Nout_f_4); Not(in=out_g_5, out=Nout_f_5); Not(in=out_g_6, out=Nout_f_6); Not(in=out_g_7, out=Nout_f_7);
-	Not(in=out_g_8, out=Nout_f_8); Not(in=out_g_9, out=Nout_f_9); Not(in=out_g_10, out=Nout_f_10); Not(in=out_g_11, out=Nout_f_11);
-	Not(in=out_g_12, out=Nout_f_12); Not(in=out_g_13, out=Nout_f_13); Not(in=out_g_14, out=Nout_f_14); Not(in=out_g_15, out=Nout_f_15);
-	
-	Not(in=no, out=Nno);
-	
-	And(a=out_g_0, b=Nno, out=Out_1_N_0); And(a=out_g_1, b=Nno, out=Out_1_N_1); And(a=out_g_2, b=Nno, out=Out_1_N_2);
-	And(a=out_g_3, b=Nno, out=Out_1_N_3); And(a=out_g_4, b=Nno, out=Out_1_N_4); And(a=out_g_5, b=Nno, out=Out_1_N_5);
-	And(a=out_g_6, b=Nno, out=Out_1_N_6); And(a=out_g_7, b=Nno, out=Out_1_N_7); And(a=out_g_8, b=Nno, out=Out_1_N_8);
-	And(a=out_g_9, b=Nno, out=Out_1_N_9); And(a=out_g_10, b=Nno, out=Out_1_N_10); And(a=out_g_11, b=Nno, out=Out_1_N_11);
-	And(a=out_g_12, b=Nno, out=Out_1_N_12); And(a=out_g_13, b=Nno, out=Out_1_N_13); And(a=out_g_14, b=Nno, out=Out_1_N_14);
-	And(a=out_g_15, b=Nno, out=Out_1_N_15);
-	
-	And(a=Nout_f_0, b=no, out=Out_2_N_0); And(a=Nout_f_1, b=no, out=Out_2_N_1); And(a=Nout_f_2, b=no, out=Out_2_N_2);
-	And(a=Nout_f_3, b=no, out=Out_2_N_3); And(a=Nout_f_4, b=no, out=Out_2_N_4); And(a=Nout_f_5, b=no, out=Out_2_N_5);
-	And(a=Nout_f_6, b=no, out=Out_2_N_6); And(a=Nout_f_7, b=no, out=Out_2_N_7); And(a=Nout_f_8, b=no, out=Out_2_N_8);
-	And(a=Nout_f_9, b=no, out=Out_2_N_9); And(a=Nout_f_10, b=no, out=Out_2_N_10); And(a=Nout_f_11, b=no, out=Out_2_N_11);
-	And(a=Nout_f_12, b=no, out=Out_2_N_12); And(a=Nout_f_13, b=no, out=Out_2_N_13); And(a=Nout_f_14, b=no, out=Out_2_N_14);
-	And(a=Nout_f_15, b=no, out=Out_2_N_15);
-	
-	And(a=Out_1_N_0, b=Out_2_N_0, out=out[0]); And(a=Out_1_N_1, b=Out_2_N_1, out=out[1]); And(a=Out_1_N_2, b=Out_2_N_2, out=out[2]);
-	And(a=Out_1_N_3, b=Out_2_N_3, out=out[3]); And(a=Out_1_N_4, b=Out_2_N_4, out=out[4]); And(a=Out_1_N_5, b=Out_2_N_5, out=out[5]);
-	And(a=Out_1_N_6, b=Out_2_N_6, out=out[6]); And(a=Out_1_N_7, b=Out_2_N_7, out=out[7]); And(a=Out_1_N_8, b=Out_2_N_8, out=out[8]);
-	And(a=Out_1_N_9, b=Out_2_N_9, out=out[9]); And(a=Out_1_N_10, b=Out_2_N_10, out=out[10]); And(a=Out_1_N_11, b=Out_2_N_11, out=out[11]);
-	And(a=Out_1_N_12, b=Out_2_N_12, out=out[12]); And(a=Out_1_N_13, b=Out_2_N_13, out=out[13]); And(a=Out_1_N_14, b=Out_2_N_14, out=out[14]);
-	And(a=Out_1_N_15, b=Out_2_N_15, out=out[15]);
-	
-	// if out == 1:
-	Or(a=out[0], b=out[1], out=or1); Or(a=or1, b=out[2], out=or2); Or(a=or2, b=out[3], out=or3); Or(a=or3, b=out[4], out=or4);
-	Or(a=or4, b=out[5], out=or5); Or(a=or5, b=out[6], out=or6); Or(a=or6, b=out[7], out=or7); Or(a=or7, b=out[8], out=or8);
-	Or(a=or8, b=out[9], out=or9); Or(a=or9, b=out[10], out=or10); Or(a=or10, b=out[11], out=or11); Or(a=or11, b=out[12], out=or12);
-	Or(a=or12, b=out[13], out=or13); Or(a=or13, b=out[14], out=or14); Or(a=or14, b=out[15], out=zr);
-	
-	And(a=out[0], b=out[0], out=ng); // if it is a 1: then out < 0 (two's complement (negative numbers start with a 1))
-	
-	
-}
+   // computing the not of fifthcompn for the case no == 1
+   Not(in=fifthcomp0, out=Notfifthcomp0); Not(in=fifthcomp1, out=Notfifthcomp1); Not(in=fifthcomp2, out=Notfifthcomp2);
+   Not(in=fifthcomp3, out=Notfifthcomp3); Not(in=fifthcomp4, out=Notfifthcomp4); Not(in=fifthcomp5, out=Notfifthcomp5); 
+   Not(in=fifthcomp6, out=Notfifthcomp6); Not(in=fifthcomp7, out=Notfifthcomp7); Not(in=fifthcomp8, out=Notfifthcomp8); 
+   Not(in=fifthcomp9, out=Notfifthcomp9); Not(in=fifthcomp10, out=Notfifthcomp10); Not(in=fifthcomp11, out=Notfifthcomp11); 
+   Not(in=fifthcomp12, out=Notfifthcomp12); Not(in=fifthcomp13, out=Notfifthcomp13); Not(in=fifthcomp14, out=Notfifthcomp14);
+   Not(in=fifthcomp15, out=Notfifthcomp15);
+   
+   // taking mux for no: if no == 0: output fifthcompn, if n0 == 1: output Notfifthcompn
+   Mux(a=fifthcomp0, b=Notfifthcomp0, sel=no, out=sixthcomp0); Mux(a=fifthcomp1, b=Notfifthcomp1, sel=no, out=sixthcomp1);
+   Mux(a=fifthcomp2, b=Notfifthcomp2, sel=no, out=sixthcomp2); Mux(a=fifthcomp3, b=Notfifthcomp3, sel=no, out=sixthcomp3);
+   Mux(a=fifthcomp4, b=Notfifthcomp4, sel=no, out=sixthcomp4); Mux(a=fifthcomp5, b=Notfifthcomp5, sel=no, out=sixthcomp5);
+   Mux(a=fifthcomp6, b=Notfifthcomp6, sel=no, out=sixthcomp6); Mux(a=fifthcomp7, b=Notfifthcomp7, sel=no, out=sixthcomp7);
+   Mux(a=fifthcomp8, b=Notfifthcomp8, sel=no, out=sixthcomp8); Mux(a=fifthcomp9, b=Notfifthcomp9, sel=no, out=sixthcomp9);
+   Mux(a=fifthcomp10, b=Notfifthcomp10, sel=no, out=sixthcomp10); Mux(a=fifthcomp11, b=Notfifthcomp11, sel=no, out=sixthcomp11);
+   Mux(a=fifthcomp12, b=Notfifthcomp12, sel=no, out=sixthcomp12); Mux(a=fifthcomp13, b=Notfifthcomp13, sel=no, out=sixthcomp13);
+   Mux(a=fifthcomp14, b=Notfifthcomp14, sel=no, out=sixthcomp14); Mux(a=fifthcomp15, b=Notfifthcomp15, sel=no, out=sixthcomp15);
+   
+   And(a=sixthcomp15, b=one, out=ng);
+   
+   // testing if all output is zeros
+   Or(a=sixthcomp0, b=sixthcomp1, out=or1); Or(a=sixthcomp1, b=or1, out=or2); Or(a=sixthcomp2, b=or2, out=or3);
+   Or(a=sixthcomp3, b=or3, out=or4); Or(a=sixthcomp4, b=or4, out=or5); Or(a=sixthcomp5, b=or5, out=or6);
+   Or(a=sixthcomp6, b=or6, out=or7); Or(a=sixthcomp7, b=or7, out=or8); Or(a=sixthcomp8, b=or8, out=or9);
+   Or(a=sixthcomp9, b=or9, out=or10); Or(a=sixthcomp10, b=or10, out=or11); Or(a=sixthcomp11, b=or11, out=or12);
+   Or(a=sixthcomp12, b=or12, out=or13); Or(a=sixthcomp13, b=or13, out=or14); Or(a=sixthcomp14, b=or14, out=or15);
+   Or(a=sixthcomp15, b=or15, out=temp);
+   Not(in=temp, out=zr);
+   
+   // transferring the out results to the output:
+   Or(a=sixthcomp0, b=sixthcomp0, out=out[0]); Or(a=sixthcomp1, b=sixthcomp1, out=out[1]);Or(a=sixthcomp2, b=sixthcomp2, out=out[2]);
+   Or(a=sixthcomp3, b=sixthcomp3, out=out[3]); Or(a=sixthcomp4, b=sixthcomp4, out=out[4]); Or(a=sixthcomp5, b=sixthcomp5, out=out[5]);
+   Or(a=sixthcomp6, b=sixthcomp6, out=out[6]); Or(a=sixthcomp7, b=sixthcomp7, out=out[7]); Or(a=sixthcomp8, b=sixthcomp8, out=out[8]);
+   Or(a=sixthcomp9, b=sixthcomp9, out=out[9]); Or(a=sixthcomp10, b=sixthcomp10, out=out[10]); Or(a=sixthcomp11, b=sixthcomp11, out=out[11]);
+   Or(a=sixthcomp12, b=sixthcomp12, out=out[12]); Or(a=sixthcomp13, b=sixthcomp13, out=out[13]); Or(a=sixthcomp14, b=sixthcomp14, out=out[14]);
+   Or(a=sixthcomp15, b=sixthcomp15, out=out[15]);
+   
+   }
