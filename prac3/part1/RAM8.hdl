@@ -1,0 +1,66 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/a/RAM8.hdl
+
+/**
+ * Memory of 8 registers, each 16 bit-wide. Out holds the value
+ * stored at the memory location specified by address. If load==1, then 
+ * the in value is loaded into the memory location specified by address 
+ * (the loaded value will be emitted to out from the next time step onward).
+ */
+
+CHIP RAM8 {
+    IN in[16], load, address[3];
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+    // finding the nots of each address
+    Not(in=address[0], out=NAddress0); Not(in=address[1], out=NAddress1); Not(in=address[2], out=NAddress2);
+    Xor(a=load, b=load, out=T);          
+    // if we are addressing 7:
+    And(a=address[2], b=address[1], out=And7); 
+    And(a=address[0], b=And7, out=ifSevenPre);
+    Mux(b=ifSevenPre, a=T, sel=load, out=ifSeven);
+    
+    
+    And(a=address[2], b=address[1], out=And6); 
+    And(a=NAddress0, b=And6, out=ifSixPre);
+    Mux(b=ifSixPre, a=T, sel=load, out=ifSix);
+    
+    And(a=address[2], b=NAddress1, out=And5); 
+    And(a=address[0], b=And5, out=ifFivePre);
+    Mux(b=ifFivePre, a=T, sel=load, out=ifFive);
+    
+    And(a=address[2], b=NAddress1, out=And4); 
+    And(a=NAddress0, b=And4, out=ifFourPre);
+    Mux(b=ifFourPre, a=T, sel=load, out=ifFour);
+    
+    And(a=NAddress2, b=address[1], out=And3); 
+    And(a=address[0], b=And3, out=ifThreePre);
+    Mux(b=ifThreePre, a=T, sel=load, out=ifThree);
+    
+    And(a=NAddress2, b=address[1], out=And2); 
+    And(a=NAddress0, b=And2, out=ifTwoPre);
+    Mux(b=ifTwoPre, a=T, sel=load, out=ifTwo);
+    
+    And(a=NAddress2, b=NAddress1, out=And1); 
+    And(a=address[0], b=And1, out=ifOnePre);
+    Mux(b=ifOnePre, a=T, sel=load, out=ifOne);
+    
+    And(a=NAddress2, b=NAddress1, out=And0); 
+    And(a=NAddress0, b=And0, out=ifZeroPre);
+    Mux(b=ifZeroPre, a=T, sel=load, out=ifZero);
+    
+    Register(in=in, load=ifSeven, out=SevenVal);
+    Register(in=in, load=ifSix, out=SixVal);
+    Register(in=in, load=ifFive, out=FiveVal);
+    Register(in=in, load=ifFour, out=FourVal);
+    Register(in=in, load=ifThree, out=ThreeVal);
+    Register(in=in, load=ifTwo, out=TwoVal);
+    Register(in=in, load=ifOne, out=OneVal);
+    Register(in=in, load=ifZero, out=ZeroVal);
+    
+    Mux8Way16(a=ZeroVal, b=OneVal, c=TwoVal, d=ThreeVal, e=FourVal, f=FiveVal, g=SixVal, h=SevenVal, sel=address, out=out);
+}
