@@ -16,4 +16,51 @@ CHIP RAM512 {
 
     PARTS:
     // Put your code here:
+    Not(in=address[6], out=NAddress6); Not(in=address[7], out=NAddress7); Not(in=address[8], out=NAddress8);
+    Xor(a=load, b=load, out=T);          
+    // if we are addressing 7:
+    And(a=address[8], b=address[7], out=And7); 
+    And(a=address[6], b=And7, out=ifSevenPre);
+    Mux(b=ifSevenPre, a=T, sel=load, out=ifSeven);
+    
+    
+    And(a=address[8], b=address[7], out=And6); 
+    And(a=NAddress6, b=And6, out=ifSixPre);
+    Mux(b=ifSixPre, a=T, sel=load, out=ifSix);
+    
+    And(a=address[8], b=NAddress7, out=And5); 
+    And(a=address[6], b=And5, out=ifFivePre);
+    Mux(b=ifFivePre, a=T, sel=load, out=ifFive);
+    
+    And(a=address[8], b=NAddress7, out=And4); 
+    And(a=NAddress6, b=And4, out=ifFourPre);
+    Mux(b=ifFourPre, a=T, sel=load, out=ifFour);
+    
+    And(a=NAddress8, b=address[7], out=And3); 
+    And(a=address[6], b=And3, out=ifThreePre);
+    Mux(b=ifThreePre, a=T, sel=load, out=ifThree);
+    
+    And(a=NAddress8, b=address[7], out=And2); 
+    And(a=NAddress6, b=And2, out=ifTwoPre);
+    Mux(b=ifTwoPre, a=T, sel=load, out=ifTwo);
+    
+    And(a=NAddress8, b=NAddress7, out=And1); 
+    And(a=address[6], b=And1, out=ifOnePre);
+    Mux(b=ifOnePre, a=T, sel=load, out=ifOne);
+    
+    And(a=NAddress8, b=NAddress7, out=And0); 
+    And(a=NAddress6, b=And0, out=ifZeroPre);
+    Mux(b=ifZeroPre, a=T, sel=load, out=ifZero);
+    
+    RAM64(in=in, address=address[0..5], load=ifZero , out=out1);
+    RAM64(in=in, address=address[0..5], load=ifOne , out=out2);
+    RAM64(in=in, address=address[0..5], load=ifTwo , out=out3);
+    RAM64(in=in, address=address[0..5], load=ifThree , out=out4);
+    RAM64(in=in, address=address[0..5], load=ifFour , out=out5);
+    RAM64(in=in, address=address[0..5], load=ifFive , out=out6);
+    RAM64(in=in, address=address[0..5], load=ifSix , out=out7);
+    RAM64(in=in, address=address[0..5], load=ifSeven , out=out8);
+    
+    Mux8Way16(a=out1, b=out2, c=out3, d=out4, e=out5, f=out6, g=out7, h=out8, sel=address[6..8], out=out);
+    
 }

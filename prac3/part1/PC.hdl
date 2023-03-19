@@ -17,4 +17,5 @@ CHIP PC {
 
     PARTS:
     // Put your code here:
+    Or16(a=in, b=in, out=out);
 }
