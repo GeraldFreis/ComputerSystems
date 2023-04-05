@@ -35,9 +35,36 @@ CHIP CPU {
 
     OUT outM[16],        // M value output
         writeM,          // Write to M? 
-        addressM[15],    // Address in data memory (of M)
-        pc[15];          // address of next instruction
+        addressM[16],    // Address in data memory (of M)
+        pc[16];          // address of next instruction
 
     PARTS:
     // Put your code here:
-}
+    Xor(a=inM[0], b=inM[0], out=zero); Not(in=zero, out=one);
+    Decode(in=instruction, a=decodeA, c1=decodeC1, c2=decodeC2, c3=decodeC3, type=InstructionType, c4=decodeC4, c5=decodeC5, c6=decodeC6, d1=decodeD1, d2=decodeD2, d3=decodeD3, j1=decodeJ1, j2=decodeJ2, j3=decodeJ3); // getting the output bits c1,..c6 for the alu's opcodes
+    
+    Mux16(a=ALUout, b=instruction, sel=InstructionType, out=firstMuxout);
+    ARegister(in=firstMuxout, load=decodeD1, out=Aregisterout); // A register: loaded into if d1 == 1
+    Mux16(a=Aregisterout, b=inM, sel=InstructionType, out=intoALU); // right mux, is A register when type == a ( 0 )
+    
+    // loadingval into D register when the d2 bit is set to 1
+    DRegister(in=ALUout, load=decodeD2, out=Dregisterout);
+    
+    // ALU shiz
+    ALU(x=Dregisterout, y=intoALU, zx=decodeC1, nx=decodeC2, zy=decodeC3, ny=decodeC4, f=decodeC5, no=decodeC6, out=outM, out=ALUout, zr=zrdrop, ng=ngdrop);
+    
+    // orring the output for addressM
+  
+    //Or(a=Aregisterout[0], b=zero, out=addressM[0]); Or(a=Aregisterout[1], b=zero, out=addressM[1]); Or(a=Aregisterout[2], b=zero, out=addressM[2]);
+    //Or(a=Aregisterout[3], b=zero, out=addressM[3]); Or(a=Aregisterout[4], b=zero, out=addressM[4]); Or(a=Aregisterout[5], b=zero, out=addressM[5]);
+    //Or(a=Aregisterout[6], b=zero, out=addressM[6]); Or(a=Aregisterout[7], b=zero, out=addressM[7]); Or(a=Aregisterout[8], b=zero, out=addressM[8]);
+    //Or(a=Aregisterout[9], b=zero, out=addressM[9]); Or(a=Aregisterout[10], b=zero, out=addressM[10]); Or(a=Aregisterout[11], b=zero, out=addressM[11]);
+    //Or(a=Aregisterout[12], b=zero, out=addressM[12]); Or(a=Aregisterout[13], b=zero, out=addressM[13]); Or(a=Aregisterout[14], b=zero, out=addressM[14]);
+    //Or(a=Aregisterout[15], b=zero, out=addressM[15]);
+    Or(a=decodeD3, b=zero, out=writeM); // this will be true if d3 == 1 (i.e we write to M);
+    Or16(a=Aregisterout, b=false, out=addressM);
+    
+    Jump(j1=decodeJ1, j2=decodeJ2, j3=decodeJ3, ng=ngdrop, zr=zrdrop, jump=jumpout);
+    PC(in=Aregisterout, reset=reset, load=jumpout, inc=decodeC1, out=pc);
+    
+    }
