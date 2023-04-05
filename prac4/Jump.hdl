@@ -37,9 +37,11 @@ PARTS:
     Mux(a=zero, b=one, sel=AndJ2, out=secondcheck);
     
     Not(in=ng, out=Nng);
-    And(a=j3, b=Nng, out=AndJ3); // checking that j3 is true and not alu < 0
+    Not(in=zr, out=Nzr);
+    And(a=Nng, b=Nzr, out=ANdmaybe);
+    And(a=j3, b=ANdmaybe, out=AndJ3); // checking that j3 is true and not alu < 0
     // meaning alu > 0
-    Mux(a=one, b=zero, sel=AndJ3, out=thirdcheck);
+    Mux(a=zero, b=one, sel=AndJ3, out=thirdcheck);
     
     // checking that any of the mux's are true
     Or(a=firstcheck, b=secondcheck, out=or1);
