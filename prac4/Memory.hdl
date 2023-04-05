@@ -33,22 +33,15 @@ CHIP Memory {
     // if either r_sel or ram_over are 1 we want to select the required address in the Ram
     	Or(a=rsel, b=ramover, out=if1);
     // doing whatever we need to to the ram
-    
+        Keyboard(out=keyout);
     	RAM16K(load=if1, address=address[0..13], out=RAMOUT, in=in);
     	Screen(in=in, load=screen, address=address[0..12], out=screenout);
     
-    
-    	Keyboard(out=keyout);
+ 
+
     	Mux4Way16(sel=address[13..14],out=out, a=RAMOUT,b=RAMOUT,c=screenout,d=keyout);
 
 
-	//Or(a=ram,b=rram,out=rr);
-	//RAM16K(in=in,load=rr,address=address[0..13],out=r);
 	
-	//Screen(in=in,load=scrn,address=address[0..12],out=sc);
-	
-	//Keyboard(out=k);
-
-	//Mux4Way16(a=r,b=r,c=sc,d=k,sel=address[13..14],out=out);
     
 }

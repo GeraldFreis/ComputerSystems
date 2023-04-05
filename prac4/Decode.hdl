@@ -25,5 +25,26 @@ CHIP Decode {
         j1,j2,j3;           // Jump wires
 
 PARTS:
+    And(a=in[15],b=in[15], out=AorC); // if the first digit is 1 then we have a c-instruction if it is 0 we have an a instruction
+    Xor(a=in[0], b=in[0], out=Zero);
+    Not(in=Zero, out=One);
+    
+    Mux(a=Zero, b=in[15], sel=AorC, out=type);
+    
+    Mux(a=Zero,b=in[12], sel=AorC,out=a); // if it is an A instruction mux will output 0, else 1
+    Mux(a=Zero, b=in[11], sel=AorC, out=c1);
+    Mux(a=Zero, b=in[10], sel=AorC, out=c2);
+    Mux(a=Zero, b=in[9], sel=AorC, out=c3);
+    Mux(a=Zero, b=in[8], sel=AorC, out=c4);
+    Mux(a=Zero, b=in[7], sel=AorC, out=c5);
+    Mux(a=Zero, b=in[6], sel=AorC, out=c6);
+    Mux(a=One, b=in[5], sel=AorC, out=d1); // default is 1
+    Mux(a=Zero, b=in[4], sel=AorC, out=d2);
+    Mux(a=Zero, b=in[3], sel=AorC, out=d3);
+    Mux(a=Zero, b=in[2], sel=AorC, out=j1);
+    Mux(a=Zero, b=in[1], sel=AorC, out=j2);
+    Mux(a=Zero, b=in[0], sel=AorC, out=j3);
+    
+    
     // Put your code here:
 }
