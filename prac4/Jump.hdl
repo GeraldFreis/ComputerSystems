@@ -28,4 +28,21 @@ CHIP Jump {
 
 PARTS:
     // Put your code here:
+    And(a=j1, b=ng, out=AndJ1); // checking that both j1 and ALU < 0 is true
+    Xor(a=j1, b=j1, out=zero);
+    Not(in=zero, out=one);
+    Mux(a=zero, b=one, sel=AndJ1, out=firstcheck);
+    
+    And(a=j2, b=zr, out=AndJ2); // checking that j2 is true and alu == 0
+    Mux(a=zero, b=one, sel=AndJ2, out=secondcheck);
+    
+    Not(in=ng, out=Nng);
+    And(a=j3, b=Nng, out=AndJ3); // checking that j3 is true and not alu < 0
+    // meaning alu > 0
+    Mux(a=zero, b=one, sel=AndJ3, out=thirdcheck);
+    
+    // checking that any of the mux's are true
+    Or(a=firstcheck, b=secondcheck, out=or1);
+    Or(a=or1, b=thirdcheck, out=jump); // will be true if any of the conditions are met
+    
 }
