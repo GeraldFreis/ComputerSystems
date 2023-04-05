@@ -29,42 +29,47 @@ CHIP CPU {
 
     IN  inM[16],         // M value input  (M = contents of RAM[A])
         instruction[16], // Instruction for execution
-        reset;           // Signals whether to re-start the current
-                         // program (reset==1) or continue executing
+        reset;            // program (reset==1) or continue executing
                          // the current program (reset==0).
 
     OUT outM[16],        // M value output
         writeM,          // Write to M? 
-        addressM[16],    // Address in data memory (of M)
-        pc[16];          // address of next instruction
+        addressM[15],    // Address in data memory (of M)
+        pc[15];          // address of next instruction
 
     PARTS:
     // Put your code here:
     Xor(a=inM[0], b=inM[0], out=zero); Not(in=zero, out=one);
-    Decode(in=instruction, a=decodeA, c1=decodeC1, c2=decodeC2, c3=decodeC3, type=InstructionType, c4=decodeC4, c5=decodeC5, c6=decodeC6, d1=decodeD1, d2=decodeD2, d3=decodeD3, j1=decodeJ1, j2=decodeJ2, j3=decodeJ3); // getting the output bits c1,..c6 for the alu's opcodes
     
-    Mux16(a=ALUout, b=instruction, sel=InstructionType, out=firstMuxout);
-    ARegister(in=firstMuxout, load=decodeD1, out=Aregisterout); // A register: loaded into if d1 == 1
-    Mux16(a=Aregisterout, b=inM, sel=InstructionType, out=intoALU); // right mux, is A register when type == a ( 0 )
+    // decoding the instruction instruction for no reason
+    Decode(in=instruction, type=Type, a=A, c1=C1, c2=C2, c3=C3, c4=C4, c5=C5, c6=C6, d1=D1, d2=D2, d3=D3, j1=J1, j2=J2, j3=J3);
     
-    // loadingval into D register when the d2 bit is set to 1
-    DRegister(in=ALUout, load=decodeD2, out=Dregisterout);
+    // doing the D register first
+    // checking that we have a c-instruction (Type==1) and we are writing to the D register (D2==1)
+    And(a=Type, b=D2, out=DSel);
+    DRegister(in=ALUout, load=DSel, out=Dreg);
     
-    // ALU shiz
-    ALU(x=Dregisterout, y=intoALU, zx=decodeC1, nx=decodeC2, zy=decodeC3, ny=decodeC4, f=decodeC5, no=decodeC6, out=outM, out=ALUout, zr=zrdrop, ng=ngdrop);
+    // doing the first mux
+    Mux16(a=instruction, b=ALUout, sel=Type, out=AregIn);
     
-    // orring the output for addressM
-  
-    //Or(a=Aregisterout[0], b=zero, out=addressM[0]); Or(a=Aregisterout[1], b=zero, out=addressM[1]); Or(a=Aregisterout[2], b=zero, out=addressM[2]);
-    //Or(a=Aregisterout[3], b=zero, out=addressM[3]); Or(a=Aregisterout[4], b=zero, out=addressM[4]); Or(a=Aregisterout[5], b=zero, out=addressM[5]);
-    //Or(a=Aregisterout[6], b=zero, out=addressM[6]); Or(a=Aregisterout[7], b=zero, out=addressM[7]); Or(a=Aregisterout[8], b=zero, out=addressM[8]);
-    //Or(a=Aregisterout[9], b=zero, out=addressM[9]); Or(a=Aregisterout[10], b=zero, out=addressM[10]); Or(a=Aregisterout[11], b=zero, out=addressM[11]);
-    //Or(a=Aregisterout[12], b=zero, out=addressM[12]); Or(a=Aregisterout[13], b=zero, out=addressM[13]); Or(a=Aregisterout[14], b=zero, out=addressM[14]);
-    //Or(a=Aregisterout[15], b=zero, out=addressM[15]);
-    Or(a=decodeD3, b=zero, out=writeM); // this will be true if d3 == 1 (i.e we write to M);
-    Or16(a=Aregisterout, b=false, out=addressM);
+	// doing A register
+    Not(in=Type, out=Ntype);
+    Or(a=D1, b=Ntype, out=ARegLoad);
+    ARegister(in=AregIn, load=ARegLoad, out=Aregout, out[0..14]=addressM); // address M does not need the extra bit (it complains)
     
-    Jump(j1=decodeJ1, j2=decodeJ2, j3=decodeJ3, ng=ngdrop, zr=zrdrop, jump=jumpout);
-    PC(in=Aregisterout, reset=reset, load=jumpout, inc=decodeC1, out=pc);
+    // second mux
+    And(a=Type, b=A, out=SecondMuxSel);
     
+    Mux16(a=Aregout, b=inM, sel=SecondMuxSel, out=ALUy);
+    
+    ALU(x=Dreg, y=ALUy, zx=C1, nx=C2, zy=C3, ny=C4, f=C5, no=C6 , out=outM, out=ALUout, zr=zri, ng=ngi); // anything with an I is faster like a gti
+    
+    // wtf is writeM? I leave till later
+    
+    Jump(j1=J1, j2=J2, j3=J3, zr=zri, ng=ngi, jump=PCload);
+    PC(in=Aregout, load=PCload, inc=one, reset=reset, out[0..14]=pc);
+    
+    // I do writeM now
+    // if we have a c instruction (a == 1): and we write to memory: d3 == 1
+    And(a=Type, b=D3, out=writeM);
     }

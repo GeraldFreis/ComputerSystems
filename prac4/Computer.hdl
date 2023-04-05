@@ -22,8 +22,8 @@ CHIP Computer {
     // Put your code here:
     
     ROM32K(address=pcout, out=instructionout);
-    CPU(instruction=instructionout, inM=memoutin, reset=reset, writeM=memwr, outM=memout, addressM[0..14]=memin, pc[1..15]=pcout);   
-    Memory(in=memout, load=memwr, address[0..14]=memin, out=memoutin);
+    CPU(instruction=instructionout, inM=memoutin, reset=reset, writeM=memwr, outM=memout, addressM[0..13]=memin, pc[0..14]=pcout);   
+    // Memory(in=memout, load=memwr, address[0..14]=memin, out=memoutin);
     
-    
+	RAM16K(in=memout, load=memwr, address=memin, out=memoutin);    
 }
