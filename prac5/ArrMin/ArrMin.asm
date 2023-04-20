@@ -17,7 +17,7 @@ M=D
 	D=M
 	@index
 	D=D-M // if INDEX > R2 (we skip to the end)
-	@WRITE
+	@END
 	D;JLE // (IF INDEX-R2 < 0: goto END)
 	//ELSE
 	
@@ -55,14 +55,6 @@ M=D
 	@R0
 	M=D
 	@LOOP
-	0;JMP
-	
-(WRITE)
-	//@min
-	//D=M
-	//@R0
-	//M=D
-	@END
 	0;JMP
 	
 (END)
