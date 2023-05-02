@@ -6,15 +6,15 @@
  * Symbol Table constructor
  */
 SymbolTable::SymbolTable() {
-    // Your code here
+    std::unordered_map<std::string, uint16_t> table;
 }
 
-/**
- * Symbol Table destructor
- */
-SymbolTable::~SymbolTable() {
-    // Your code here
-}
+// /**
+//  * Symbol Table destructor
+//  */
+// SymbolTable::~SymbolTable() {
+//     // Your code here
+// }
 
 /**
  * Adds a symbol to the symbol table
@@ -22,7 +22,8 @@ SymbolTable::~SymbolTable() {
  * @param value The address for the symbol
  */
 void SymbolTable::addSymbol(string symbol, uint16_t value) {
-    // Your code here
+    if(table.count(symbol) > 0){return;}
+    table.emplace(symbol, value);
 }
 
 /**
@@ -31,6 +32,10 @@ void SymbolTable::addSymbol(string symbol, uint16_t value) {
  * @return The address for the symbol or -1 if the symbol isn't in the table
  */
 int SymbolTable::getSymbol(string symbol) {
-    // Your code here
+    // getting the iterator to the item
+    std::unordered_map<std::string, uint16_t>::const_iterator iter = table.find(symbol);
+    if(iter == table.end()){return -1;}
+    else {return iter->second;}
+    
     return -1;
 }
