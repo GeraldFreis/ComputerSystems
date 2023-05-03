@@ -1,6 +1,7 @@
 #include "SymbolTable.h"
 
 #include <string>
+#include <unordered_map>
 
 /**
  * Symbol Table constructor
@@ -23,7 +24,8 @@ SymbolTable::SymbolTable() {
  */
 void SymbolTable::addSymbol(string symbol, uint16_t value) {
     if(table.count(symbol) > 0){return;}
-    table.emplace(symbol, value);
+    std::pair<std::string, uint16_t> thispair (symbol, value);
+    table.insert(thispair);
 }
 
 /**

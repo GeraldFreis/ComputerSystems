@@ -1,7 +1,7 @@
 // Sorts the array of length R2 whose first element is at RAM[R1] in ascending order in place. Sets R0 to True (-1) when complete.
 // (R0, R1, R2 refer to RAM[0], RAM[1], and RAM[2], respectively.)
 
-// We are going to do a bubble sort in this code (we place each element before and after things they are greater than
+// We are going to do a bubble sort in this code (we place each element before and after things they are greater than)
 
 @firstIndex
 M=0
@@ -26,7 +26,7 @@ M=D
 	D=M
 	@R2
 	D=M-D
-	@OUTOFRANGE // if (the firstIndex is > the length (R2): D will be < 0 and thus we will jump to OUTOFRANGE
+	@OUTOFRANGE // if (the firstIndex is > the length (R2): D will be < 0 and thus we will jump to OUTOFRANGE)
 	D;JLE
 	
 	
@@ -78,7 +78,9 @@ M=D
 	M=M+1
 	@secondIndex
 	M=M+1
+
 	// comparing the i and j vals
+	// checking if either one is negative
 	@jval
 	D=M
 	@ival

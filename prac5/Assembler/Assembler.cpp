@@ -26,7 +26,13 @@ Assembler::~Assembler() {
  */
 void Assembler::buildSymbolTable(SymbolTable* symbolTable, string instructions[], int numOfInst) {
     // Your code here
-    
+    uint16_t counter = 0;
+    for(int i = 0; i < numOfInst; i++){
+        if(parseInstructionType(instructions[i]) == A_INSTRUCTION){
+            symbolTable->addSymbol(Assembler::parseSymbol(instructions[i]), counter);
+            counter++;
+        }
+    }
 }
 
 /**
@@ -36,15 +42,30 @@ void Assembler::buildSymbolTable(SymbolTable* symbolTable, string instructions[]
  * @return A string containing the generated machine code as lines of 16-bit binary instructions.
  */
 string Assembler::generateMachineCode(SymbolTable* symbolTable, string instructions[], int numOfInst) {
+    std::string lines; int counter = 0;
     for(int i = 0; i < numOfInst; i++){
         Assembler::InstructionType type=parseInstructionType(instructions[i]);
+
         if(type==A_INSTRUCTION){
-            
+            // returning the address if it is a number
+            continue; // for the moment
         } else if(type==C_INSTRUCTION){
+            Assembler::InstructionDest destination = parseInstructionDest(instructions[i]);
+            std::string dest = translateDest(destination);
+
+            Assembler::InstructionComp computation = parseInstructionComp(instructions[i]);
+            std::string comp = translateComp(computation);
+            std::string returnval = "111" + comp + dest;
+
+            Assembler::InstructionJump jump = parseInstructionJump(instructions[i]);
+            returnval += translateJump(jump);
+            if(counter != 0){
+                lines = lines + " " + returnval; 
+            } else {lines = returnval;counter++;}
 
         } else {continue;}
     }
-    return "";
+    return lines;
 }
 
 /**
@@ -218,7 +239,7 @@ string Assembler::translateJump(InstructionJump jump) {
  * @return A string containing the 7 binary computation/op-code bits that correspond to the given comp value.
  */
 string Assembler::translateComp(InstructionComp comp) {
-    if(comp = CONST_0){return "1101010";}
+    if(comp == CONST_0){return "1101010";}
     else if(comp == CONST_1){return "1111111";}
     else if(comp == CONST_NEG_1){return "1111010";}
     else if(comp == VAL_D){return "1001100";}
