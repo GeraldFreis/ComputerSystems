@@ -26,6 +26,7 @@ Assembler::~Assembler() {
  */
 void Assembler::buildSymbolTable(SymbolTable* symbolTable, string instructions[], int numOfInst) {
     // Your code here
+    
 }
 
 /**
@@ -35,7 +36,14 @@ void Assembler::buildSymbolTable(SymbolTable* symbolTable, string instructions[]
  * @return A string containing the generated machine code as lines of 16-bit binary instructions.
  */
 string Assembler::generateMachineCode(SymbolTable* symbolTable, string instructions[], int numOfInst) {
-    // Your code here
+    for(int i = 0; i < numOfInst; i++){
+        Assembler::InstructionType type=parseInstructionType(instructions[i]);
+        if(type==A_INSTRUCTION){
+            
+        } else if(type==C_INSTRUCTION){
+
+        } else {continue;}
+    }
     return "";
 }
 
@@ -168,6 +176,7 @@ Assembler::InstructionComp Assembler::parseInstructionComp(string instruction) {
  *         a variable name (A-instruction), or a constant integer value (A-instruction)
  */
 string Assembler::parseSymbol(string instruction) {
+    if(instruction.size() > 2){return instruction.substr(1, instruction.size());}
     return "";
 }
 
@@ -177,7 +186,13 @@ string Assembler::parseSymbol(string instruction) {
  * @return A string containing the 3 binary dest bits that correspond to the given dest value.
  */
 string Assembler::translateDest(InstructionDest dest) {
-    // Your code here:
+    if(dest == M){return "001";}
+    else if(dest == D){return "010";}
+    else if(dest == A){return "100";}
+    else if(dest == MD){return "011";}
+    else if(dest == AM){return "101";}
+    else if(dest == AD){return "110";}
+    else if(dest == AMD){return "111";}
     return "000";
 }
 
@@ -187,7 +202,13 @@ string Assembler::translateDest(InstructionDest dest) {
  * @return A string containing the 3 binary jump bits that correspond to the given jump value.
  */
 string Assembler::translateJump(InstructionJump jump) {
-    // Your code here:
+    if(jump == JGT){return "001";}
+    else if(jump == JEQ){return "010";}
+    else if(jump == JGE){return "011";}
+    else if(jump == JLT){return "100";}
+    else if(jump == JNE){return "101";}
+    else if(jump == JLE){return "110";}
+    else if(jump == JMP){return "111";}
     return "000";
 }
 
@@ -197,7 +218,34 @@ string Assembler::translateJump(InstructionJump jump) {
  * @return A string containing the 7 binary computation/op-code bits that correspond to the given comp value.
  */
 string Assembler::translateComp(InstructionComp comp) {
-    // Your code here:
+    if(comp = CONST_0){return "1101010";}
+    else if(comp == CONST_1){return "1111111";}
+    else if(comp == CONST_NEG_1){return "1111010";}
+    else if(comp == VAL_D){return "1001100";}
+    else if(comp == VAL_A){return "1110000";}
+    else if(comp == NOT_D){return "1001101";}
+    else if(comp == NOT_A){return "1110001";}
+    else if(comp == NEG_D){return "1001111";}
+    else if(comp == NEG_A){return "1110011";}
+    else if(comp == D_ADD_1){return "1011111";}
+    else if(comp == A_ADD_1){return "1110111";}
+    else if(comp == D_SUB_1){return "1001110";}
+    else if(comp == A_SUB_1){return "1110010";}
+    else if(comp == D_ADD_A){return "1000010";}
+    else if(comp == D_SUB_A){return "1010011";}
+    else if(comp == A_SUB_D){return "1000111";}
+    else if(comp == D_AND_A){return "1000000";}
+    else if(comp == D_OR_A){return "1010101";}
+    else if(comp == VAL_M){return "0110000";}
+    else if(comp == NOT_M){return "0110001";}
+    else if(comp == NEG_M){return "0110011";}
+    else if(comp == M_ADD_1){return "0110111";}
+    else if(comp == M_SUB_1){return "0110010";}
+    else if(comp == D_ADD_M){return "0000010";}
+    else if(comp == D_SUB_M){return "0100011";}
+    else if(comp == M_SUB_D){return "0000111";}
+    else if(comp == D_AND_M){return "0000000";}
+    else if(comp == D_OR_M){return "0010101";}
     return "0000000";
 }
 
