@@ -83,6 +83,18 @@ M=D
 	// checking if either one is negative
 	@jval
 	D=M
+	@JNEG // if jval is negative
+	D;JLT
+
+	// checking if I is negative
+	@ival
+	D=M
+	@SECONDLOOP
+	D;JLT
+
+
+	@jval
+	D=M
 	@ival
 	D=D-M // if the ival is > jval then D register will be negative 
 	@ISGREATER
@@ -90,7 +102,27 @@ M=D
 	
 	@SECONDLOOP
 	0;JMP
-		
+
+(JNEG) // if both are negative
+	// checking if ival is positive
+	@ival
+	D=M
+	@INEG // jumps if i is negative
+	D;JLT
+
+	// if only Jval is negative we know that ival is greater 
+	@ISGREATER
+	0;JMP
+	
+
+(INEG) // we are here if both are neg
+	// we can check if ival is greater by taking them away from each other
+	@ival
+	D=M
+	@jval
+	D=D-M // this will be positive if I is greater
+	@ISGREATER
+	D;JLT
 
 (ISGREATER)
 	// going to the firstIndex 
