@@ -49,8 +49,14 @@ D;JLT
 	// we are here if R2 is < 0 (not equal to because we tested that above)
 	@R0
 	D=M
-	@R2
+	@R2 // making R2 > 0
 	M=D-M
+
+	// if we are still here we make R1 > 0 too
+	@R0
+	D=M
+	@R1
+	M=D-M 
 	
 (END)
 	@END
