@@ -58,11 +58,6 @@ D;JLT
 	M=D-M
 
 	// if we are still here we make R1 > 0 too
-	@R1
-	D=M
-	@WHILELOOP
-	D;JGT
-
 	@R0
 	D=M
 	@R1
