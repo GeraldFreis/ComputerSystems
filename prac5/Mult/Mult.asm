@@ -1,8 +1,3 @@
-// This file is based on part of www.nand2tetris.org
-// and the book "The Elements of Computing Systems"
-// by Nisan and Schocken, MIT Press.
-// File name: Mult.asm
-
 // Multiplies R1 and R2 and stores the result in R0.
 // (R0, R1, R2 refer to RAM[0], RAM[1], and RAM[2], respectively.)
 
@@ -16,53 +11,64 @@ D=M
 @END
 D;JEQ
 
+@val1
+M=D
+
 @R2
 D=M
 @END
 D;JEQ
 
-// checking if both are negative
-@R1
-D=M
-@NEGATIVECHECK
-D;JLT
+@val2
+M=D
 
+// checking if R2 is negative
 @R2
 D=M
-@NEGATIVECHECK
+@NEGR2 // if not we move on
 D;JLT
 
 (WHILELOOP)
-	@R1
+    @val1
 	D=M
 	@R0
 	M=M+D
-	@R2
+	@val2
 	M=M-1
 	D=M
+	
 	@WHILELOOP
 	D;JGT
 
-(NEGATIVECHECK)
-	// if we are here R1 was negative
-	// now we check if R2 is negative
-	@R2
-	D=M
-	@WHILELOOP // if R2 is > 0 we jump to the whileloop
-	D;JGT	
-	
-	// we are here if R2 is < 0 (not equal to because we tested that above)
-	@R0
-	D=M
-	@R2 // making R2 > 0
-	M=D-M
-
-	// if we are still here we make R1 > 0 too
-	@R0
-	D=M
-	@R1
-	M=D-M 
-	
 (END)
-	@END
-	0;JMP
+    @END
+    0;JMP
+
+(NEGR2)
+    // if R1 is also negative we just make both positive. IF R1 is positive we make it negative and R2 positive
+    @R1
+    D=M
+    @POSR1 // jumping if it is positive
+    D;JGT
+
+    // if R1 is negative and R2 is negative
+    @0
+    D=A
+    @val1
+    M=D-M
+    @val2
+    M=D-M
+
+    @WHILELOOP
+    0;JMP
+
+(POSR1) // if R1 is positive and R2 is negative
+    @0 // making R1 negative and R2 positive
+    D=A
+    @val1
+    M=D-M
+
+    @val2
+    M=D-M
+    @WHILELOOP
+    0;JMP
