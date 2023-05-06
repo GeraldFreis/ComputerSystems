@@ -10,6 +10,7 @@ using namespace std;
 class SymbolTable {
     private:
         std::unordered_map<std::string, uint16_t> table;
+        int counter;
    public:
     SymbolTable();
     //~SymbolTable();

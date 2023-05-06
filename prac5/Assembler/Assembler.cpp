@@ -4,6 +4,29 @@
 
 #include <string>
 
+std::string binaryCLIenT(int a){
+    int value = a;
+    std::string binary = "";
+    while(value > 0){
+        int remainder = value % 2;
+        if(remainder != 0){binary += "1";}
+        else {binary += "0";}
+        value /= 2;
+        std::cout << value << "\n";
+    }
+    // binary += "1";
+
+    std::string reversed = "";
+    for(int i = 0; i < binary.size();i++){
+        reversed += binary.at(binary.size() - 1 - i);
+    }
+    for(int i = reversed.size(); i < 16; i++){
+        reversed = "0" + reversed; // preprending 0's on
+    }
+    return reversed;
+
+}
+
 using namespace std;
 
 /**
@@ -44,13 +67,29 @@ void Assembler::buildSymbolTable(SymbolTable* symbolTable, string instructions[]
  */
 string Assembler::generateMachineCode(SymbolTable* symbolTable, string instructions[], int numOfInst) {
     std::string lines; int counter = 0;
+    int instruction_counter = 0;
 
     for(int i = 0; i < numOfInst; i++){
         Assembler::InstructionType type=parseInstructionType(instructions[i]);
-
         if(type==A_INSTRUCTION){
             // returning the address if it is a number
-            continue; // for the moment
+            std::string actual_instruction = instructions[i].substr(1, instructions[i].size());
+            if(actual_instruction.at(0) >= 'a' && actual_instruction.at(0)<= 'z'){
+                symbolTable->addSymbol(actual_instruction, instruction_counter);
+                if(counter != 0){
+                    lines = lines + " " + translateSymbol(actual_instruction, symbolTable); }
+                else {lines = translateSymbol(actual_instruction, symbolTable); counter++;}
+            }
+            else if(actual_instruction.at(0) >= 'A' && actual_instruction.at(0)<= 'Z'){
+                symbolTable->addSymbol(actual_instruction, i+1);
+                if(counter != 0){
+                  lines = lines + " " + translateSymbol(actual_instruction, symbolTable);  
+                }
+                else {lines = translateSymbol(actual_instruction, symbolTable); counter++;}}
+            else{
+                if(counter != 0) {lines = lines + " " + binaryCLIenT(std::stoi(actual_instruction));}
+                else {lines = binaryCLIenT(std::stoi(actual_instruction)); counter++;}}
+
 
         } else if(type==C_INSTRUCTION){
             Assembler::InstructionDest destination = parseInstructionDest(instructions[i]);
@@ -201,7 +240,8 @@ Assembler::InstructionComp Assembler::parseInstructionComp(string instruction) {
  *         a variable name (A-instruction), or a constant integer value (A-instruction)
  */
 string Assembler::parseSymbol(string instruction) {
-    if(instruction.size() > 2){return instruction.substr(1, instruction.size());}
+
+    // adding the symbol to the table
     return "";
 }
 
@@ -274,6 +314,9 @@ string Assembler::translateComp(InstructionComp comp) {
     return "0000000";
 }
 
+
+
+
 /**
  * Generates the binary bits for an A-instruction, parsing the value, or looking up the symbol name.
  * @param symbol A string containing either a label name, a variable name, or a constant integer value
@@ -281,6 +324,18 @@ string Assembler::translateComp(InstructionComp comp) {
  * @return A string containing the 15 binary bits that correspond to the given sybmol.
  */
 string Assembler::translateSymbol(string symbol, SymbolTable* symbolTable) {
-    // Your code here:
+    if(symbol.at(0) == 'R'){ // we point to a predefined address
+        int val = std::stoi(symbol.substr(1, symbol.size())); // converting to my balls
+        // now we can convert this number to binary
+        return binaryCLIenT(val);
+    }
+    if(symbol.at(0) >= '1' && symbol.at(0) <= '9'){ // if the symbol is just an address we vibing
+        // now I work some binary magic on my nuts
+        return binaryCLIenT(std::stoi(symbol));
+    } 
+    int symbolval = symbolTable->getSymbol(symbol);
+    if(symbolval != -1){return binaryCLIenT(symbolval);}
+
+
     return "0000000000000000";
 }
