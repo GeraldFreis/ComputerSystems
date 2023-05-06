@@ -1,5 +1,6 @@
 #include "Assembler.h"
 #include "SymbolTable.h"
+#include <iostream>
 
 #include <string>
 
@@ -43,20 +44,23 @@ void Assembler::buildSymbolTable(SymbolTable* symbolTable, string instructions[]
  */
 string Assembler::generateMachineCode(SymbolTable* symbolTable, string instructions[], int numOfInst) {
     std::string lines; int counter = 0;
+
     for(int i = 0; i < numOfInst; i++){
         Assembler::InstructionType type=parseInstructionType(instructions[i]);
 
         if(type==A_INSTRUCTION){
             // returning the address if it is a number
             continue; // for the moment
+
         } else if(type==C_INSTRUCTION){
             Assembler::InstructionDest destination = parseInstructionDest(instructions[i]);
+            // std::cout << destination << "\n\n";
             std::string dest = translateDest(destination);
 
             Assembler::InstructionComp computation = parseInstructionComp(instructions[i]);
             std::string comp = translateComp(computation);
             std::string returnval = "111" + comp + dest;
-
+            // std::cout << dest << "\n";
             Assembler::InstructionJump jump = parseInstructionJump(instructions[i]);
             returnval += translateJump(jump);
             if(counter != 0){
@@ -89,8 +93,8 @@ Assembler::InstructionType Assembler::parseInstructionType(string instruction) {
 Assembler::InstructionDest Assembler::parseInstructionDest(string instruction) {
     std::string deststring;
     //getting the stuff before the equal sign
-    for(int i = 0; i < instruction.size(); i++){if(instruction.at(i) == '='){deststring = instruction.substr(0, i+1);}}
-    
+    for(int i = 0; i < instruction.size(); i++){if(instruction.at(i) == '='){deststring = instruction.substr(0, i); break;}}
+    // std::cout << deststring << "\n";
     if(deststring == "A"){return A;}
     else if(deststring == "AM"){return AM;}
     else if(deststring == "AMD"){return AMD;}
@@ -239,34 +243,34 @@ string Assembler::translateJump(InstructionJump jump) {
  * @return A string containing the 7 binary computation/op-code bits that correspond to the given comp value.
  */
 string Assembler::translateComp(InstructionComp comp) {
-    if(comp == CONST_0){return "1101010";}
-    else if(comp == CONST_1){return "1111111";}
-    else if(comp == CONST_NEG_1){return "1111010";}
-    else if(comp == VAL_D){return "1001100";}
-    else if(comp == VAL_A){return "1110000";}
-    else if(comp == NOT_D){return "1001101";}
-    else if(comp == NOT_A){return "1110001";}
-    else if(comp == NEG_D){return "1001111";}
-    else if(comp == NEG_A){return "1110011";}
-    else if(comp == D_ADD_1){return "1011111";}
-    else if(comp == A_ADD_1){return "1110111";}
-    else if(comp == D_SUB_1){return "1001110";}
-    else if(comp == A_SUB_1){return "1110010";}
-    else if(comp == D_ADD_A){return "1000010";}
-    else if(comp == D_SUB_A){return "1010011";}
-    else if(comp == A_SUB_D){return "1000111";}
-    else if(comp == D_AND_A){return "1000000";}
-    else if(comp == D_OR_A){return "1010101";}
-    else if(comp == VAL_M){return "0110000";}
-    else if(comp == NOT_M){return "0110001";}
-    else if(comp == NEG_M){return "0110011";}
-    else if(comp == M_ADD_1){return "0110111";}
-    else if(comp == M_SUB_1){return "0110010";}
-    else if(comp == D_ADD_M){return "0000010";}
-    else if(comp == D_SUB_M){return "0100011";}
-    else if(comp == M_SUB_D){return "0000111";}
-    else if(comp == D_AND_M){return "0000000";}
-    else if(comp == D_OR_M){return "0010101";}
+    if(comp == CONST_0){return "0101010";}
+    else if(comp == CONST_1){return "0111111";}
+    else if(comp == CONST_NEG_1){return "0111010";}
+    else if(comp == VAL_D){return "0001100";}
+    else if(comp == VAL_A){return "0110000";}
+    else if(comp == NOT_D){return "0001101";}
+    else if(comp == NOT_A){return "0110001";}
+    else if(comp == NEG_D){return "0001111";}
+    else if(comp == NEG_A){return "0110011";}
+    else if(comp == D_ADD_1){return "0011111";}
+    else if(comp == A_ADD_1){return "0110111";}
+    else if(comp == D_SUB_1){return "0001110";}
+    else if(comp == A_SUB_1){return "0110010";}
+    else if(comp == D_ADD_A){return "0000010";}
+    else if(comp == D_SUB_A){return "0010011";}
+    else if(comp == A_SUB_D){return "0000111";}
+    else if(comp == D_AND_A){return "0000000";}
+    else if(comp == D_OR_A){return "0010101";}
+    else if(comp == VAL_M){return "1110000";}
+    else if(comp == NOT_M){return "1110001";}
+    else if(comp == NEG_M){return "1110011";}
+    else if(comp == M_ADD_1){return "1110111";}
+    else if(comp == M_SUB_1){return "1110010";}
+    else if(comp == D_ADD_M){return "1000010";}
+    else if(comp == D_SUB_M){return "1100011";}
+    else if(comp == M_SUB_D){return "1000111";}
+    else if(comp == D_AND_M){return "1000000";}
+    else if(comp == D_OR_M){return "1010101";}
     return "0000000";
 }
 
