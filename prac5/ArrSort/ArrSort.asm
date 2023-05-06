@@ -98,7 +98,7 @@ M=D
 	@SECONDLOOP
 	0;JMP
 
-(JNEG) // if both are negative
+(JNEG) 
 	// checking if ival is positive
 	@ival
 	D=M
@@ -108,6 +108,7 @@ M=D
 	// if only Jval is negative we know that ival is greater 
 	@ISGREATER
 	0;JMP
+
 	
 
 (INEG) // we are here if both are neg
@@ -115,9 +116,12 @@ M=D
 	@ival
 	D=M
 	@jval
-	D=D-M // this will be positive if I is greater
+	D=M-D // this will be positive if I is greater
 	@ISGREATER
-	D;JLT
+	D;JLE
+
+	@SECONDLOOP
+	0;JMP
 
 (ISGREATER)
 	// going to the firstIndex 
@@ -132,9 +136,7 @@ M=D
 	@201
 	A=M-1
 	M=D
-	
-	// changing the addresse
-	 
+		 
 	@SECONDLOOP
 	0;JMP
 
