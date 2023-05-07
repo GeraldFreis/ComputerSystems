@@ -22,6 +22,13 @@ M=0
 	@END
 	D;JLE
 
+	@j
+	D=M
+	@R2
+	D=M-D
+	@END
+	D;JLE
+
 	// setting up the address values
 	@201
 	D=M
@@ -30,8 +37,17 @@ M=0
 
 	(SECONDLOOP)
 		// checking that we are in bounds
-		@j
+		//@j
+		//D=M
+		//@R2
+		//D=M-D
+		//@OUTOFBOUNDSINNER
+		//D;JLE
+
+		@202
 		D=M
+		@R1
+		D=D-M
 		@R2
 		D=M-D
 		@OUTOFBOUNDSINNER
