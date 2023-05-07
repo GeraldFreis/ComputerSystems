@@ -40,7 +40,7 @@ M=0
 		A=M
 		D=M
 		@COMPARENEGATIVES // if the value at the second address is < 0
-		D;JLT
+		D;JLE
 		// if we are still herer the second address is positive
 		@COMPAREPOSITIVES // we jump unconditionally to the negatives
 		0;JMP
@@ -83,7 +83,7 @@ M=0
 	D=M
 	// if it is we can jump to the swap negatives
 	@SWAPNEGATIVES
-	D;JLT
+	D;JLE
 	// otherwise we know that second value is negative and first is positive so we just swap them
 	@GENERICSWAP
 	0;JMP
