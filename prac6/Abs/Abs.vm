@@ -2,7 +2,22 @@
 // x & y are static variables
 
 // Put your code here.
+push static 0
+gt
+if-goto PUSHTHEM // if x > 0
 
+// otherwise we need to make y be negative x
+push constant 0
+push static 0
+sub
+pop static 1
+goto END
+
+
+label PUSTHEM
+push static 0
+pop static 1
+goto END
 
 
 label END
