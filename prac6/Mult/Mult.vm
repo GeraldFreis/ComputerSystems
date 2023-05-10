@@ -3,8 +3,29 @@
 // x & y are static variables
 
 // Put your code here.
+// we basically just loop and keep incrementing our a value until our x value becomes zero (this assumes x is > 0)
+push constant 0
+push static 0
+eq // checking if x == 0
+if-goto END
 
+// if x > 0
+label LOOP
+    push constant 0
+    push static 0
+    eq // checking if x == 0 we go to the end
+    if-goto END
 
+    push static 1
+    push local 0
+    add
+    pop local 0
+    push static 0
+    push constant 1
+    sub
+    pop static 0
 
+    goto LOOP
+    
 label END
 goto END
