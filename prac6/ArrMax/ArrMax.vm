@@ -4,19 +4,52 @@
 
 // Put your code here.
 function ArrMax.arrMax 2
-push argument 1
-pop static 3 // storing the length as a new variable
+// pushing my balss into your mouth
 push argument 0
-pop static 4 //storing the max as a static for fun
+pop pointer 0
+push argument 1
+pop local 1 // setting local 1 to be the number of elements in the array
+
+
+label ISBIGGER // if local 0 is < that 0 
+    push pointer 0
+    push this 0
+    pop local 0
+
+    push that 0
+    push constant 1
+    add
+    pop that 0
+
+    goto LOOP
 
 label LOOP
     //checking that we are in range
-    push static 3
+    push local 1
     push constant 0
     eq
     if-goto END 
 
     // we are in range woo
+    push that 0
+    push local 0 // this is the max value
+    sub
+    gt
+    if-goto ISBIGGER // if the current element is bigger than max value
+
+    // else we increment
+    push that 0
+    push constant 1
+    add
+    pop that 0
+
+    push local 1
+    push constant 1
+    sub
+    pop local 1
+    goto LOOP
+
+
 
 
 
