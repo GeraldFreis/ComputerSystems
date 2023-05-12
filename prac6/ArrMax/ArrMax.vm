@@ -6,54 +6,61 @@
 function ArrMax.arrMax 2
 // pushing my balss into your mouth
 push argument 0
-pop pointer 0
-push argument 1
-pop local 1 // setting local 1 to be the number of elements in the array
+pop pointer 1
 
 
-label ISBIGGER // if local 0 is < that 0 
-    push pointer 0
-    push this 0
-    pop local 0
 
-    push that 0
-    push constant 1
-    add
-    pop that 0
+push constant 0
+pop local 0 // local 0 acts as an index
 
-    goto LOOP
+push pointer 0 // setting the largest to be the first value (meaning we have O(n-1))
+pop static 0
+
+
 
 label LOOP
-    //checking that we are in range
-    push local 1
-    push constant 0
-    eq
-    if-goto END 
+    // checking that we are still in range
+    push local 0
+    push argument 1
+    sub // if this is >= 0 we go to END
+    lt
+    not // if not less than 0
+    if-goto END
 
-    // we are in range woo
-    push that 0
-    push local 0 // this is the max value
-    sub
+    // we are in range: getting the current element
+    push pointer 0
+    push static 0
+    sub // this will be positive if the current element > current max
     gt
-    if-goto ISBIGGER // if the current element is bigger than max value
+    if-goto ISGREATER
 
-    // else we increment
-    push that 0
+    // if less than we just increment
+    push constant 1
+    push pointer 0
+    add
+    pop pointer 1
+
+    push local 0
     push constant 1
     add
-    pop that 0
-
-    push local 1
-    push constant 1
-    sub
-    pop local 1
+    pop local 0
     goto LOOP
 
+label ISGREATER
+    push pointer 0
+    pop static 0
 
+    push constant 1
+    push pointer 1
+    add
+    pop pointer 1
 
+    push local 0
+    push constant 1
+    add
+    pop local 0
 
+    goto LOOP
 
 label END
     goto END
-
-
