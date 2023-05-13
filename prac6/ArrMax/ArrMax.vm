@@ -24,7 +24,8 @@ label LOOP
     push temp 2
     push temp 0
     sub // if this is not less than we goto end
-    gt
+    push constant 0
+    lt
     not
     if-goto END
 
@@ -43,9 +44,10 @@ label LOOP
     push that 0
     push temp 1
     sub // if that 0 is greater than static this will be positive
-    lt
+    push constant 0
+    gt
     not
-    if-goto LOOP // if this is zero we just go back to loop
+    if-goto LOOP // if this is < 0 we just go back to loop
     // otherwise we reset static 0
     push that 0
     pop temp 1

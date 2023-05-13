@@ -1,7 +1,34 @@
 class VMTranslator:
+    def __init__(self):
+        self.sp = {0, 256} # stack pointer
+        self.static = 16 # pointer to static base address [ranges to 255]
+        self.temp = 5 # pointer to temp base address [ranges to 15]
+        self.local = {1, 256} # the pointer is saved in this address
+        self.argument = {2, 256} # the pointer is saved in this address
+        self.this = {3, 256} # the pointer is saved in this address
+        self.that = {4, 256} # the pointer is saved in this address 
 
-    def vm_push(segment, offset):
+    def vm_push(segment: str, offset: int)->str:
         '''Generate Hack Assembly code for a VM push operation'''
+        '''Push operations tend to look like
+        @offset
+        D=A
+        @segment+D
+        D=M
+        @SP
+        M=D
+        '''
+        if(segment == 'argument'):
+            print("Here")
+        elif (segment == 'local'):
+            print("NHere")
+        elif (segment == 'temp'):
+            print("NHere")
+        elif (segment == 'temp'):
+            print("NHere")
+        elif (segment == 'temp'):
+            print("NHere")
+               
         return "" 
 
     def vm_pop(segment, offset):
