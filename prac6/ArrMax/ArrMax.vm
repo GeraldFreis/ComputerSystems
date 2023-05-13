@@ -4,63 +4,59 @@
 
 // Put your code here.
 function ArrMax.arrMax 2
-// pushing my balss into your mouth
+push static 2
+pop temp 0
+
+push static 1
+pop pointer 1 // setting that 0 to the current element
+
 push argument 0
-pop pointer 1
+pop local 0
 
-
+push that 0
+pop temp 1 // setting static 0 to be the first element of the array
 
 push constant 0
-pop local 0 // local 0 acts as an index
-
-push pointer 0 // setting the largest to be the first value (meaning we have O(n-1))
-pop static 0
-
-
+pop temp 2 // this will be the incrementor thing
 
 label LOOP
     // checking that we are still in range
-    push local 0
-    push argument 1
-    sub // if this is >= 0 we go to END
-    lt
-    not // if not less than 0
+    push temp 2
+    push temp 0
+    sub // if this is not less than we goto end
+    gt
+    not
     if-goto END
 
-    // we are in range: getting the current element
-    push pointer 0
-    push static 0
-    sub // this will be positive if the current element > current max
-    gt
-    if-goto ISGREATER
-
-    // if less than we just increment
-    push constant 1
-    push pointer 0
+    // if we are still here we aight
+    // checking if current element is greater than static 0
+    push static 1
+    push temp 2
     add
-    pop pointer 1
-
-    push local 0
+    pop pointer 1 // resetting pointer 1 to the current element
+    
+    push temp 2
     push constant 1
     add
-    pop local 0
-    goto LOOP
-
-label ISGREATER
-    push pointer 0
-    pop static 0
-
-    push constant 1
-    push pointer 1
-    add
-    pop pointer 1
-
-    push local 0
-    push constant 1
-    add
-    pop local 0
-
+    pop temp 2
+    
+    push that 0
+    push temp 1
+    sub // if that 0 is greater than static this will be positive
+    lt
+    not
+    if-goto LOOP // if this is zero we just go back to loop
+    // otherwise we reset static 0
+    push that 0
+    pop temp 1
+    
     goto LOOP
 
 label END
-    goto END
+    push temp 1
+    pop static 0
+    goto TRUEND
+
+label TRUEND
+    goto TRUEND
+
