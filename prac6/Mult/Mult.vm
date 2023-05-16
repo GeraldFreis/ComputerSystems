@@ -20,14 +20,14 @@ eq
 if-goto END
 
 // checking if x is negative
-push constant 0
 push static 0
+push constant 0
 gt
 if-goto LOOP
 
 
 label BOTHNEG
-x < 0 && y > 0
+//x < 0 && y > 0
 push static 1
 neg
 pop static 1
@@ -53,7 +53,6 @@ label LOOP
 
     goto LOOP
 
- // label XNEGATIVE
 
 label END
-goto END
+    goto END
