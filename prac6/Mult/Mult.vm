@@ -14,14 +14,26 @@ push static 0
 eq // checking if x == 0
 if-goto END
 
-// checking if x is negative
-
-
-
 push constant 0
 push static 1 // if y is zero
 eq
 if-goto END
+
+// checking if x is negative
+push constant 0
+push static 0
+gt
+if-goto LOOP
+
+
+label BOTHNEG
+x < 0 && y > 0
+push static 1
+neg
+pop static 1
+push static 0
+neg
+pop static 0
 
 // if x > 0
 label LOOP
