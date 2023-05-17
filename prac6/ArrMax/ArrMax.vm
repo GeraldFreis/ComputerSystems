@@ -4,14 +4,11 @@
 
 // Put your code here.
 function ArrMax.arrMax 2
-push static 2
+push argument 1
 pop temp 0
 
-push static 1
-pop pointer 1 // setting that 0 to the current element
-
 push argument 0
-pop local 0
+pop pointer 1 // setting that 0 to the current element
 
 push that 0
 pop temp 1
@@ -31,7 +28,7 @@ label LOOP
 
     // if we are still here we aight
     // checking if current element is greater than static 0
-    push static 1
+    push argument 0
     push temp 2
     add
     pop pointer 1 // resetting pointer 1 to the current element
