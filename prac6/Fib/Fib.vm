@@ -23,8 +23,8 @@ push constant 2
 sub // this will be x-2
 call Fib.fib 1
 
-push constant 1
 push argument 0
+push constant 1
 sub // this will be x-1
 call Fib.fib 1
 
