@@ -56,10 +56,4 @@ label LOOP
 
 label END
     push temp 1
-    pop static 0
-
-    goto TRUEND
-
-label TRUEND
-    goto TRUEND
-
+    return
