@@ -1,20 +1,16 @@
-// Contains a function Fib.fib that calculates and returns the nth Fibonacci number recursively
-// n is supplied as an argument
-
-// Put your code here.
-
 function Fib.fib 1
 
 push constant 1
-pop local 0 
+pop local 0 // putting the constant 1 into local 0
 
-// checking if arg is <= 0 
+// checking if arg is < 1
 push argument 0
+push constant 1
+sub // this will be >= 0 if argument <= 1
 push constant 0
 gt
 not
 if-goto LESSTHAN
-
 
 // otherwise we can call the stuff we need
 
@@ -30,10 +26,9 @@ call Fib.fib 1
 
 add // adding the result of the functions
 
-pop local 0
+pop local 0 // putting result in local 0
 
 label LESSTHAN
 
 push local 0
-
 return
