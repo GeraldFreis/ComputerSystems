@@ -1,11 +1,14 @@
 // Calculates a = x*y
 // a is a local variable
 // x & y are static variables
+
 // ensuring that a is initially zero
 push constant 0
 pop local 0
 push static 0
 pop local 5 // making local 5 equal to x because why not
+push static 1
+pop local 4
 
 // Put your code here.
 // we basically just loop and keep incrementing our a value until our x value becomes zero (this assumes x is > 0)
@@ -26,14 +29,13 @@ gt
 if-goto LOOP
 
 
-label BOTHNEG
 //x < 0 && y > 0
-push static 1
+push local 5
 neg
-pop static 1
-push static 0
+pop local 5
+push local 4
 neg
-pop static 0
+pop local 4
 
 // if x > 0
 label LOOP
@@ -42,10 +44,11 @@ label LOOP
     eq // checking if x == 0 we go to the end
     if-goto END
 
-    push static 1
+    push local 4
     push local 0
     add
     pop local 0
+
     push local 5
     push constant 1
     sub

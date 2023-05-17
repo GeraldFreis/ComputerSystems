@@ -19,10 +19,10 @@ class VMTranslator:
         M=D
         '''
         if(segment == 'argument'):
-            print("Here")
+            print("@"+str(offset)+"\nD=A\n@" + str(300+offset) + "\nD=M\n" + "@256\nM=D")
         elif (segment == 'local'):
             print("NHere")
-        elif (segment == 'temp'):
+        elif (segment == 'constant'):
             print("NHere")
         elif (segment == 'temp'):
             print("NHere")
