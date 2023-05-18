@@ -37,13 +37,13 @@ class VMTranslator:
 
     def vm_neg()->None:
         '''Generate Hack Assembly code for a VM neg operation'''
-        return ""
+        return "@SP\nA=M-1\nM=-M\n"
 
     def vm_eq():
         return str("@SP\nAM=M-1\nD=M\nA=A-1\nD=M-D\n@ISEQ\nD;JEQ\n@SP\nA=M-1\nM=0\n@END\n0;JMP\n(ISEQ)\n@SP\nA=M-1\nM=-1\n(END)\n")    
 
     def vm_gt():
-        print("@SP\nD=A\nD=M\nA=A-1")
+        print("@SP\nD=A\nD=M\nA=A-1\n")
         '''Generate Hack Assembly code for a VM gt operation'''
         return ""
 
