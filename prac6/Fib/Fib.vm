@@ -1,14 +1,28 @@
 function Fib.fib 1
 
 // checking if the current element is less than or equal to 1
+push constant 0
+pop local 0
+
+push argument 0
+push constant 0
+eq
+if-goto LAST
+
 push constant 1
 pop local 0
 
-push constant 1
 push argument 0
+push constant 1
 gt
 not
 if-goto LAST
+
+
+push argument 0
+push constant 2
+sub
+call Fib.fib 1
 
 push argument 0
 push constant 1
@@ -16,11 +30,6 @@ sub
 call Fib.fib 1
 
 
-
-push argument 0
-push constant 2
-sub
-call Fib.Fib 1
 add
 pop local 0
 

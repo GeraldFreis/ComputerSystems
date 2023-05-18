@@ -17,7 +17,7 @@ set this 3000,     // base address of the this segment
 set that 3010,     // base address of the that segment
 
 set RAM[16] 0,  // static 0
-set RAM[17] 10,  // static 1
+set RAM[17] 5,  // static 1
 set RAM[18] 0,  // static 2
 
 set local[0] 10,  // local 0
@@ -28,7 +28,7 @@ set argument[0] 100,  // argument 0
 set argument[1] 200,  // argument 1
 set argument[2] 300;  // argument 2
 
-repeat 200 {        // Change this number to cover the number of instructions in the VM test file
+repeat 500 {        // Change this number to cover the number of instructions in the VM test file
   vmstep;
 }
 output;
