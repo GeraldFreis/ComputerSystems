@@ -40,6 +40,7 @@ class VMTranslator:
         return ""
 
     def vm_eq():
+        self.counter += 1
         return str("@SP\nAM=M-1\nD=M\nA=A-1\nD=M-D\n@ISEQ"+str(self.counter)+"\nD;JEQ\n@SP\nA=M-1\nM=0\n@END" + str(self.counter) + "\n0;JMP\n(ISEQ"+str(self.counter) + ")\n@SP\nA=M-1\nM=-1\n(END"+str(self.counter)+")")    
 
     def vm_gt():
