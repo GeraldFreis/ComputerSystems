@@ -21,7 +21,7 @@ class VMTranslator:
             return f"@R{str(5+offset)}\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n"
         elif(segment == "argument"):
             return f"@ARG\nD=M\n@{str(offset)}\nA=D+A\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n"
-        
+
 
         return "" 
 
@@ -69,11 +69,11 @@ class VMTranslator:
 
     def vm_label(label):
         '''Generate Hack Assembly code for a VM label operation'''
-        return f"({label})\n"
+        return str("("+ str(label) +")\n")
 
     def vm_goto(label):
         '''Generate Hack Assembly code for a VM goto operation'''
-        return f"@{label}\n0;JMP\n"
+        return str("@"+label+"\n0;JMP\n")
 
     def vm_if(label):
         return f"@SP\nAM=M-1\nD=M\n@ISFALSE\nD;JEQ\n@{label}\n0;JMP\n(ISFALSE)\n"
