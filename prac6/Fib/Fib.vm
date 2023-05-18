@@ -5,7 +5,7 @@ push argument 0
 pop local 0
 
 push argument 0
-push constant 0
+push constant 1
 gt
 not
 if-goto LAST
