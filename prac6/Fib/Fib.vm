@@ -6,7 +6,8 @@ pop local 0
 
 push argument 0
 push constant 0
-eq
+gt
+not
 if-goto LAST
 
 push constant 1

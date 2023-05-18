@@ -8,7 +8,7 @@ class VMTranslator:
         self.this = {3, 256} # the pointer is saved in this address
         self.that = {4, 256} # the pointer is saved in this address 
 
-    def vm_push(segment: str, offset: int):
+    def vm_push(segment: str, offset: int)->str:
         '''Generate Hack Assembly code for a VM push operation'''
         '''Push operations tend to look like
         @offset
