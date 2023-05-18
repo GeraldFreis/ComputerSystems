@@ -27,6 +27,25 @@ class VMTranslator:
 
     def vm_pop(segment, offset): # moves something off the stack into the pointer pointed at by the segment and offset
         '''Generate Hack Assembly code for a VM pop operation'''
+        if(segment == "constant"): return ""
+        elif(segment == "temp"):
+            return f"@{str(5+offset)}\nD=A\n@R15\nM=D\n@SP\nAM=M-1\nD=M\n@R15\nA=M\nM=D\n"
+        elif(segment == "this"):
+            return f"@THIS\nD=M\n@{str(offset)}\nD=D+A\n@R15\nM=D\n@SP\nAM=M-1\nD=M\n@R15\nA=M\nM=D\n"
+
+        elif(segment == "that"):
+            return f"@THAT\nD=M\n@{str(offset)}\nD=D+A\n@R15\nM=D\n@SP\nAM=M-1\nD=M\n@R15\nA=M\nM=D\n"
+
+        elif(segment == "pointer"):
+            return f"@{str(3+offset)}\nD=A\n@R15\nM=D\n@SP\nAM=M-1\nD=M\n@R15\nA=M\nM=D\n"
+
+        elif(segment == "local"):
+            return f"@LCL\nD=M\n@{str(offset)}\nD=D+A\n@R15\nM=D\n@SP\nAM=M-1\nD=M\n@R15\nA=M\nM=D\n"
+        elif(segment == "argument"):
+            return f"@ARG\nD=M\n@{str(offset)}\nD=D+A\n@R15\nM=D\n@SP\nAM=M-1\nD=M\n@R15\nA=M\nM=D\n"
+
+        elif(segment == "static"):
+            return f"@{str(16+offset)}\nD=A\n@R15\nM=D\n@SP\nAM=M-1\nD=M\n@R15\nA=M\nM=D\n"
         return ""
 
     def vm_add():
