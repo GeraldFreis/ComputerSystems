@@ -48,8 +48,9 @@ class VMTranslator:
         return ""
 
     def vm_eq()->list:
-        return "@SP\nD=A\nD=M\nA=A-1\nD=M-D\n@ISEQ\nD;JEQ\n@SP\nD=A\nM=0\n(ISEQ)\n@SP\nD=A\nA=0\nM=A-1\n@SP\nM=M-1"
-        
+        returnstring = list();
+        returnstring = {"@SP", "AM=M-1", "D=M", "A=A-1", "D=M-D", "@ISEQ", "D;JEQ", "@SP", "A=M-1", "M=0", "@END", "0;JMP", "(ISEQ)", "@SP", "A=M-1", "M=-1", "(END)"}
+        return returstring;        
 
     def vm_gt():
         print("@SP\nD=A\nD=M\nA=A-1")
