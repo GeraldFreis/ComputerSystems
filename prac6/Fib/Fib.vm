@@ -28,4 +28,3 @@ label LAST
 
 push local 0
 return
-
