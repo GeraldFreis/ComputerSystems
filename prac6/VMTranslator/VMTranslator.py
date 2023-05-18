@@ -19,16 +19,13 @@ class VMTranslator:
         M=D
         '''
         if(segment == 'argument'):
-            print("@"+str(offset)+"\nD=A\n@" + str(300+offset) + "\nD=M\n" + "@SP\nM=D+1")
+            return ("@"+str(offset)+"\nD=A\n@" + str(300+offset) + "\nD=M\n" + "@SP\nM=D+1")
         elif (segment == 'local'):
-            print("@" + str(offset)+"\nD=A\n@" + str(256+offset) + "\nD=M\n" + "@SP\nM=D+1")
+            return ("@" + str(offset)+"\nD=A\n@" + str(256+offset) + "\nD=M\n" + "@SP\nM=D+1")
         elif (segment == 'constant'):
-            print("@" + str(offset) + "\nD=A\n@SP\n" + "M=D+A");
+            return ("@" + str(offset) + "\nD=A\n@SP\n" + "M=D+A");
         elif (segment == 'temp'):
-            print("@" + str(5+offset) + "\nD=A\nD=M\n" + "@SP\nM=D\n@0\nM=M+1")
-        elif (segment == 'temp'):
-            print("NHere")
-               
+            return ("@" + str(5+offset) + "\nD=A\nD=M\n" + "@SP\nM=D\n@0\nM=M+1")
         return "" 
 
     def vm_pop(segment, offset)->None: # moves something off the stack into the pointer pointed at by the segment and offset

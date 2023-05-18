@@ -14,8 +14,7 @@ pop local 0
 
 push argument 0
 push constant 1
-gt
-not
+eq
 if-goto LAST
 
 
