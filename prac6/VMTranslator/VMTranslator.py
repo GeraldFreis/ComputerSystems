@@ -65,7 +65,7 @@ class VMTranslator:
 
     def vm_label(label):
         '''Generate Hack Assembly code for a VM label operation'''
-        return str("("+str(label) + ")")
+        return str("("+str(label) + ")\n")
 
     def vm_goto(label):
         '''Generate Hack Assembly code for a VM goto operation'''
