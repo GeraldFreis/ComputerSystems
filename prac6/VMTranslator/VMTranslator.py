@@ -32,9 +32,9 @@ class VMTranslator:
         '''Generate Hack Assembly code for a VM pop operation'''
         return ""
 
-    def vm_add()->None:
+    def vm_add():
         # takes two top values from the stack and stores them then performs addition and pushes that back into the place of the first one and then puts a zero 
-        return ("@SP", "A=A-1", "M=M-1", "D=M", "A=A-1", "D=D+M", "M=D")
+        return ["@SP", "A=A-1", "M=M-1", "D=M", "A=A-1", "D=D+M", "M=D"]
 
 
     def vm_sub()->None:
@@ -46,8 +46,8 @@ class VMTranslator:
         '''Generate Hack Assembly code for a VM neg operation'''
         return ""
 
-    def vm_eq()->list:
-        return {"@SP", "A=M-1", "M=M-1", "D=M", "A=A-1", "D=M-D", "@ISEQ", "D;JEQ", "@SP", "A=M-1", "M=0", "@END", "0;JMP", "(ISEQ)", "@SP", "A=M-1", "M=-1", "(END)"}     
+    def vm_eq():
+        return ["@SP", "A=M-1", "M=M-1", "D=M", "A=A-1", "D=M-D", "@ISEQ", "D;JEQ", "@SP", "A=M-1", "M=0", "@END", "0;JMP", "(ISEQ)", "@SP", "A=M-1", "M=-1", "(END)"]    
 
     def vm_gt():
         print("@SP\nD=A\nD=M\nA=A-1")
