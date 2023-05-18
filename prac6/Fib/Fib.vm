@@ -6,8 +6,7 @@ pop local 0
 
 push argument 0
 push constant 0
-gt
-not
+eq
 if-goto LAST
 
 push constant 1
@@ -15,23 +14,23 @@ pop local 0
 
 push argument 0
 push constant 1
-eq
+gt
+not
 if-goto LAST
 
+push argument 0
+push constant 1
+sub
+call Fib.fib 1
 
 push argument 0
 push constant 2
 sub
 call Fib.fib 1
 
-push argument 0
-push constant 1
-sub
-call Fib.fib 1
-
-
 add
 pop local 0
+
 
 label LAST
 
