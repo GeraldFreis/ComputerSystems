@@ -1,0 +1,17 @@
+@SP
+D=A
+D=M
+A=A-1
+D=M-D
+@ISEQ
+D;JEQ
+@SP
+D=A
+M=0
+(ISEQ)
+@SP
+D=A
+A=0
+M=A-1
+@SP
+M=M-1"
