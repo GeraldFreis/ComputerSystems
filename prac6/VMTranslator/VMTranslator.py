@@ -1,7 +1,7 @@
 class VMTranslator:
     def __init__(self): self.counter = 0;
 
-    def vm_push(segment: str, offset: int)->str:
+    def vm_push(segment, offset):
         '''Generate Hack Assembly code for a VM push operation'''
         '''Push operations tend to look like
         @offset
@@ -11,23 +11,23 @@ class VMTranslator:
         @SP
         M=D
         '''
-        if(segment == 'argument'):
-            return ("@"+str(offset)+"\nD=A\n@" + str(300+offset) + "\nD=M\n" + "@SP\nM=D+1")
-        elif (segment == 'local'):
-            return ("@" + str(offset)+"\nD=A\n@" + str(256+offset) + "\nD=M\n" + "@SP\nM=D+1")
-        elif (segment == 'constant'):
-            return ("@" + str(offset) + "\nD=A\n@SP\n" + "M=D+A");
-        elif (segment == 'temp'):
-            return ("@" + str(5+offset) + "\nD=A\nD=M\n" + "@SP\nM=D\n@0\nM=M+1")
+        # if(segment == 'argument'):
+        #     return ("@"+str(offset)+"\nD=A\n@" + str(300+offset) + "\nD=M\n" + "@SP\nM=D+1")
+        # elif (segment == 'local'):
+        #     return ("@" + str(offset)+"\nD=A\n@" + str(256+offset) + "\nD=M\n" + "@SP\nM=D+1")
+        # elif (segment == 'constant'):
+        #     return ("@" + str(offset) + "\nD=A\n@SP\n" + "M=D+A");
+        # elif (segment == 'temp'):
+        #     return ("@" + str(5+offset) + "\nD=A\nD=M\n" + "@SP\nM=D\n@0\nM=M+1")
         return "" 
 
-    def vm_pop(segment, offset)->None: # moves something off the stack into the pointer pointed at by the segment and offset
+    def vm_pop(segment, offset): # moves something off the stack into the pointer pointed at by the segment and offset
         '''Generate Hack Assembly code for a VM pop operation'''
         return ""
 
     def vm_add():
         # takes two top values from the stack and stores them then performs addition and pushes that back into the place of the first one and then puts a zero 
-        return ["@SP", "AM=M-1", "D=M", "A=A-1", "M=D+M"].join("\n")
+        return str("@SP\nAM=M-1\nD=M\nA=A-1\nM=D+M\n")
 
 
     def vm_sub()->None:
