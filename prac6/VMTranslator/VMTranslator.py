@@ -35,7 +35,7 @@ class VMTranslator:
 
     def vm_add():
         # takes two top values from the stack and stores them then performs addition and pushes that back into the place of the first one and then puts a zero 
-        return ["@SP", "A=A-1", "M=M-1", "D=M", "A=A-1", "D=D+M", "M=D"]
+        return ["@SP", "AM=A-1", "D=M", "A=A-1", "D=D+M", "M=D"]
 
 
     def vm_sub()->None:
@@ -49,7 +49,7 @@ class VMTranslator:
 
     def vm_eq():
 
-        return ["@SP", "A=M-1", "M=M-1", "D=M", "A=A-1", "D=M-D", "@ISEQ"+str(self.counter), "D;JEQ", "@SP", "A=M-1", "M=0", "@END" + str(self.counter), "0;JMP", "(ISEQ"+str(self.counter)")", "@SP", "A=M-1", "M=-1", "(END"+str(self.counter)")"]    
+        return ["@SP", "AM=M-1", "D=M", "A=A-1", "D=M-D", "@ISEQ"+str(self.counter), "D;JEQ", "@SP", "A=M-1", "M=0", "@END" + str(self.counter), "0;JMP", "(ISEQ"+str(self.counter)")", "@SP", "A=M-1", "M=-1", "(END"+str(self.counter)")"]    
 
     def vm_gt():
         print("@SP\nD=A\nD=M\nA=A-1")
