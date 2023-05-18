@@ -7,6 +7,7 @@ class VMTranslator:
         self.argument = {2, 256} # the pointer is saved in this address
         self.this = {3, 256} # the pointer is saved in this address
         self.that = {4, 256} # the pointer is saved in this address 
+        self.counter = 0
 
     def vm_push(segment: str, offset: int)->str:
         '''Generate Hack Assembly code for a VM push operation'''
@@ -47,7 +48,8 @@ class VMTranslator:
         return ""
 
     def vm_eq():
-        return ["@SP", "A=M-1", "M=M-1", "D=M", "A=A-1", "D=M-D", "@ISEQ", "D;JEQ", "@SP", "A=M-1", "M=0", "@END", "0;JMP", "(ISEQ)", "@SP", "A=M-1", "M=-1", "(END)"]    
+
+        return ["@SP", "A=M-1", "M=M-1", "D=M", "A=A-1", "D=M-D", "@ISEQ"+str(self.counter), "D;JEQ", "@SP", "A=M-1", "M=0", "@END" + str(self.counter), "0;JMP", "(ISEQ"+str(self.counter)")", "@SP", "A=M-1", "M=-1", "(END"+str(self.counter)")"]    
 
     def vm_gt():
         print("@SP\nD=A\nD=M\nA=A-1")
