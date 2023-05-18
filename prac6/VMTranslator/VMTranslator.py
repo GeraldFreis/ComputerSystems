@@ -27,7 +27,7 @@ class VMTranslator:
 
     def vm_add():
         # takes two top values from the stack and stores them then performs addition and pushes that back into the place of the first one and then puts a zero 
-        return ["@SP", "AM=M-1", "D=M", "A=A-1", "M=D+M"].join("")
+        return ["@SP", "AM=M-1", "D=M", "A=A-1", "M=D+M"].join("\n")
 
 
     def vm_sub()->None:
