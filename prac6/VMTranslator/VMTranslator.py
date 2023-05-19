@@ -1,3 +1,4 @@
+returncounter = 0;
 class VMTranslator:
     def __init__(self): self.counter = 0;
 
@@ -100,7 +101,7 @@ class VMTranslator:
     def vm_function(function_name, n_vars):
         '''Generate Hack Assembly code for a VM function operation'''
         returnstring = str()
-        returnstring += "(FUNC." + str(function_name) + ")\n@SP\nA=M\n"
+        returnstring += f"({function_name}\n@SP\nA=M\n"
         # setting all the locals to zero n shiz
         for i in range(0, n_vars):
             returnstring += "M=0\nA=A+1\n"
@@ -109,9 +110,12 @@ class VMTranslator:
         return returnstring
 
     def vm_call(function_name, n_args):
+
         '''Generate Hack Assembly code for a VM call operation'''
         # saving the stack address and resetting it to the return address
-        return f"@SP\nD=M\n@R13\nM=D\n@RETURNSTACK\nD=A\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@LCL\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@ARG\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@THIS\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@THAT\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@SP\nD=M\n@LCL\nM=D\n@{function_name}\n0;JMP\n@R13\nD=M\n@{n_args}\nD=D-A\n@ARG\nM=D\n(RETURNSTACK)\n"
+        returncounter += 1;
+        return f"@SP\nD=M\n@R13\nM=D\n@RETURNSTACK{returncounter}\nD=A\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@LCL\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@ARG\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@THIS\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@THAT\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@SP\nD=M\n@LCL\nM=D\n@{function_name}\n0;JMP\n@R13\nD=M\n@{n_args}\nD=D-A\n@ARG\nM=D\n(RETURNSTACK{returncounter})\n"
+
 
     def vm_return():
         '''Generate Hack Assembly code for a VM return operation'''
