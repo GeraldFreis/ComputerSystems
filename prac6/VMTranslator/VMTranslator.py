@@ -1,4 +1,4 @@
-returncounter = 0;
+import random as r
 class VMTranslator:
     def __init__(self): self.counter = 0;
 
@@ -33,7 +33,6 @@ class VMTranslator:
             return f"@{str(5+offset)}\nD=A\n@R15\nM=D\n@SP\nAM=M-1\nD=M\n@R15\nA=M\nM=D\n"
         elif(segment == "this"):
             return f"@THIS\nD=M\n@{str(offset)}\nD=D+A\n@R15\nM=D\n@SP\nAM=M-1\nD=M\n@R15\nA=M\nM=D\n"
-
         elif(segment == "that"):
             return f"@THAT\nD=M\n@{str(offset)}\nD=D+A\n@R15\nM=D\n@SP\nAM=M-1\nD=M\n@R15\nA=M\nM=D\n"
 
@@ -101,7 +100,7 @@ class VMTranslator:
     def vm_function(function_name, n_vars):
         '''Generate Hack Assembly code for a VM function operation'''
         returnstring = str()
-        returnstring += f"({function_name}\n@SP\nA=M\n"
+        returnstring += f"({function_name})\n@SP\nA=M\n"
         # setting all the locals to zero n shiz
         for i in range(0, n_vars):
             returnstring += "M=0\nA=A+1\n"
@@ -113,8 +112,8 @@ class VMTranslator:
 
         '''Generate Hack Assembly code for a VM call operation'''
         # saving the stack address and resetting it to the return address
-        returncounter += 1;
-        return f"@SP\nD=M\n@R13\nM=D\n@RETURNSTACK{returncounter}\nD=A\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@LCL\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@ARG\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@THIS\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@THAT\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@SP\nD=M\n@LCL\nM=D\n@{function_name}\n0;JMP\n@R13\nD=M\n@{n_args}\nD=D-A\n@ARG\nM=D\n(RETURNSTACK{returncounter})\n"
+        random = r.randint(0,100);
+        return f"@SP\nD=M\n@R13\nM=D\n@RETURNSTACK{random}\nD=A\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@LCL\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@ARG\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@THIS\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@THAT\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@SP\nD=M\n@LCL\nM=D\n@{function_name}\n0;JMP\n@R13\nD=M\n@{n_args}\nD=D-A\n@ARG\nM=D\n(RETURNSTACK{random})\n"
 
 
     def vm_return():
