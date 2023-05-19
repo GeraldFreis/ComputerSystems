@@ -110,11 +110,13 @@ class VMTranslator:
 
     def vm_call(function_name, n_args):
         '''Generate Hack Assembly code for a VM call operation'''
-        return ""
+        # saving the stack address and resetting it to the return address
+        return f"@SP\nD=M\n@R13\nM=D\n@RETURNSTACK\nD=A\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@LCL\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@ARG\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@THIS\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@THAT\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@SP\nD=M\n@LCL\nM=D\n@{function_name}\n0;JMP\n@R13\nD=M\n@{n_args}\nD=D-A\n@ARG\nM=D\n(RETURNSTACK)\n"
 
     def vm_return():
         '''Generate Hack Assembly code for a VM return operation'''
-        return ""
+        # god damn does this seem like a nasty little program ong no cap fr fr fr fr fr fr i hate this subject fr fr 
+        return f"@5\nD=A\n@LCL\nD=M-D\n@R15\nM=D\n@LCL\nA=M-1\nM=M-1\nD=M\n@THAT\nM=D\n@SP\nA=M-1\nD=M\n@ARG\nA=M\nM=D\n@ARG\nD=A+1\n@SP\nM=D\n@LCL\nA=M-1\nM=M-1\nD=M\n@THIS\nM=D\n@LCL\nA=M-1\nM=M-1\nD=M\n@ARG\nM=D\n@LCL\nA=M-1\nD=M\n@LCL\nM=D\n@R15\nA=M\n0;JMP\n"
 
 # A quick-and-dirty parser when run as a standalone script.
 if __name__ == "__main__":
