@@ -119,7 +119,7 @@ class VMTranslator:
     def vm_return():
         '''Generate Hack Assembly code for a VM return operation'''
         # god damn does this seem like a nasty little program ong no cap fr fr fr fr fr fr i hate this subject fr fr 
-        return f"@LCL\nD=M\n@5\nA=D-A\nD=M\n@R13\nM=D\n@LCL\nA=M-1\nM=M-1\nD=M\n@THAT\nM=D\n@SP\nA=M-1\nD=M\n@ARG\nA=M\nM=D\n@ARG\nD=A+1\n@SP\nM=D\n@LCL\nA=M-1\nM=M-1\nD=M\n@THIS\nM=D\n@LCL\nA=M-1\nM=M-1\nD=M\n@ARG\nM=D\n@LCL\nA=M-1\nD=M\n@LCL\nM=D\n@R13\nA=M\n0;JMP\n"
+        return f"@LCL\nD=M\n@5\nA=D-A\nD=M\n@R13\nM=D\n@SP\nA=M-1\nD=M\n@ARG\nA=M\nM=D\n@ARG\nD=A+1\n@SP\nM=D\n@LCL\nAM=M-1\nD=M\n@THAT\nM=D\n@LCL\nAM=M-1\nD=M\n@THIS\nM=D\n@LCL\nA=M-1\nM=M-1\nD=M\n@ARG\nM=D\n@LCL\nA=M-1\nD=M\n@LCL\nM=D\n@R13\nA=M\n0;JMP\n"
 
 # A quick-and-dirty parser when run as a standalone script.
 if __name__ == "__main__":
