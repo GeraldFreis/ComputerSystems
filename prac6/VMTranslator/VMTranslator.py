@@ -113,7 +113,7 @@ class VMTranslator:
         '''Generate Hack Assembly code for a VM call operation'''
         # saving the stack address and resetting it to the return address
         random = r.randint(0,100);
-        return f"@SP\nD=M\n@R13\nM=D\n@RETURNSTACK{random}\nD=A\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@LCL\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@ARG\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@THIS\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@THAT\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@SP\nD=M\n@LCL\nM=D\n@{function_name}\n0;JMP\n@R13\nD=M\n@{n_args}\nD=D-A\n@ARG\nM=D\n(RETURNSTACK{random})\n"
+        return f"@SP\nD=M\n@R13\nM=D\n@RETURNSTACK{random}\nD=A\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@LCL\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@ARG\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@THIS\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@THAT\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@R13\nD=M\n@{n_args}\nD=D-A\n@ARG\nM=D\n@SP\nD=M\n@LCL\nM=D\n@{function_name}\n0;JMP\n(RETURNSTACK{random})\n"
 
 
     def vm_return():
