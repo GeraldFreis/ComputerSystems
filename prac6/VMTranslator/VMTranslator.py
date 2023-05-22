@@ -114,18 +114,18 @@ class VMTranslator:
         # saving the stack address and resetting it to the return address
         random = r.randint(0,100);
         # return f"@SP\nD=M\n@R13\nM=D\n@RETURNSTACK{random}\nD=A\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@LCL\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@ARG\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@THIS\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@THAT\nD=M\n@SP\nA=M\nM=D\n@SP\nD=M+1\nM=D\n@R13\nD=M\n@{str(n_args)}\nD=D-A\n@ARG\nM=D\n@SP\nD=M\n@LCL\nM=D\n@{function_name}\n0;JMP\n(RETURNSTACK{random})\n"
-        returnstring = f"@RETURNSTACK{str(random)}\nD=A\n@SP\nA=M\nM=D\nD=A+1\n" # setting the returnaddress into the stack
+        returnstring = f"@RETURNSTACK.{str(random)}\nD=A\n@SP\nA=M\nM=D\nD=A+1\n" # setting the returnaddress into the stack
         returnstring += f"@LCL\nD=D+M\nA=D-M\nM=D-A\nD=A+1\n@ARG\nD=D+M\nA=D-M\nM=D-A\nD=A+1\n@THIS\nD=D+M\nA=D-M\nM=D-A\nD=A+1\n"
         returnstring += f"@THAT\nD=D+M\nA=D-M\nM=D-A\n" # resetting That to the original position
         returnstring += f"@SP\nD=M\n@{n_args}\nD=D-A\n@ARG\nM=D\n" # resetting arg
-        returnstring += f"@5\nD=A\n@SP\nM=M+D\nD=M\n@LCL\nM=D\n@{function_name}\n0;JMP\n(@RETURNSTACK{str(random)})\n"
+        returnstring += f"@5\nD=A\n@SP\nM=M+D\nD=M\n@LCL\nM=D\n@{function_name}\n0;JMP\n(@RETURNSTACK.{str(random)})\n"
         return returnstring
 
     def vm_return():
         '''Generate Hack Assembly code for a VM return operation'''
         # god damn does this seem like a nasty little program ong no cap fr fr fr fr fr fr i hate this subject fr fr 
-        return f"@LCL\nD=M\n@5\nA=D-A\nD=M\n@R13\nM=D\n@SP\nA=M-1\nD=M\n@ARG\nA=M\nM=D\n@ARG\nD=A+1\n@SP\nM=D\n@LCL\nAM=M-1\nD=M\n@THAT\nM=D\n@LCL\nAM=M-1\nD=M\n@THIS\nM=D\n@LCL\nAM=M-1\nD=M\n@ARG\nM=D\n@LCL\nA=M-1\nD=M\n@LCL\nM=D\n@R13\nA=M\n0;JMP\n"
-
+        # return f"@LCL\nD=M\n@5\nA=D-A\nD=M\n@R13\nM=D\n@SP\nA=M-1\nD=M\n@ARG\nA=M\nM=D\n@ARG\nD=A+1\n@SP\nM=D\n@LCL\nAM=M-1\nD=M\n@THAT\nM=D\n@LCL\nAM=M-1\nD=M\n@THIS\nM=D\n@LCL\nAM=M-1\nD=M\n@ARG\nM=D\n@LCL\nA=M-1\nD=M\n@LCL\nM=D\n@R13\nA=M\n0;JMP\n"
+        return f"@LCL\nD=M\n@5\nA=D-A\nD=M\n@RETURNSTACK\nM=D\n@SP\nA=M-1\nD=M\n@ARG\nA=M\nM=D\n@ARG\nD=M+1\n@SP\nM=D\n@LCL\nAM=M-1\nD=M\n@THAT\nM=D\n@LCL\nAM=M-1\nD=M\n@THIS\nM=D\n@LCL\nAM=M-1\nD=M\n@RETURNSTACK\nA=M\n0;JMP\n"
 # A quick-and-dirty parser when run as a standalone script.
 if __name__ == "__main__":
     import sys
