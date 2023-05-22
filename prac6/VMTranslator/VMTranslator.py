@@ -118,7 +118,7 @@ class VMTranslator:
         returnstring += f"@LCL\nD=D+M\nA=D-M\nM=D-A\nD=A+1\n@ARG\nD=D+M\nA=D-M\nM=D-A\nD=A+1\n@THIS\nD=D+M\nA=D-M\nM=D-A\nD=A+1\n"
         returnstring += f"@THAT\nD=D+M\nA=D-M\nM=D-A\n" # resetting That to the original position
         returnstring += f"@SP\nD=M\n@{n_args}\nD=D-A\n@ARG\nM=D\n" # resetting arg
-        returnstring += f"@5\nD=A\n@SP\nM=M+D\nD=M\n@LCL\nM=D\n@{function_name}\n0;JMP\n(@RETURNSTACK.{str(random)})\n"
+        returnstring += f"@5\nD=A\n@SP\nM=M+D\nD=M\n@LCL\nM=D\n@{function_name}\n0;JMP\n(RETURNSTACK.{str(random)})\n"
         return returnstring
 
     def vm_return():
