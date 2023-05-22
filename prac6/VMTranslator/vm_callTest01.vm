@@ -3,3 +3,5 @@ push local 0
 pop argument 1
 
 call Fib.fib 2
+
+return
