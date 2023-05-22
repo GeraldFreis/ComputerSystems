@@ -113,7 +113,7 @@ class VMTranslator:
         '''Generate Hack Assembly code for a VM call operation'''
         # saving the stack address and resetting it to the return address
         random = r.randint(0,100);
-        returnstring = f"@RETURNSTACK.{str(random)}\nD=A\n@SP\nA=M\nM=D\nD=A+1\n@SP\nM=D\n" # adding the return address to the stack and incrementing stack
+        returnstring = f"//This is the call\n@RETURNSTACK.{str(random)}\nD=A\n@SP\nA=M\nM=D\nD=A+1\n@SP\nM=D\n" # adding the return address to the stack and incrementing stack
         returnstring += "@LCL\nD=M\n@SP\nA=M\nM=D\nD=A+1\n@SP\nM=D\n" # adding the LCL address to the stack and increments the stack
         returnstring += "@ARG\nD=M\n@SP\nA=M\nM=D\nD=A+1\n@SP\nM=D\n" # adding the ARG address to the stack and incrementing the stack
         returnstring += "@THIS\nD=M\n@SP\nA=M\nM=D\nD=A+1\n@SP\nM=D\n"  # adding the THIS address to the stack and incrementing the stack
@@ -127,9 +127,8 @@ class VMTranslator:
     def vm_return():
         '''Generate Hack Assembly code for a VM return operation'''
         # god damn does this seem like a nasty little program ong no cap fr fr fr fr fr fr i hate this subject fr fr 
-        # return f"@LCL\nD=M\n@5\nA=D-A\nD=M\n@R13\nM=D\n@SP\nA=M-1\nD=M\n@ARG\nA=M\nM=D\n@ARG\nD=A+1\n@SP\nM=D\n@LCL\nAM=M-1\nD=M\n@THAT\nM=D\n@LCL\nAM=M-1\nD=M\n@THIS\nM=D\n@LCL\nAM=M-1\nD=M\n@ARG\nM=D\n@LCL\nA=M-1\nD=M\n@LCL\nM=D\n@R13\nA=M\n0;JMP\n"
-        # return f"@LCL\nD=M\n@5\nA=D-A\nD=M\n@RETURNSTACK\nM=D\n@SP\nA=M-1\nD=M\n@ARG\nA=M\nM=D\n@ARG\nD=M+1\n@SP\nM=D\n@LCL\nAM=M-1\nD=M\n@THAT\nM=D\n@LCL\nAM=M-1\nD=M\n@THIS\nM=D\n@LCL\nAM=M-1\nD=M\n@RETURNSTACK\nA=M\n0;JMP\n"
-        returnstring = "@LCL\nD=M\n@R13\nM=D\n" # storing the LCL frame in a temp variable
+
+        returnstring = "//This Is the return\n@LCL\nD=M\n@R13\nM=D\n" # storing the LCL frame in a temp variable
         returnstring += "@LCL\nD=M\n@5\nD=D-A\n@RETURNADDRESS\nM=D\n" # storing the return address in a temp spot
         returnstring += "@SP\nA=M-1\nD=M\n@ARG\nA=M\nM=D\n" # setting arg as the last value from the stack
         returnstring += "@ARG\nD=M\n@SP\nM=D+1\n" # setting SP=ARG + 1
@@ -137,8 +136,9 @@ class VMTranslator:
         returnstring += "@R13\nD=M\n@2\nD=D-A\n@THIS\nM=D\n" # setting This = *(frame - 2)
         returnstring += "@R13\nD=M\n@3\nD=D-A\n@ARG\nM=D\n" # setting ARG = *(frame - 3)
         returnstring += "@R13\nD=M\n@4\nD=D-A\n@LCL\nM=D\n" # setting LCL = *(frame - 4)
-        returnstring += "@RETURNADDRESS\n0;JMP\n"
+        returnstring += "@RETURNADDRESS\nA=M\n0;JMP\n"
         return returnstring
+
 # A quick-and-dirty parser when run as a standalone script.
 if __name__ == "__main__":
     import sys
