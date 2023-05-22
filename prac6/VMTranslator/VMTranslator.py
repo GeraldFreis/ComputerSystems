@@ -102,7 +102,7 @@ class VMTranslator:
         returnstring = str()
         returnstring += f"({function_name})\n"
         # setting all the locals to zero n shiz
-        for i in range(0, n_vars):
+        for i in range(0, int(n_vars)):
             returnstring += "@SP\nM=M+1\nA=M-1\nM=0\n"
         # returnstring += "D=A\n@LCL\nM=D\n"
 
