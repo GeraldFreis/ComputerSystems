@@ -129,14 +129,14 @@ class VMTranslator:
         # god damn does this seem like a nasty little program ong no cap fr fr fr fr fr fr i hate this subject fr fr 
 
         returnstring = "//This Is the return\n@LCL\nD=M\n@R13\nM=D\n" # storing the LCL frame in a temp variable
-        returnstring += "@LCL\nD=M\n@5\nD=D-A\n@RETURNADDRESS\nM=D\n" # storing the return address in a temp spot
+        returnstring += "@LCL\nD=M\n@5\nA=D-A\nD=M\n@R14\nM=D\n" # storing the return address in a temp spot
         returnstring += "@SP\nA=M-1\nD=M\n@ARG\nA=M\nM=D\n" # setting arg as the last value from the stack
         returnstring += "@ARG\nD=M\n@SP\nM=D+1\n" # setting SP=ARG + 1
-        returnstring += "@R13\nD=M\n@1\nD=D-A\n@THAT\nM=D\n" # setting That = *(frame - 1)
-        returnstring += "@R13\nD=M\n@2\nD=D-A\n@THIS\nM=D\n" # setting This = *(frame - 2)
-        returnstring += "@R13\nD=M\n@3\nD=D-A\n@ARG\nM=D\n" # setting ARG = *(frame - 3)
-        returnstring += "@R13\nD=M\n@4\nD=D-A\n@LCL\nM=D\n" # setting LCL = *(frame - 4)
-        returnstring += "@RETURNADDRESS\nA=M\n0;JMP\n"
+        returnstring += "@R13\nD=M\n@1\nA=D-A\nD=M\n@THAT\nM=D\n" # setting That = *(frame - 1)
+        returnstring += "@R13\nD=M\n@2\nA=D-A\nD=M\n@THIS\nM=D\n" # setting This = *(frame - 2)
+        returnstring += "@R13\nD=M\n@3\nA=D-A\nD=M\n@ARG\nM=D\n" # setting ARG = *(frame - 3)
+        returnstring += "@R13\nD=M\n@4\nA=D-A\nD=M\n@LCL\nM=D\n" # setting LCL = *(frame - 4)
+        returnstring += "@R14\nA=M\n0;JMP\n"
         return returnstring
 
 # A quick-and-dirty parser when run as a standalone script.
