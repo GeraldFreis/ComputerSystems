@@ -100,11 +100,11 @@ class VMTranslator:
     def vm_function(function_name, n_vars):
         '''Generate Hack Assembly code for a VM function operation'''
         returnstring = str()
-        returnstring += f"({function_name})\n@SP\nA=M\n"
+        returnstring += f"({function_name})\n@LCL\nA=M\n"
         # setting all the locals to zero n shiz
         for i in range(0, n_vars):
             returnstring += "M=0\nA=A+1\n"
-        returnstring += "D=A\n@SP\nM=D\n"
+        returnstring += "D=A\n@LCL\nM=D\n"
 
         return returnstring
 
