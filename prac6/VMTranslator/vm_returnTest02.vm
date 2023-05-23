@@ -1,0 +1,10 @@
+function fib.fib 2
+
+call fib.fib 4
+push local 5
+pop static 1
+
+
+return
+
+call fib.fib 1
