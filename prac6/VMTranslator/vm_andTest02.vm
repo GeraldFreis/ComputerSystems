@@ -1,0 +1,9 @@
+push constant 1
+pop local 0
+push constant 2
+pop local 1
+
+push local 0
+push local 1
+and
+pop temp 4

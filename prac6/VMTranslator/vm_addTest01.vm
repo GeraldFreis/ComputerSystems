@@ -1,0 +1,6 @@
+push local 1
+push static 1
+add
+push constant 12
+add
+pop temp 2

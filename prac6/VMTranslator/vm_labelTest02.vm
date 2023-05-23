@@ -1,0 +1,13 @@
+label nextlabel
+
+label purelabel
+
+label finallabel
+
+label NOTFINALLABEL
+
+label min_final_label
+
+label labellio102013
+
+notlabel label  // this line should not do anything

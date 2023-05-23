@@ -1,0 +1,10 @@
+push local 1
+push static 1
+add
+push constant 12
+add
+push local 1
+add
+push constant 10000
+add
+pop temp 2
