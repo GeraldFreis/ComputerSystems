@@ -1,0 +1,8 @@
+label thislabel
+push local 1
+pop local 2
+
+push constant 2
+pop local 2
+
+goto thislabel
