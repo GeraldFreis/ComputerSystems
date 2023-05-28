@@ -1,3 +1,0 @@
-push local 1
-push static 1
-pop temp 2

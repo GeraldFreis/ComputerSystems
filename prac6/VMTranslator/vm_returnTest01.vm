@@ -1,7 +1,0 @@
-function fib.fib 2
-
-call fib.fib 2
-push local 3
-
-return
-

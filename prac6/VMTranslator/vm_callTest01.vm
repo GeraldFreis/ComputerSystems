@@ -1,5 +1,0 @@
-function Fib.fib 2
-
-call Fib.fib 2
-
-return

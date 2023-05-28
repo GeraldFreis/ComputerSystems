@@ -1,4 +1,0 @@
-push local 1
-push static 3
-push temp 4
-push constant 19
