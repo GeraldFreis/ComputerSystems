@@ -77,8 +77,16 @@ class CompilerParser :
         Generates a parse tree for a method, function, or constructor
         @return a ParseTree that represents the method, function, or constructor
         """
-        
-        return None 
+        newparsed = ParseTree("sub_routines", "")
+        newparsed.addChild(self.token_array[self.iterator])
+        newparsed.addChild(self.token_array[self.iterator+1])
+        newparsed.addChild(self.token_array[self.iterator+2])
+        newparsed.addChild(self.token_array[self.iterator+3])
+        newparsed.addChild(compileParameterList())
+        newparsed.addChild(self.token_array[self.iterator])  # iterator should be updated
+        newparsed.addChild(compileSubroutineBody())
+
+        return newparsed 
     
     
     def compileParameterList(self):
@@ -86,6 +94,7 @@ class CompilerParser :
         Generates a parse tree for a subroutine's parameters
         @return a ParseTree that represents a subroutine's parameters
         """
+        newparsed = ParseTree("parameter_lists", "")
         return None 
     
     
@@ -94,6 +103,7 @@ class CompilerParser :
         Generates a parse tree for a subroutine's body
         @return a ParseTree that represents a subroutine's body
         """
+        newparsed = ParseTree("sub_routine_body", "")
         return None 
     
     
@@ -102,6 +112,7 @@ class CompilerParser :
         Generates a parse tree for a variable declaration
         @return a ParseTree that represents a var declaration
         """
+        newparsed = ParseTree("variable_declarations", "")
         return None 
     
 
@@ -110,6 +121,7 @@ class CompilerParser :
         Generates a parse tree for a series of statements
         @return a ParseTree that represents the series of statements
         """
+        newparsed = ParseTree("statements", "")
         return None 
     
     
@@ -118,6 +130,7 @@ class CompilerParser :
         Generates a parse tree for a let statement
         @return a ParseTree that represents the statement
         """
+        newparsed = ParseTree("lets", "")
         return None 
 
 
@@ -126,6 +139,7 @@ class CompilerParser :
         Generates a parse tree for an if statement
         @return a ParseTree that represents the statement
         """
+        newparsed = ParseTree("ifs", "")
         return None 
 
     
@@ -134,6 +148,7 @@ class CompilerParser :
         Generates a parse tree for a while statement
         @return a ParseTree that represents the statement
         """
+        newparsed = ParseTree("whiles", "")
         return None 
 
 
@@ -142,6 +157,7 @@ class CompilerParser :
         Generates a parse tree for a do statement
         @return a ParseTree that represents the statement
         """
+        newparsed = ParseTree("does", "")
         return None 
 
 
@@ -150,6 +166,7 @@ class CompilerParser :
         Generates a parse tree for a return statement
         @return a ParseTree that represents the statement
         """
+        newparsed = ParseTree("return", "")
         return None 
 
 
@@ -158,6 +175,7 @@ class CompilerParser :
         Generates a parse tree for an expression
         @return a ParseTree that represents the expression
         """
+        newparsed = ParseTree("expressions", "")
         return None 
 
 
@@ -166,6 +184,7 @@ class CompilerParser :
         Generates a parse tree for an expression term
         @return a ParseTree that represents the expression term
         """
+        newparsed = ParseTree("terms", "")
         return None 
 
 
@@ -174,6 +193,7 @@ class CompilerParser :
         Generates a parse tree for an expression list
         @return a ParseTree that represents the expression list
         """
+        newparsed = ParseTree("expression_lists", "")
         return None 
 
 
@@ -181,6 +201,7 @@ class CompilerParser :
         """
         Advance to the next token
         """
+        newparsed = ParseTree("nexts", "")
         return
 
 
@@ -189,6 +210,7 @@ class CompilerParser :
         Return the current token
         @return the token
         """
+        newparsed = ParseTree("currents", "")
         return None
 
 
@@ -201,7 +223,7 @@ class CompilerParser :
         return False
 
 
-    def mustBe(self,expectedType,expectedValue):
+    def mustBe(self,expectedType,expectedValue): # idk what the point of this function and the prior one is, they are pretty useless lmaooooo
         """
         Check if the current token matches the expected type and value.
         If so, advance to the next token, returning the current token, otherwise throw/raise a ParseException.
