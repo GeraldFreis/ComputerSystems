@@ -6,7 +6,7 @@ class ParseException(Exception):
     pass
 
 
-class ParseTree():
+class ParseTree(): # this tree is made in regards to the tokens passed to it
 
     def __init__(self, node_type, value):
         """

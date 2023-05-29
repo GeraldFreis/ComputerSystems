@@ -7,15 +7,38 @@ class CompilerParser :
         Constructor for the CompilerParser
         @param tokens A list of tokens to be parsed
         """
-        pass
+        self.iterator = 0
+        self.token_array = tokens;
+        self.keywords = ('class', 'constructor', 'function', 'method', 'field', 'static', 'var', 'int', 'char', 'boolean', 'void', 'true', 'false', 'null', 'this', 'let', 'do', 'if', 'else', 'while', 'return')
+        self.symbols = ('{', '}', '(', ')', '[', ']', ',', '.', ';', '+', '-', '*', r'/', '&', '|', '<', '>', '=', '~')
+        self.sub_routines = ('function', 'method', 'constructor')
+        self.var_declarations = ('field', 'static')
+        return # don't want a pass statement here that would be fucking stupid
     
 
-    def compileProgram(self):
+    def compileProgram(self): # main compile program
         """
         Generates a parse tree for a single program
         @return a ParseTree that represents the program
         """
-        return None 
+        # checking if the first line is a class name or main (it needs to be)
+        if(self.token_array[0].value != "class" and (self.token_array[1].value != "Main" ) or self.token_array[1].value != "main"): raise ParseException; return None; # return should be unreached but just in case
+
+        parsed_tree = ParseTree("class", "")
+        for token in self.token_array: # for each token we add it
+            if (token.node_type == 'symbol' and token.value == '}'): break
+
+            # otherwise we want to parse it all
+            if(token.node_type == 'keyword' and token.value in self.sub_routines):
+                parsed_tree.addChild(compileSubroutine())
+            elif(token.node_type == 'keyword' and token.value in self.var_declarations):
+                parsed_tree.addChild(compileClassVarDec())
+            else:
+                parsed_tree.addChild(token)
+
+            self.iterator += 1;
+        # checking that the first 
+        return parsed_tree; 
     
     
     def compileClass(self):
@@ -31,7 +54,22 @@ class CompilerParser :
         Generates a parse tree for a static variable declaration or field declaration
         @return a ParseTree that represents a static variable declaration or field declaration
         """
-        return None 
+        # creating a new tree
+        newparsed = ParseTree("classVariableDeclarations", "")
+        newparsed.addChild(self.token_array[self.iterator+1])
+        newparsed.addChild(self.token_array[self.iterator+2])
+        newparsed.addChild(self.token_array[self.iterator+3])
+        counter = 0
+        for i in range(self.iterator+4, len(self.token_array)):
+            if(self.token_array[i].value == ","):
+                newparsed.addChild(self.token_array[i]); newparsed.addChild(self.token_array[i+1]);
+                i += 1; counter = i;
+            else:
+                break;
+
+        newparsed.addChild(self.token_array[self.counter]) # adding the last element
+        self.iterator = counter
+        return newparsed 
     
 
     def compileSubroutine(self):
@@ -39,6 +77,7 @@ class CompilerParser :
         Generates a parse tree for a method, function, or constructor
         @return a ParseTree that represents the method, function, or constructor
         """
+        
         return None 
     
     
@@ -158,6 +197,7 @@ class CompilerParser :
         Check if the current token matches the expected type and value.
         @return True if a match, False otherwise
         """
+        # where does this token live?
         return False
 
 
