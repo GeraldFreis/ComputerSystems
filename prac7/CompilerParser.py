@@ -71,7 +71,7 @@ class CompilerParser :
         @return a ParseTree that represents a static variable declaration or field declaration
         """
         # creating a new tree
-        newparsed = ParseTree("class_variable_declarations", "")
+        newparsed = ParseTree("classVarDec", "")
         newparsed.addChild(self.token_array[self.iterator+1])
         newparsed.addChild(self.token_array[self.iterator+2])
         newparsed.addChild(self.token_array[self.iterator+3])
@@ -93,7 +93,7 @@ class CompilerParser :
         Generates a parse tree for a method, function, or constructor
         @return a ParseTree that represents the method, function, or constructor
         """
-        newparsed = ParseTree("sub_routines", "")
+        newparsed = ParseTree("subroutine", "")
         newparsed.addChild(self.token_array[self.iterator])
         newparsed.addChild(self.token_array[self.iterator+1])
         newparsed.addChild(self.token_array[self.iterator+2])
@@ -110,7 +110,7 @@ class CompilerParser :
         Generates a parse tree for a subroutine's parameters
         @return a ParseTree that represents a subroutine's parameters
         """
-        newparsed = ParseTree("parameter_lists", "")
+        newparsed = ParseTree("parameterList", "")
 
         for i in range(self.iterator, len(self.token_array)):
 
@@ -127,7 +127,7 @@ class CompilerParser :
         Generates a parse tree for a subroutine's body
         @return a ParseTree that represents a subroutine's body
         """
-        newparsed = ParseTree("sub_routine_body", "")
+        newparsed = ParseTree("subroutineBody", "")
         # checking if we have a variable, and if so we compile it, else we compile statements
         for i in range(self.iterator, len(self.token_array)):
             if(self.token_array[i].value != "}"): # if we are still in the subroutine
@@ -147,7 +147,7 @@ class CompilerParser :
         Generates a parse tree for a variable declaration
         @return a ParseTree that represents a var declaration
         """
-        newparsed = ParseTree("variable_declarations", "")
+        newparsed = ParseTree("varDec", "")
         newparsed.addChild(self.token_array[self.iterator+1])
         newparsed.addChild(self.token_array[self.iterator+2])
         newparsed.addChild(self.token_array[self.iterator+3])
