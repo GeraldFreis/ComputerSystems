@@ -166,10 +166,10 @@ class CompilerParser :
                 newparsed.addChild(self.token_array[i]); newparsed.addChild(self.token_array[i+1]);
                 i += 1; counter = i;
             else:
+                self.iterator = i
                 break;
 
-        newparsed.addChild(self.token_array[counter]) # adding the last element
-        self.iterator = counter
+        newparsed.addChild(self.token_array[self.iterator]) # adding the last element
         return newparsed 
     
 
