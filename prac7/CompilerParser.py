@@ -103,7 +103,8 @@ class CompilerParser :
 
         for i in range(self.iterator+3, len(self.token_array)):
             if    (self.token_array[i].value == ","):
-                newparsed.addChild(self.token_array[i]); newparsed.addChild(self.token_array[i+1]);
+                newparsed.addChild(self.token_array[i]); 
+                newparsed.addChild(self.token_array[i+1]);
                 i += 1; counter = i;
             else:
                 self.iterator = i
@@ -144,7 +145,8 @@ class CompilerParser :
         for i in range(self.iterator, len(self.token_array)):
 
             if     (self.token_array[i].value == ")"):
-                newparsed.addChild(self.token_array[i]); self.iterator = i; break;
+                newparsed.addChild(self.token_array[i]); 
+                self.iterator = i; break;
             else: 
                 newparsed.addChild(self.token_array[i])
             self.iterator = i;
@@ -190,7 +192,8 @@ class CompilerParser :
         # counter = 0
         for i in range(self.iterator+3, len(self.token_array)):
             if    (self.token_array[i].value == ","):
-                newparsed.addChild(self.token_array[i]); newparsed.addChild(self.token_array[i+1]);
+                newparsed.addChild(self.token_array[i]); 
+                newparsed.addChild(self.token_array[i+1]);
                 i += 1;
             else:
                 self.iterator = i
@@ -269,7 +272,7 @@ class CompilerParser :
         Generates a parse tree for an if statement
         @return a ParseTree that represents the statement
         """
-        newparsed = ParseTree("ifs", "")
+        newparsed = ParseTree("ifStatement", "")
 
         newparsed.addChild(self.token_array[self.iterator])
         newparsed.addChild(self.token_array[self.iterator+1]); self.iterator += 1
@@ -279,7 +282,8 @@ class CompilerParser :
 
         self.iterator += 1
         for i in range(self.iterator, len(self.token_array)):
-            if    (self.token_array[i].value == "}"): self.iterator = i; break;
+            if    (self.token_array[i].value == "}"):
+                self.iterator = i; break;
             else: 
                 if    (self.token_array[i].value not in self.statements):
                     raise ParseException
