@@ -72,11 +72,11 @@ class CompilerParser :
         """
         # creating a new tree
         newparsed = ParseTree("classVarDec", "")
+        newparsed.addChild(self.token_array[self.iterator])
         newparsed.addChild(self.token_array[self.iterator+1])
         newparsed.addChild(self.token_array[self.iterator+2])
-        newparsed.addChild(self.token_array[self.iterator+3])
         counter = 0
-        for i in range(self.iterator+4, len(self.token_array)):
+        for i in range(self.iterator+3, len(self.token_array)):
             if    (self.token_array[i].value == ","):
                 newparsed.addChild(self.token_array[i]); newparsed.addChild(self.token_array[i+1]);
                 i += 1; counter = i;
