@@ -36,6 +36,7 @@ class CompilerParser :
                 self.iterator = i
                 parsed_tree.addChild(self.compileSubroutine()) # have to add self otherwise this thing kills itself
                 i = self.iterator
+
             elif   (token.node_type == 'keyword' and token.value in self.var_declarations):
                 self.iterator = i
                 parsed_tree.addChild(self.compileClassVarDec()) # adding self.etc because why not 
@@ -99,6 +100,7 @@ class CompilerParser :
 
         newparsed.addChild(self.token_array[counter]) # adding the last element
         self.iterator = counter
+
         return newparsed 
     
 
@@ -284,8 +286,28 @@ class CompilerParser :
         Generates a parse tree for a while statement
         @return a ParseTree that represents the statement
         """
-        newparsed = ParseTree("whiles", "")
-        return None 
+        newparsed = ParseTree("whileStatement", "")
+        newparsed.addChild(self.token_array[self.iterator])
+        newparsed.addChild(self.token_array[self.iterator+1]); self.iterator += 1
+        newparsed.addChild(self.compileExpression())
+        newparsed.addChild(self.token_array[self.iterator])
+        newparsed.addChild(self.token_array[self.iterator+1])
+
+        self.iterator += 1
+
+        for i in range(self.iterator, len(self.token_array)):
+            if    (self.token_array[i].value == "}"): self.iterator = i; break;
+            else: 
+                if    (self.token_array[i].value not in self.statements):
+                    raise ParseException
+                else:
+                    self.iterator = i # updating the iterator
+                    newparsed.addChild(self.compileStatements())
+                    
+                    i = self.iterator
+        newparsed.addChild(self.token_array[self.iterator]) # this should be the }
+        self.iterator += 1
+        return newparsed 
 
 
     def compileDo(self):
