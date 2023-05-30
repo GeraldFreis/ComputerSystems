@@ -26,24 +26,25 @@ class CompilerParser :
         if(self.token_array[0].value != "class" and self.token_array[1].value != "Main"  and self.token_array[1].value != "main"): raise ParseException; return None; # return should be unreached but just in case
 
         parsed_tree = ParseTree("class", "")
-        for i in range(0, len(self.token_array)): # for each token we add it
-            token = self.token_array[i]
+        # for i in range(0, len(self.token_array)): # for each token we add it
+        #     token = self.token_array[i]
 
-            if     (token.node_type == 'symbol' and token.value == '}'):  parsed_tree.addChild(self.token_array[i]); break
+        #     if     (token.node_type == 'symbol' and token.value == '}'):  parsed_tree.addChild(self.token_array[i]); break
 
-            # otherwise we want to parse it all
-            if     (token.node_type == 'keyword' and token.value in self.sub_routines):
-                self.iterator = i
-                parsed_tree.addChild(self.compileSubroutine()) # have to add self otherwise this thing kills itself
-                i = self.iterator
+        #     # otherwise we want to parse it all
+        #     if     (token.node_type == 'keyword' and token.value in self.sub_routines):
+        #         self.iterator = i
+        #         parsed_tree.addChild(self.compileSubroutine()) # have to add self otherwise this thing kills itself
+        #         i = self.iterator
 
-            elif   (token.node_type == 'keyword' and token.value in self.var_declarations):
-                self.iterator = i
-                parsed_tree.addChild(self.compileClassVarDec()) # adding self.etc because why not 
-                i = self.iterator
+        #     elif   (token.node_type == 'keyword' and token.value in self.var_declarations):
+        #         self.iterator = i
+        #         parsed_tree.addChild(self.compileClassVarDec()) # adding self.etc because why not 
+        #         i = self.iterator
 
-            else:
-                parsed_tree.addChild(token)
+        #     else:
+        #         parsed_tree.addChild(token)
+        parsed_tree.addChild(self.compileClass())
 
         # checking that the first 
         return parsed_tree; 
