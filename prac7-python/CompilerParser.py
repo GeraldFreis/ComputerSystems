@@ -13,6 +13,7 @@ class CompilerParser :
         self.symbols = ('{', '}', '(', ')', '[', ']', ',', '.', ';', '+', '-', '*', r'/', '&', '|', '<', '>', '=', '~')
         self.sub_routines = ('function', 'method', 'constructor')
         self.var_declarations = ('field', 'static')
+        self.statements = ('let', 'do', 'if', 'while', 'return')
         return # don't want a pass statement here that would be fucking stupid
     
 
@@ -26,12 +27,12 @@ class CompilerParser :
 
         parsed_tree = ParseTree("class", "")
         for token in self.token_array: # for each token we add it
-            if (token.node_type == 'symbol' and token.value == '}'): break
+            if     (token.node_type == 'symbol' and token.value == '}'): break
 
             # otherwise we want to parse it all
-            if(token.node_type == 'keyword' and token.value in self.sub_routines):
+            if     (token.node_type == 'keyword' and token.value in self.sub_routines):
                 parsed_tree.addChild(compileSubroutine())
-            elif(token.node_type == 'keyword' and token.value in self.var_declarations):
+            elif   (token.node_type == 'keyword' and token.value in self.var_declarations):
                 parsed_tree.addChild(compileClassVarDec())
             else:
                 parsed_tree.addChild(token)
@@ -55,13 +56,13 @@ class CompilerParser :
         @return a ParseTree that represents a static variable declaration or field declaration
         """
         # creating a new tree
-        newparsed = ParseTree("classVariableDeclarations", "")
+        newparsed = ParseTree("class_variable_declarations", "")
         newparsed.addChild(self.token_array[self.iterator+1])
         newparsed.addChild(self.token_array[self.iterator+2])
         newparsed.addChild(self.token_array[self.iterator+3])
         counter = 0
         for i in range(self.iterator+4, len(self.token_array)):
-            if(self.token_array[i].value == ","):
+            if    (self.token_array[i].value == ","):
                 newparsed.addChild(self.token_array[i]); newparsed.addChild(self.token_array[i+1]);
                 i += 1; counter = i;
             else:
@@ -95,7 +96,15 @@ class CompilerParser :
         @return a ParseTree that represents a subroutine's parameters
         """
         newparsed = ParseTree("parameter_lists", "")
-        return None 
+
+        for i in range(self.iterator, len(self.token_array)):
+
+            if     (token_array[i].value == ")"):
+                newparsed.addChild(token_array[i]); self.iterator = i; break;
+            else: 
+                newparsed.addChild(token_array[i])
+
+        return newparsed 
     
     
     def compileSubroutineBody(self):
@@ -104,7 +113,18 @@ class CompilerParser :
         @return a ParseTree that represents a subroutine's body
         """
         newparsed = ParseTree("sub_routine_body", "")
-        return None 
+        # checking if we have a variable, and if so we compile it, else we compile statements
+        for i in range(self.iterator, len(self.token_array)):
+            if(self.token_array[i].value != "}"): # if we are still in the subroutine
+                if     (self.token_array[i].value != "var"): # if we do not have a variable declaration we know that we have a statement
+                    newparsed.addChild(compileStatements())
+                else:
+                    newparsed.addChild(compileVarDec())
+            else:
+                self.iterator = i;
+                break;
+        
+        return newparsed 
     
     
     def compileVarDec(self):
@@ -113,7 +133,21 @@ class CompilerParser :
         @return a ParseTree that represents a var declaration
         """
         newparsed = ParseTree("variable_declarations", "")
-        return None 
+        newparsed.addChild(self.token_array[self.iterator+1])
+        newparsed.addChild(self.token_array[self.iterator+2])
+        newparsed.addChild(self.token_array[self.iterator+3])
+
+        counter = 0
+        for i in range(self.iterator+4, len(self.token_array)):
+            if    (self.token_array[i].value == ","):
+                newparsed.addChild(self.token_array[i]); newparsed.addChild(self.token_array[i+1]);
+                i += 1; counter = i;
+            else:
+                break;
+
+        newparsed.addChild(self.token_array[self.counter]) # adding the last element
+        self.iterator = counter
+        return newparsed 
     
 
     def compileStatements(self):
@@ -122,7 +156,34 @@ class CompilerParser :
         @return a ParseTree that represents the series of statements
         """
         newparsed = ParseTree("statements", "")
-        return None 
+        
+        for i in range(self.iterator, len(self.token_array)): # iterating until we do not have a token in the statements list
+            
+            if    (self.token_array[i] not in self.statements):
+                self.iterator = i
+                break;
+            
+            else:
+                self.iterator = i # updating iterator to be the current token
+                if      (self.token_array[i].value == "let"):
+                    newparsed.addChild(compileLet())
+
+                elif    (self.token_array[i].value == "do"):
+                    newparsed.addChild(compileDo())
+
+                elif    (self.token_array[i].value == "while"):
+                    newparsed.addChild(compileWhile())
+
+                elif    (self.token_array[i].value == "return"):
+                    newparsed.addChild(compileReturn())
+
+                elif    (self.token_array[i].value == "if"):
+                    newparsed.addChild(compileIf())
+
+                i = self.iterator # updating i to be the current token
+
+
+        return newparsed 
     
     
     def compileLet(self):
@@ -131,7 +192,26 @@ class CompilerParser :
         @return a ParseTree that represents the statement
         """
         newparsed = ParseTree("lets", "")
-        return None 
+        newparsed.addChild(self.token_array[self.iterator])
+        newparsed.addChild(self.token_array[self.iterator+1])
+
+        if    (self.token_array[self.iterator+2].value == "["):
+            newparsed.addChild("symbol", "[")
+            self.iterator += 3
+            newparsed.addChild(compileExpression())
+            newparsed.addChild("symbol", "]")
+        else:
+            if    (self.token_array[self.iterator+2] != "[" and self.token_array[self.iterator+2] != "="):
+                raise ParseException; return None; #just in case
+        
+        newparsed.addChild(self.token_array[self.iterator]) # iterator should be updated from the compile expression function
+        self.iterator += 1
+        
+        newparsed.addChild(compileExpression())
+        newparsed.addChild(self.token_array[self.iterator]) # iterator should be updated from the compile expression function
+
+
+        return newparsed 
 
 
     def compileIf(self):
@@ -140,7 +220,27 @@ class CompilerParser :
         @return a ParseTree that represents the statement
         """
         newparsed = ParseTree("ifs", "")
-        return None 
+
+        newparsed.addChild(self.token_array[self.iterator])
+        newparsed.addChild(self.token_array[self.iterator+1]); self.iterator += 1
+        newparsed.addChild(compileExpression())
+        newparsed.addChild(self.token_array[self.iterator])
+        newparsed.addChild(self.token_array[self.iterator+1])
+
+        self.iterator += 1
+        for i in range(self.iterator, len(self.token_array)):
+            if    (self.token_array[i].value == "}"): break;
+            else: 
+                if    (self.token_array[i].value not in self.statements):
+                    raise ParseException
+                else:
+                    self.iterator = i # updating the iterator
+                    newparsed.addChild(compileStatements())
+                    
+                    i = self.iterator
+        newparsed.addChild(self.token_array[self.iterator])
+
+        return newparsed 
 
     
     def compileWhile(self):
