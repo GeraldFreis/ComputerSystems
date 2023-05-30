@@ -31,9 +31,9 @@ class CompilerParser :
 
             # otherwise we want to parse it all
             if     (token.node_type == 'keyword' and token.value in self.sub_routines):
-                parsed_tree.addChild(compileSubroutine())
+                parsed_tree.addChild(self.compileSubroutine())
             elif   (token.node_type == 'keyword' and token.value in self.var_declarations):
-                parsed_tree.addChild(compileClassVarDec())
+                parsed_tree.addChild(self.compileClassVarDec())
             else:
                 parsed_tree.addChild(token)
 
@@ -53,9 +53,9 @@ class CompilerParser :
 
             # otherwise we want to parse it all
             if     (token.node_type == 'keyword' and token.value in self.sub_routines):
-                parsed_tree.addChild(compileSubroutine())
+                parsed_tree.addChild(self.compileSubroutine()) # have to add self otherwise this thing kills itself
             elif   (token.node_type == 'keyword' and token.value in self.var_declarations):
-                parsed_tree.addChild(self.compileClassVarDec())
+                parsed_tree.addChild(self.compileClassVarDec()) # adding self.etc because why not 
             else:
                 parsed_tree.addChild(token)
 
