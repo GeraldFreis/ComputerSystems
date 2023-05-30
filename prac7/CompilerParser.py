@@ -55,10 +55,14 @@ class CompilerParser :
         @return a ParseTree that represents a class
         """
         parsed_tree = ParseTree("class", "")
+
         for i in range(0, len(self.token_array)): # for each token we add it
+
             token = self.token_array[i]
 
-            if     (token.node_type == 'symbol' and token.value == '}'):  parsed_tree.addChild(self.token_array[i]); break
+            if     (token.node_type == 'symbol' and token.value == '}'):  
+                parsed_tree.addChild(self.token_array[i])
+                break
 
             # otherwise we want to parse it all
             if     (token.node_type == 'keyword' and token.value in self.sub_routines):
@@ -70,7 +74,10 @@ class CompilerParser :
                 self.iterator = i
                 parsed_tree.addChild(self.compileClassVarDec()) # adding self.etc because why not 
                 i = self.iterator+1
+                i += 3
+
             else:
+
                 parsed_tree.addChild(token)
 
             # self.iterator += 1;
