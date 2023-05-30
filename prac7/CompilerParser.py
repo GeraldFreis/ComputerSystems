@@ -249,7 +249,7 @@ class CompilerParser :
 
         self.iterator += 1
         for i in range(self.iterator, len(self.token_array)):
-            if    (self.token_array[i].value == "}"): newparsed.addChild(self.token_array[i]); break;
+            if    (self.token_array[i].value == "}"): self.iterator = i; break;
             else: 
                 if    (self.token_array[i].value not in self.statements):
                     raise ParseException
