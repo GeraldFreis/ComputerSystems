@@ -99,9 +99,9 @@ class CompilerParser :
         newparsed.addChild(self.token_array[self.iterator+1])
         newparsed.addChild(self.token_array[self.iterator+2])
         newparsed.addChild(self.token_array[self.iterator+3])
-        newparsed.addChild(compileParameterList())
+        newparsed.addChild(self.compileParameterList())
         newparsed.addChild(self.token_array[self.iterator])  # iterator should be updated
-        newparsed.addChild(compileSubroutineBody())
+        newparsed.addChild(self.compileSubroutineBody())
 
         return newparsed 
     
@@ -133,9 +133,9 @@ class CompilerParser :
         for i in range(self.iterator, len(self.token_array)):
             if(self.token_array[i].value != "}"): # if we are still in the subroutine
                 if     (self.token_array[i].value != "var"): # if we do not have a variable declaration we know that we have a statement
-                    newparsed.addChild(compileStatements())
+                    newparsed.addChild(self.compileStatements())
                 else:
-                    newparsed.addChild(compileVarDec())
+                    newparsed.addChild(self.compileVarDec())
             else:
                 self.iterator = i;
                 break;
@@ -161,7 +161,7 @@ class CompilerParser :
             else:
                 break;
 
-        newparsed.addChild(self.token_array[self.counter]) # adding the last element
+        newparsed.addChild(self.token_array[counter]) # adding the last element
         self.iterator = counter
         return newparsed 
     
@@ -182,19 +182,19 @@ class CompilerParser :
             else:
                 self.iterator = i # updating iterator to be the current token
                 if      (self.token_array[i].value == "let"):
-                    newparsed.addChild(compileLet())
+                    newparsed.addChild(self.compileLet())
 
                 elif    (self.token_array[i].value == "do"):
-                    newparsed.addChild(compileDo())
+                    newparsed.addChild(self.compileDo())
 
                 elif    (self.token_array[i].value == "while"):
-                    newparsed.addChild(compileWhile())
+                    newparsed.addChild(self.compileWhile())
 
                 elif    (self.token_array[i].value == "return"):
-                    newparsed.addChild(compileReturn())
+                    newparsed.addChild(self.compileReturn())
 
                 elif    (self.token_array[i].value == "if"):
-                    newparsed.addChild(compileIf())
+                    newparsed.addChild(self.compileIf())
 
                 i = self.iterator # updating i to be the current token
 
@@ -214,7 +214,7 @@ class CompilerParser :
         if    (self.token_array[self.iterator+2].value == "["):
             newparsed.addChild("symbol", "[")
             self.iterator += 3
-            newparsed.addChild(compileExpression())
+            newparsed.addChild(self.compileExpression())
             newparsed.addChild("symbol", "]")
         else:
             if    (self.token_array[self.iterator+2] != "[" and self.token_array[self.iterator+2] != "="):
@@ -223,9 +223,9 @@ class CompilerParser :
         newparsed.addChild(self.token_array[self.iterator]) # iterator should be updated from the compile expression function
         self.iterator += 1
         
-        newparsed.addChild(compileExpression())
+        newparsed.addChild(self.compileExpression())
         newparsed.addChild(self.token_array[self.iterator]) # iterator should be updated from the compile expression function
-
+        self.iterator += 1
 
         return newparsed 
 
@@ -239,7 +239,7 @@ class CompilerParser :
 
         newparsed.addChild(self.token_array[self.iterator])
         newparsed.addChild(self.token_array[self.iterator+1]); self.iterator += 1
-        newparsed.addChild(compileExpression())
+        newparsed.addChild(self.compileExpression())
         newparsed.addChild(self.token_array[self.iterator])
         newparsed.addChild(self.token_array[self.iterator+1])
 
@@ -251,11 +251,11 @@ class CompilerParser :
                     raise ParseException
                 else:
                     self.iterator = i # updating the iterator
-                    newparsed.addChild(compileStatements())
+                    newparsed.addChild(self.compileStatements())
                     
                     i = self.iterator
         newparsed.addChild(self.token_array[self.iterator])
-
+        self.iterator += 1
         return newparsed 
 
     
