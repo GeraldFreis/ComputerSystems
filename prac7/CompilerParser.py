@@ -9,7 +9,7 @@ class CompilerParser :
         """
         self.iterator = 0
         self.token_array = tokens;
-        self.keywords = ('class', 'constructor', 'function', 'method', 'field', 'static', 'var', 'int', 'char', 'boolean', 'void', 'true', 'false', 'null', 'this', 'let', 'do', 'if', 'else', 'while', 'return')
+        self.keywords = ('class', 'constructor', 'function', 'method', 'field', 'static', 'var', 'int', 'char', 'boolean', 'void', 'true', 'false', 'null', 'this', 'let', 'do', 'if', 'else', 'while', 'return', 'skip')
         self.symbols = ('{', '}', '(', ')', '[', ']', ',', '.', ';', '+', '-', '*', r'/', '&', '|', '<', '>', '=', '~')
         self.sub_routines = ('function', 'method', 'constructor')
         self.var_declarations = ('field', 'static')
@@ -29,7 +29,9 @@ class CompilerParser :
         for i in range(0, len(self.token_array)): # for each token we add it
             token = self.token_array[i]
 
-            if     (token.node_type == 'symbol' and token.value == '}'):  parsed_tree.addChild(self.token_array[i]); break
+            if     (token.node_type == 'symbol' and token.value == '}'):  
+                parsed_tree.addChild(self.token_array[i]); 
+                break
 
             # otherwise we want to parse it all
             if     (token.node_type == 'keyword' and token.value in self.sub_routines):
@@ -345,7 +347,7 @@ class CompilerParser :
         newparsed.addChild(self.token_array[self.iterator])
         self.iterator += 1
         newparsed.addChild(self.compileExpression()) # using compile expression because unlike normies i am not a normie
-        newparsed.addChild(self.token_array[self.iteratoo])
+        newparsed.addChild(self.token_array[self.iterator])
         return newparsed 
 
 
