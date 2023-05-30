@@ -135,8 +135,10 @@ class CompilerParser :
         for i in range(self.iterator, len(self.token_array)):
             if(self.token_array[i].value != "}"): # if we are still in the subroutine
                 if     (self.token_array[i].value != "var"): # if we do not have a variable declaration we know that we have a statement
+                    self.iterator = i
                     newparsed.addChild(self.compileStatements())
                 else:
+                    self.iterator = i
                     newparsed.addChild(self.compileVarDec())
             else:
                 self.iterator = i;
