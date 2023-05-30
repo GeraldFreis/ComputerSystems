@@ -137,14 +137,15 @@ class CompilerParser :
                 if     (self.token_array[i].value != "var"): # if we do not have a variable declaration we know that we have a statement
                     self.iterator = i
                     newparsed.addChild(self.compileStatements())
+                    i = self.iterator
                 else:
                     self.iterator = i
                     newparsed.addChild(self.compileVarDec())
+                    i = self.iterator
             else:
                 self.iterator = i;
                 break;
-            else:
-
+            # else:
         
         return newparsed 
     
