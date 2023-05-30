@@ -9,11 +9,13 @@ class CompilerParser :
         """
         self.iterator = 0
         self.token_array = tokens;
-        self.keywords = ('class', 'constructor', 'function', 'method', 'field', 'static', 'var', 'int', 'char', 'boolean', 'void', 'true', 'false', 'null', 'this', 'let', 'do', 'if', 'else', 'while', 'return')
+        self.keywords = ('class', 'constructor', 'function', 'method', 'field', 'static', 'var', 'int', 'char', 'boolean', 'void', 'true', 'false', 'null', 'this', 'let', 'do', 'if', 'else', 'while', 'return', 'skip')
         self.symbols = ('{', '}', '(', ')', '[', ']', ',', '.', ';', '+', '-', '*', r'/', '&', '|', '<', '>', '=', '~')
         self.sub_routines = ('function', 'method', 'constructor')
         self.var_declarations = ('field', 'static')
         self.statements = ('let', 'do', 'if', 'while', 'return')
+
+
         return # don't want a pass statement here that would be fucking stupid
     
 
@@ -346,7 +348,16 @@ class CompilerParser :
         Generates a parse tree for an expression
         @return a ParseTree that represents the expression
         """
-        newparsed = ParseTree("expressions", "")
+        newparsed = ParseTree("expression", "")
+        if(self.token_array[self.iterator].node_type == "skip"):
+            newparsed.addChild(self.token_array)
+            return newparsed
+        else:
+            for i in range(self.iterator, len(self.token_array)): # iterating from the current token to the end of the token array
+                if(self.token_array[i+1] not in symbols):
+                    return None
+
+
         return None 
 
 
