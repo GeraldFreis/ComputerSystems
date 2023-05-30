@@ -47,7 +47,22 @@ class CompilerParser :
         Generates a parse tree for a single class
         @return a ParseTree that represents a class
         """
-        return None 
+        parsed_tree = ParseTree("class", "")
+        for token in self.token_array: # for each token we add it
+            if     (token.node_type == 'symbol' and token.value == '}'): parsed_tree.addChild(token); break
+
+            # otherwise we want to parse it all
+            if     (token.node_type == 'keyword' and token.value in self.sub_routines):
+                parsed_tree.addChild(compileSubroutine())
+            elif   (token.node_type == 'keyword' and token.value in self.var_declarations):
+                parsed_tree.addChild(compileClassVarDec())
+            else:
+                parsed_tree.addChild(token)
+
+            self.iterator += 1;
+        # checking that the first 
+        return parsed_tree; 
+        # return None 
     
 
     def compileClassVarDec(self):
