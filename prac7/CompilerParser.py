@@ -361,7 +361,12 @@ class CompilerParser :
         @return a ParseTree that represents the expression
         """
         newparsed = ParseTree("expression", "")
+        if(self.token_array[self.iterator].value == "skip"):
+            newparsed.addChild(self.token_array[self.iterator]);
+            self.iterator += 1
+            return newparsed
 
+        # if we are here we do not care about the outcome let us see if this changes anything
         return None 
 
 
