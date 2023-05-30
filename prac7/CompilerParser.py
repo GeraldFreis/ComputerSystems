@@ -76,6 +76,7 @@ class CompilerParser :
         newparsed.addChild(self.token_array[self.iterator+1])
         newparsed.addChild(self.token_array[self.iterator+2])
         counter = 0
+
         for i in range(self.iterator+3, len(self.token_array)):
             if    (self.token_array[i].value == ","):
                 newparsed.addChild(self.token_array[i]); newparsed.addChild(self.token_array[i+1]);
@@ -83,7 +84,7 @@ class CompilerParser :
             else:
                 break;
 
-        newparsed.addChild(self.token_array[self.counter]) # adding the last element
+        newparsed.addChild(self.token_array[counter]) # adding the last element
         self.iterator = counter
         return newparsed 
     
