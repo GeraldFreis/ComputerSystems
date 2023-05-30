@@ -249,7 +249,8 @@ class CompilerParser :
         newparsed.addChild(self.token_array[self.iterator+1])
 
         if    (self.token_array[self.iterator+2].value == "["):
-            newparsed.addChild("symbol", "[")
+            newparsed.addChild(self.token_array[self.iterator + 2])
+            # self.iterator += 3
             self.iterator += 3
             newparsed.addChild(self.compileExpression())
             newparsed.addChild("symbol", "]")
