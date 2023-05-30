@@ -346,7 +346,8 @@ class CompilerParser :
         Generates a parse tree for an expression
         @return a ParseTree that represents the expression
         """
-        newparsed = ParseTree("expressions", "")
+        newparsed = ParseTree("expression", "")
+
         return None 
 
 
