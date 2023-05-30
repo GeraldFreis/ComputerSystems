@@ -49,7 +49,7 @@ class CompilerParser :
         """
         parsed_tree = ParseTree("class", "")
         for token in self.token_array: # for each token we add it
-            if     (token.node_type == 'symbol' and token.value == '}'): parsed_tree.addChild(token); break
+            if     (token.node_type == 'symbol' and token.value == '}'): break
 
             # otherwise we want to parse it all
             if     (token.node_type == 'keyword' and token.value in self.sub_routines):
