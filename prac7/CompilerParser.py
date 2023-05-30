@@ -69,7 +69,6 @@ class CompilerParser :
                 self.iterator = i
                 parsed_tree.addChild(self.compileClassVarDec()) # adding self.etc because why not 
                 i = self.iterator
-
             else:
                 parsed_tree.addChild(token)
 
@@ -317,8 +316,13 @@ class CompilerParser :
         Generates a parse tree for a do statement
         @return a ParseTree that represents the statement
         """
-        newparsed = ParseTree("does", "")
-        return None 
+        newparsed = ParseTree("doStatement", "")
+        newparsed.addChild(self.token_array[self.iterator])
+        self.iterator += 1;
+        newparsed.addChild(self.compileExpression()) # compiling the user expression
+        newparsed.addChild(self.token_array[self.iterator]) # assuming that the user iterator is updated after the compile expresison is executed
+
+        return newparsed 
 
 
     def compileReturn(self):
@@ -326,8 +330,12 @@ class CompilerParser :
         Generates a parse tree for a return statement
         @return a ParseTree that represents the statement
         """
-        newparsed = ParseTree("return", "")
-        return None 
+        newparsed = ParseTree("returnStatement", "")
+        newparsed.addChild(self.token_array[self.iterator])
+        self.iterator += 1
+        newparsed.addChild(self.compileExpression()) # using compile expression because unlike normies i am not a normie
+        newparsed.addChild(self.token_array[self.iteratoo])
+        return newparsed 
 
 
     def compileExpression(self):
