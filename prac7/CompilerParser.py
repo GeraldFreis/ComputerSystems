@@ -99,7 +99,7 @@ class CompilerParser :
                 self.iterator = i
                 break;
 
-        newparsed.addChild(self.token_array[self.iterator]) # adding the last element
+        # newparsed.addChild(self.token_array[self.iterator]) # adding the last element
         # self.iterator = counter
 
         return newparsed 
