@@ -289,12 +289,12 @@ class CompilerParser :
         """
         newparsed = ParseTree("whileStatement", "")
         newparsed.addChild(self.token_array[self.iterator])
-        newparsed.addChild(self.token_array[self.iterator+1]); self.iterator += 1
+        newparsed.addChild(self.token_array[self.iterator+1]); self.iterator += 2
         newparsed.addChild(self.compileExpression())
         newparsed.addChild(self.token_array[self.iterator])
         newparsed.addChild(self.token_array[self.iterator+1])
 
-        self.iterator += 1
+        self.iterator += 2
 
         for i in range(self.iterator, len(self.token_array)):
             if    (self.token_array[i].value == "}"): self.iterator = i; break;
@@ -306,6 +306,7 @@ class CompilerParser :
                     newparsed.addChild(self.compileStatements())
                     
                     i = self.iterator
+
         newparsed.addChild(self.token_array[self.iterator]) # this should be the }
         self.iterator += 1
         return newparsed 
@@ -323,6 +324,7 @@ class CompilerParser :
         newparsed.addChild(self.token_array[self.iterator]) # assuming that the user iterator is updated after the compile expresison is executed
 
         return newparsed 
+        # sometimes I wonder why I got into computer science and then I remember its because I hate myself
 
 
     def compileReturn(self):
