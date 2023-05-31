@@ -136,6 +136,11 @@ class CompilerParser :
         newparsed.addChild(self.token_array[self.iterator+1])
         newparsed.addChild(self.token_array[self.iterator+2])
         newparsed.addChild(self.token_array[self.iterator+3])
+
+        if(self.token_array[self.iterator + 3].node_type == "keyword"): # just checking if the user has fucked around
+            raise ParseException
+            return None
+
         self.iterator += 4
         newparsed.addChild(self.compileParameterList())
         newparsed.addChild(self.token_array[self.iterator])  # iterator should be updated
