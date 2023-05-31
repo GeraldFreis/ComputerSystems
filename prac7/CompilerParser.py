@@ -214,10 +214,13 @@ class CompilerParser :
                 newparsed.addChild(self.token_array[i]); 
                 newparsed.addChild(self.token_array[i+1]);
                 i += 2;
+                if(self.token_array[i].value != "," and self.token_array[i+1].node_type == "identifier"):
+                    raise ParseException
+                    return None
             else:
                 self.iterator = i
                 break;
-        
+
         newparsed.addChild(self.token_array[self.iterator]) # adding the last element
         return newparsed 
     
