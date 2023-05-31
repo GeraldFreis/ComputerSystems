@@ -58,8 +58,8 @@ class CompilerParser :
         @return a ParseTree that represents a class
         """
         parsed_tree = ParseTree("class", "")
-
-        for i in range(0, len(self.token_array)): # for each token we add it
+        i = 0
+        while i < len(self.token_array): # for each token we add it
 
             token = self.token_array[i]
 
@@ -82,6 +82,7 @@ class CompilerParser :
             else:
 
                 parsed_tree.addChild(token)
+                i += 1
 
             # self.iterator += 1;
         # checking that the first 
