@@ -172,7 +172,9 @@ class CompilerParser :
             if(self.token_array[i].value != "}"): # if we are still in the subroutine
                 if     (self.token_array[i].value != "var"): # if we do not have a variable declaration we know that we have a statement
                     self.iterator = i
-                    newparsed.addChild(self.compileStatements())
+                    token = self.compileStatements()
+                    if(token != None):
+                        newparsed.addChild(token)
                     i = self.iterator
                 else:
                     self.iterator = i
@@ -221,7 +223,7 @@ class CompilerParser :
             
             if    (self.token_array[i].value not in self.statements):
                 self.iterator = i
-                return newparsed
+                return None
                 # print("here for some fucking reason")
                 break;
             
