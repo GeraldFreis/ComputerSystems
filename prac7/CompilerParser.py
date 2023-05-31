@@ -237,7 +237,7 @@ class CompilerParser :
         
         for i in range(self.iterator, len(self.token_array)): # iterating until we do not have a token in the statements list
             
-            if    (self.token_array[i] not in self.statements):
+            if    (self.token_array[i].value not in self.statements):
                 self.iterator = i
                 break;
             
@@ -279,9 +279,9 @@ class CompilerParser :
             # self.iterator += 3
             self.iterator += 3
             newparsed.addChild(self.compileExpression())
-            newparsed.addChild("symbol", "]")
+            newparsed.addChild(Token("symbol", "]"))
         else:
-            if    (self.token_array[self.iterator+2] != "[" and self.token_array[self.iterator+2] != "="):
+            if    (self.token_array[self.iterator+2].value != "[" and self.token_array[self.iterator+2].value != "="):
                 raise ParseException; return None; #just in case
         
         newparsed.addChild(self.token_array[self.iterator]) # iterator should be updated from the compile expression function
