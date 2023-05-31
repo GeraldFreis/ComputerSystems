@@ -223,7 +223,7 @@ class CompilerParser :
             
             if    (self.token_array[i].value not in self.statements):
                 self.iterator = i
-                return None
+                raise ParseException
                 # print("here for some fucking reason")
                 break;
             
