@@ -263,13 +263,14 @@ class CompilerParser :
 
         return newparsed 
     
-    
+    # woo we have all the ones above working 
+
     def compileLet(self):
         """
         Generates a parse tree for a let statement
         @return a ParseTree that represents the statement
         """
-        newparsed = ParseTree("lets", "")
+        newparsed = ParseTree("letStatement", "")
         newparsed.addChild(self.token_array[self.iterator])
         newparsed.addChild(self.token_array[self.iterator+1])
 
