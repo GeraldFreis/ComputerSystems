@@ -146,7 +146,7 @@ class CompilerParser :
         for i in range(self.iterator, len(self.token_array)):
 
             if     (self.token_array[i].value == ")"):
-                newparsed.addChild(self.token_array[i]); 
+                # newparsed.addChild(self.token_array[i]); 
                 self.iterator = i; break;
             else: 
                 newparsed.addChild(self.token_array[i])
