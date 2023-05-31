@@ -23,8 +23,10 @@ class CompilerParser :
         @return a ParseTree that represents the program
         """
         # checking if the first line is a class name or main (it needs to be)
-        if(self.token_array[0].value != "class" and self.token_array[1].value != "Main"  and self.token_array[1].value != "main"): raise ParseException; return None; # return should be unreached but just in case
-    elif(self.token_array[0].value == "class" and self.token_array[1].value == "Main" and self.token_array[2] == "Main"): raise ParseException; return None;
+        if(self.token_array[0].value != "class" and self.token_array[1].value != "Main"  and self.token_array[1].value != "main"): 
+            raise ParseException; return None; # return should be unreached but just in case
+        elif(self.token_array[0].value == "class" and self.token_array[1].value == "Main" and self.token_array[2] == "Main"): 
+            raise ParseException; return None;
         parsed_tree = ParseTree("class", "")
         for i in range(0, len(self.token_array)): # for each token we add it
             token = self.token_array[i]
