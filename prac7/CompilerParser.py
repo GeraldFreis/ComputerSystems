@@ -237,7 +237,7 @@ class CompilerParser :
         
         for i in range(self.iterator, len(self.token_array)): # iterating until we do not have a token in the statements list
             
-            if    (self.token_array[i].value not in self.statements):
+            if    (self.token_array[i] not in self.statements):
                 self.iterator = i
                 break;
             
