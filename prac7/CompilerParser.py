@@ -71,12 +71,12 @@ class CompilerParser :
             if     (token.node_type == 'keyword' and token.value in self.sub_routines):
                 self.iterator = i
                 parsed_tree.addChild(self.compileSubroutine()) # have to add self otherwise this thing kills itself
-                i = self.iterator # updating the i value because otherwise we repeat things, but it seems that we are repeating stuff regardless
+                i = self.iterator+1 # updating the i value because otherwise we repeat things, but it seems that we are repeating stuff regardless
 
             elif   (token.node_type == 'keyword' and token.value in self.var_declarations):
                 self.iterator = i
                 parsed_tree.addChild(self.compileClassVarDec()) # adding self.etc because why not 
-                i = self.iterator
+                i = self.iterator+1
                 # i += 3
 
             else:
@@ -113,7 +113,7 @@ class CompilerParser :
 
         newparsed.addChild(self.token_array[self.iterator]) # adding the last element
         # self.iterator = counter
-
+        # self.iterator += 1
         return newparsed 
     
 
@@ -132,7 +132,7 @@ class CompilerParser :
         newparsed.addChild(self.token_array[self.iterator])  # iterator should be updated
         self.iterator += 1
         newparsed.addChild(self.compileSubroutineBody())
-        self.iterator += 1
+        # self.iterator += 1
         return newparsed 
     
     
