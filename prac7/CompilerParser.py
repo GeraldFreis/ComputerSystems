@@ -137,7 +137,11 @@ class CompilerParser :
         newparsed.addChild(self.compileParameterList())
         newparsed.addChild(self.token_array[self.iterator])  # iterator should be updated
         self.iterator += 1
-        newparsed.addChild(self.compileSubroutineBody())
+        token = self.compileSubroutineBody()
+        if(token != None):
+            newparsed.addChild(token)
+        else:
+            pass
 
         return newparsed 
     
@@ -182,6 +186,7 @@ class CompilerParser :
                     i = self.iterator
             else:
                 self.iterator = i;
+                return None
                 break;
             # else:
         
