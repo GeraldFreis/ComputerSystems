@@ -207,8 +207,8 @@ class CompilerParser :
         newparsed.addChild(self.token_array[self.iterator+1])
         newparsed.addChild(self.token_array[self.iterator+2])
         
-        if((self.iterator + 3 < len(self.token_array)) and self.token_array[self.iterator +2].value == "a" and self.token_array[self.iterator + 3].node_type == "b"):
-            raise ParseException
+        # if((self.iterator + 3 < len(self.token_array)) and self.token_array[self.iterator +2].value == "a" and self.token_array[self.iterator + 3].node_type == "b"):
+        #     raise ParseException
         # counter = 0
         i = self.iterator + 3
         while i < len(self.token_array):
