@@ -156,10 +156,10 @@ class CompilerParser :
         @return a ParseTree that represents a subroutine's parameters
         """
         newparsed = ParseTree("parameterList", "")
-        if(self.token_array[self.iterator + 1].node_type = "keyword"):
+        if(self.token_array[self.iterator + 1].node_type == "keyword"):
             raise ParseException
             return None
-        
+
         for i in range(self.iterator, len(self.token_array)):
 
             if     (self.token_array[i].value == ")"):
