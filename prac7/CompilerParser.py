@@ -218,9 +218,9 @@ class CompilerParser :
                 i += 1;
 
             else:
-                if (i+1 < len(self.token_array)):
-                    if (self.token_array[i].node_type == "identifier" and self.token_array[i+1].node_type == "identifier"):
-                        raise ParseException 
+                # if (i+1 < len(self.token_array)):
+                #     if (self.token_array[i].node_type == "identifier" and self.token_array[i+1].node_type == "identifier"):
+                #         raise ParseException 
                 self.iterator = i
                 break;
 
