@@ -26,11 +26,8 @@ class CompilerParser :
         if(self.token_array[0].value != "class" and self.token_array[1].value != "Main"  and self.token_array[1].value != "main"): raise ParseException; return None; # return should be unreached but just in case
 
         parsed_tree = ParseTree("class", "")
-        i = 0
-        while i < len(self.token_array): # for each token we add it
+        for i in range(0, len(self.token_array)): # for each token we add it
             token = self.token_array[i]
-
-            # print(token.value)
 
             if     (token.node_type == 'symbol' and token.value == '}'):  
                 parsed_tree.addChild(self.token_array[i]); 
@@ -42,14 +39,13 @@ class CompilerParser :
                 parsed_tree.addChild(self.compileSubroutine()) # have to add self otherwise this thing kills itself
                 i = self.iterator
 
-
             elif   (token.node_type == 'keyword' and token.value in self.var_declarations):
                 self.iterator = i
                 parsed_tree.addChild(self.compileClassVarDec()) # adding self.etc because why not 
                 i = self.iterator
+
             else:
                 parsed_tree.addChild(token)
-                i += 1
         # parsed_tree.addChild(self.compileClass())
 
         # checking that the first 
@@ -63,37 +59,35 @@ class CompilerParser :
         """
         parsed_tree = ParseTree("class", "")
 
-        if(self.token_array[0].value != "class" and self.token_array[1].value != "Main"  and self.token_array[1].value != "main"): raise ParseException; return None; # return should be unreached but just in case
+        for i in range(0, len(self.token_array)): # for each token we add it
 
-        parsed_tree = ParseTree("class", "")
-        i = 0
-        while i < len(self.token_array): # for each token we add it
             token = self.token_array[i]
 
-            # print(token.value)
-
             if     (token.node_type == 'symbol' and token.value == '}'):  
-                parsed_tree.addChild(self.token_array[i]); 
+                parsed_tree.addChild(self.token_array[i])
                 break
 
             # otherwise we want to parse it all
             if     (token.node_type == 'keyword' and token.value in self.sub_routines):
                 self.iterator = i
                 parsed_tree.addChild(self.compileSubroutine()) # have to add self otherwise this thing kills itself
-                i = self.iterator
-
+                i = self.iterator+1 # updating the i value because otherwise we repeat things, but it seems that we are repeating stuff regardless
 
             elif   (token.node_type == 'keyword' and token.value in self.var_declarations):
                 self.iterator = i
                 parsed_tree.addChild(self.compileClassVarDec()) # adding self.etc because why not 
-                i = self.iterator
-            else:
-                parsed_tree.addChild(token)
-                i += 1
-        # parsed_tree.addChild(self.compileClass())
+                i = self.iterator+1
+                i += 3
 
+            else:
+
+                parsed_tree.addChild(token)
+
+            # self.iterator += 1;
         # checking that the first 
         return parsed_tree; 
+        # return None 
+    
 
     def compileClassVarDec(self):
         """
@@ -113,12 +107,11 @@ class CompilerParser :
                 newparsed.addChild(self.token_array[i+1]);
                 i += 1; counter = i;
             else:
-                self.iterator = i 
+                self.iterator = i
                 break;
 
         newparsed.addChild(self.token_array[self.iterator]) # adding the last element
         # self.iterator = counter
-        self.iterator  += 1
 
         return newparsed 
     
@@ -133,12 +126,11 @@ class CompilerParser :
         newparsed.addChild(self.token_array[self.iterator+1])
         newparsed.addChild(self.token_array[self.iterator+2])
         newparsed.addChild(self.token_array[self.iterator+3])
-        self.iterator += 4
+        self.iterator += 3
         newparsed.addChild(self.compileParameterList())
         newparsed.addChild(self.token_array[self.iterator])  # iterator should be updated
         self.iterator += 1
-        token = self.compileSubroutineBody()
-        newparsed.addChild(token)
+        newparsed.addChild(self.compileSubroutineBody())
 
         return newparsed 
     
@@ -153,7 +145,7 @@ class CompilerParser :
         for i in range(self.iterator, len(self.token_array)):
 
             if     (self.token_array[i].value == ")"):
-                # newparsed.addChild(self.token_array[i]); 
+                newparsed.addChild(self.token_array[i]); 
                 self.iterator = i; break;
             else: 
                 newparsed.addChild(self.token_array[i])
@@ -173,9 +165,7 @@ class CompilerParser :
             if(self.token_array[i].value != "}"): # if we are still in the subroutine
                 if     (self.token_array[i].value != "var"): # if we do not have a variable declaration we know that we have a statement
                     self.iterator = i
-                    token = self.compileStatements()
-                    if(token != None):
-                        newparsed.addChild(token)
+                    newparsed.addChild(self.compileStatements())
                     i = self.iterator
                 else:
                     self.iterator = i
@@ -183,7 +173,6 @@ class CompilerParser :
                     i = self.iterator
             else:
                 self.iterator = i;
-                return None
                 break;
             # else:
         
@@ -220,13 +209,11 @@ class CompilerParser :
         @return a ParseTree that represents the series of statements
         """
         newparsed = ParseTree("statements", "")
-        i = 0
+        
         for i in range(self.iterator, len(self.token_array)): # iterating until we do not have a token in the statements list
             
-            if    (self.token_array[i].value not in self.statements):
+            if    (self.token_array[i] not in self.statements):
                 self.iterator = i
-                return None
-                # print("here for some fucking reason")
                 break;
             
             else:
@@ -238,9 +225,7 @@ class CompilerParser :
                     newparsed.addChild(self.compileDo())
 
                 elif    (self.token_array[i].value == "while"):
-                    print("Here")
                     newparsed.addChild(self.compileWhile())
-
 
                 elif    (self.token_array[i].value == "return"):
                     newparsed.addChild(self.compileReturn())
@@ -452,9 +437,9 @@ if __name__ == "__main__":
     tokens.append(Token("keyword","class"))
     tokens.append(Token("identifier","MyClass"))
     tokens.append(Token("symbol","{"))
-    tokens.append(Token("symbol", "}"))
-    parser = CompilerParser(tokens)
+    tokens.append(Token("symbol","}"))
 
+    parser = CompilerParser(tokens)
     try:
         result = parser.compileProgram()
         print(result)
