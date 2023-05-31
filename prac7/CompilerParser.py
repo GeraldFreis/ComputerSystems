@@ -26,8 +26,10 @@ class CompilerParser :
         if(self.token_array[0].value != "class" and self.token_array[1].value != "Main"  and self.token_array[1].value != "main"): raise ParseException; return None; # return should be unreached but just in case
 
         parsed_tree = ParseTree("class", "")
+
         for i in range(0, len(self.token_array)): # for each token we add it
             token = self.token_array[i]
+            print(token.value)
 
             if     (token.node_type == 'symbol' and token.value == '}'):  
                 parsed_tree.addChild(self.token_array[i]); 
@@ -126,7 +128,7 @@ class CompilerParser :
         newparsed.addChild(self.token_array[self.iterator+1])
         newparsed.addChild(self.token_array[self.iterator+2])
         newparsed.addChild(self.token_array[self.iterator+3])
-        self.iterator += 3
+        self.iterator += 4
         newparsed.addChild(self.compileParameterList())
         newparsed.addChild(self.token_array[self.iterator])  # iterator should be updated
         self.iterator += 1
@@ -145,7 +147,7 @@ class CompilerParser :
         for i in range(self.iterator, len(self.token_array)):
 
             if     (self.token_array[i].value == ")"):
-                newparsed.addChild(self.token_array[i]); 
+                # newparsed.addChild(self.token_array[i]); 
                 self.iterator = i; break;
             else: 
                 newparsed.addChild(self.token_array[i])
@@ -212,8 +214,10 @@ class CompilerParser :
         
         for i in range(self.iterator, len(self.token_array)): # iterating until we do not have a token in the statements list
             
-            if    (self.token_array[i] not in self.statements):
+            if    (self.token_array[i].value not in self.statements):
                 self.iterator = i
+                return None
+                print("here for some fucking reason")
                 break;
             
             else:
@@ -225,7 +229,9 @@ class CompilerParser :
                     newparsed.addChild(self.compileDo())
 
                 elif    (self.token_array[i].value == "while"):
+                    print("Here")
                     newparsed.addChild(self.compileWhile())
+
 
                 elif    (self.token_array[i].value == "return"):
                     newparsed.addChild(self.compileReturn())
@@ -437,9 +443,36 @@ if __name__ == "__main__":
     tokens.append(Token("keyword","class"))
     tokens.append(Token("identifier","MyClass"))
     tokens.append(Token("symbol","{"))
-    tokens.append(Token("symbol","}"))
+    # tokens.append(Token("symbol","}"))
+    tokens.append(Token("keyword", "function"))
+    tokens.append(Token("keyword", "void"))
+    tokens.append(Token("identifier", "myFunc"))
+    tokens.append(Token("symbol", "("))
+    tokens.append(Token("keyword", "int"))
+    tokens.append(Token("identifier", "a"))
+    tokens.append(Token("symbol", ")"))
+    tokens.append(Token("symbol", "{"))
+    tokens.append(Token("keyword", "var"))
+    tokens.append(Token("keyword", "int"))
+    tokens.append(Token("identifier", "a"))
+    tokens.append(Token("symbol", ";"))
+    tokens.append(Token("keyword", "let"))
+    tokens.append(Token("identifier", "a"))
+    tokens.append(Token("symbol", "="))
+    tokens.append(Token("integerConstant", "1"))
+    tokens.append(Token("symbol", ";"))
+
+    tokens.append(Token("keyword", "while"))
+    tokens.append(Token("symbol", "("))
+    tokens.append(Token("keyword", "skip"))
+    tokens.append(Token("symbol", ")"))
+    tokens.append(Token("symbol", "}"))
+
+    tokens.append(Token("symbol", "{"))
+    tokens.append(Token("symbol", "}"))
 
     parser = CompilerParser(tokens)
+
     try:
         result = parser.compileProgram()
         print(result)
