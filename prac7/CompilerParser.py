@@ -138,10 +138,7 @@ class CompilerParser :
         newparsed.addChild(self.token_array[self.iterator])  # iterator should be updated
         self.iterator += 1
         token = self.compileSubroutineBody()
-        if(token != None):
-            newparsed.addChild(token)
-        else:
-            pass
+        newparsed.addChild(token)
 
         return newparsed 
     
