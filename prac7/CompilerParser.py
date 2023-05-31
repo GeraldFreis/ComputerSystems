@@ -213,7 +213,7 @@ class CompilerParser :
             if    (self.token_array[i].value == ","):
                 newparsed.addChild(self.token_array[i]); 
                 newparsed.addChild(self.token_array[i+1]);
-                i += 2;
+                i += 1;
 
             else:
                 if (i+1 < len(self.token_array)):
