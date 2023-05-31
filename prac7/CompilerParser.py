@@ -29,7 +29,7 @@ class CompilerParser :
 
         for i in range(0, len(self.token_array)): # for each token we add it
             token = self.token_array[i]
-            print(token.value)
+            # print(token.value)
 
             if     (token.node_type == 'symbol' and token.value == '}'):  
                 parsed_tree.addChild(self.token_array[i]); 
@@ -41,10 +41,12 @@ class CompilerParser :
                 parsed_tree.addChild(self.compileSubroutine()) # have to add self otherwise this thing kills itself
                 i = self.iterator
 
+
             elif   (token.node_type == 'keyword' and token.value in self.var_declarations):
                 self.iterator = i
                 parsed_tree.addChild(self.compileClassVarDec()) # adding self.etc because why not 
                 i = self.iterator
+                print(i)
 
             else:
                 parsed_tree.addChild(token)
@@ -216,8 +218,8 @@ class CompilerParser :
             
             if    (self.token_array[i].value not in self.statements):
                 self.iterator = i
-                return None
-                print("here for some fucking reason")
+                return newparsed
+                # print("here for some fucking reason")
                 break;
             
             else:
@@ -443,34 +445,7 @@ if __name__ == "__main__":
     tokens.append(Token("keyword","class"))
     tokens.append(Token("identifier","MyClass"))
     tokens.append(Token("symbol","{"))
-    # tokens.append(Token("symbol","}"))
-    tokens.append(Token("keyword", "function"))
-    tokens.append(Token("keyword", "void"))
-    tokens.append(Token("identifier", "myFunc"))
-    tokens.append(Token("symbol", "("))
-    tokens.append(Token("keyword", "int"))
-    tokens.append(Token("identifier", "a"))
-    tokens.append(Token("symbol", ")"))
-    tokens.append(Token("symbol", "{"))
-    tokens.append(Token("keyword", "var"))
-    tokens.append(Token("keyword", "int"))
-    tokens.append(Token("identifier", "a"))
-    tokens.append(Token("symbol", ";"))
-    tokens.append(Token("keyword", "let"))
-    tokens.append(Token("identifier", "a"))
-    tokens.append(Token("symbol", "="))
-    tokens.append(Token("integerConstant", "1"))
-    tokens.append(Token("symbol", ";"))
-
-    tokens.append(Token("keyword", "while"))
-    tokens.append(Token("symbol", "("))
-    tokens.append(Token("keyword", "skip"))
-    tokens.append(Token("symbol", ")"))
     tokens.append(Token("symbol", "}"))
-
-    tokens.append(Token("symbol", "{"))
-    tokens.append(Token("symbol", "}"))
-
     parser = CompilerParser(tokens)
 
     try:
