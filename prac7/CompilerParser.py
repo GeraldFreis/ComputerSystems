@@ -69,6 +69,7 @@ class CompilerParser :
         i = 0
         while i < len(self.token_array): # for each token we add it
             token = self.token_array[i]
+
             if     (token.node_type == 'symbol' and token.value == '}'):  
                 parsed_tree.addChild(self.token_array[i])
                 break
@@ -106,6 +107,8 @@ class CompilerParser :
         newparsed.addChild(self.token_array[self.iterator])
         newparsed.addChild(self.token_array[self.iterator+1])
         newparsed.addChild(self.token_array[self.iterator+2])
+        if(self.token_array[self.iterator + 2].node_type == "keyword"):
+            raise ParseException
         counter = 0
 
         for i in range(self.iterator+3, len(self.token_array)):
