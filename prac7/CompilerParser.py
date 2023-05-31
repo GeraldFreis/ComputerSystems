@@ -127,7 +127,7 @@ class CompilerParser :
         newparsed.addChild(self.token_array[self.iterator+1])
         newparsed.addChild(self.token_array[self.iterator+2])
         newparsed.addChild(self.token_array[self.iterator+3])
-        self.iterator += 3
+        self.iterator += 4
         newparsed.addChild(self.compileParameterList())
         newparsed.addChild(self.token_array[self.iterator])  # iterator should be updated
         self.iterator += 1
