@@ -62,15 +62,13 @@ class CompilerParser :
         @return a ParseTree that represents a class
         """
         parsed_tree = ParseTree("class", "")
-        if(self.token_array[0].value == "class" and self.token_array[1].value == "Main" and self.token_array[2] == "Main"): 
+        if(self.token_array[0].value == "class" and self.token_array[1].value == "Main" and self.token_array[2].value == "Main"): 
             raise ParseException; 
             return None;
 
         i = 0
         while i < len(self.token_array): # for each token we add it
-
             token = self.token_array[i]
-
             if     (token.node_type == 'symbol' and token.value == '}'):  
                 parsed_tree.addChild(self.token_array[i])
                 break
@@ -444,13 +442,14 @@ if __name__ == "__main__":
     """
     tokens = []
     tokens.append(Token("keyword","class"))
-    tokens.append(Token("identifier","MyClass"))
+    tokens.append(Token("identifier","Main"))
+    tokens.append(Token("identifier", "Main"))
     tokens.append(Token("symbol","{"))
     tokens.append(Token("symbol","}"))
 
     parser = CompilerParser(tokens)
     try:
-        result = parser.compileProgram()
+        result = parser.compileClass()
         print(result)
     except ParseException:
         print("Error Parsing!")
