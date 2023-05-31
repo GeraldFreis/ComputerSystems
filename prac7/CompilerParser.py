@@ -214,10 +214,11 @@ class CompilerParser :
                 newparsed.addChild(self.token_array[i]); 
                 newparsed.addChild(self.token_array[i+1]);
                 i += 2;
-                if(self.token_array[i].value != "," and self.token_array[i+1].node_type == "identifier"):
-                    raise ParseException
-                    return None
+
             else:
+                if (i+1 < len(self.token_array)):
+                    if (self.token_array[i].node_type == "identifier" and self.token_array[i+1].node_type == "identifier"):
+                        raise ParseException 
                 self.iterator = i
                 break;
 
