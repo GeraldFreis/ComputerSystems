@@ -349,27 +349,55 @@ class CompilerParser :
         Generates a parse tree for a while statement
         @return a ParseTree that represents the statement
         """
+        # newparsed = ParseTree("whileStatement", "")
+        # newparsed.addChild(self.token_array[self.iterator])
+        # newparsed.addChild(self.token_array[self.iterator+1]); self.iterator += 2
+        # newparsed.addChild(self.compileExpression())
+        # newparsed.addChild(self.token_array[self.iterator])
+        # newparsed.addChild(self.token_array[self.iterator+1])
+
+        # self.iterator += 2
+        # i = 0
+        # while i < len(self.token_array):
+        #     if    (self.token_array[i].value == "}"): self.iterator = i; break;
+        #     else: 
+        #         if    (self.token_array[i].value not in self.statements):
+        #             raise ParseException
+        #         else:
+        #             self.iterator = i # updating the iterator
+        #             newparsed.addChild(self.compileStatements())
+                    
+        #             i = self.iterator
+
+        # newparsed.addChild(self.token_array[self.iterator]) # this should be the }
+        # self.iterator += 1
+        # return newparsed 
         newparsed = ParseTree("whileStatement", "")
         newparsed.addChild(self.token_array[self.iterator])
-        newparsed.addChild(self.token_array[self.iterator+1]); self.iterator += 2
+        newparsed.addChild(self.token_array[self.iterator+1]); 
+        self.iterator += 2
         newparsed.addChild(self.compileExpression())
         newparsed.addChild(self.token_array[self.iterator])
         newparsed.addChild(self.token_array[self.iterator+1])
 
         self.iterator += 2
-        i = 0
-        while i < len(self.token_array):
-            if    (self.token_array[i].value == "}"): self.iterator = i; break;
-            else: 
-                if    (self.token_array[i].value not in self.statements):
-                    raise ParseException
-                else:
-                    self.iterator = i # updating the iterator
-                    newparsed.addChild(self.compileStatements())
-                    
-                    i = self.iterator
+        if(self.token_array[self.iterator].value != "}"):
 
-        newparsed.addChild(self.token_array[self.iterator]) # this should be the }
+            for i in range(self.iterator, len(self.token_array)):
+                if    (self.token_array[i].value == "}"):
+                    self.iterator = i; break;
+                else: 
+                    if    (self.token_array[i].value not in self.statements):
+                        raise ParseException
+                        return None;
+                    else:
+                        self.iterator = i # updating the iterator
+                        newparsed.addChild(self.compileStatements())
+                        i = self.iterator
+        else:
+            newparsed.addChild(self.compileStatements())
+
+        newparsed.addChild(self.token_array[self.iterator])
         self.iterator += 1
         return newparsed 
 
