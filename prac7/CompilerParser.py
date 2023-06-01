@@ -309,6 +309,7 @@ class CompilerParser :
         newparsed.addChild(self.token_array[self.iterator+1])
 
         self.iterator += 2
+
         for i in range(self.iterator, len(self.token_array)):
             if    (self.token_array[i].value == "}"):
                 self.iterator = i; break;
@@ -338,8 +339,8 @@ class CompilerParser :
         newparsed.addChild(self.token_array[self.iterator+1])
 
         self.iterator += 2
-
-        for i in range(self.iterator, len(self.token_array)):
+        i = 0
+        while i < len(self.token_array):
             if    (self.token_array[i].value == "}"): self.iterator = i; break;
             else: 
                 if    (self.token_array[i].value not in self.statements):
@@ -365,7 +366,7 @@ class CompilerParser :
         self.iterator += 1;
         newparsed.addChild(self.compileExpression()) # compiling the user expression
         newparsed.addChild(self.token_array[self.iterator]) # assuming that the user iterator is updated after the compile expresison is executed
-
+        # self.iterator += 1
         return newparsed 
         # sometimes I wonder why I got into computer science and then I remember its because I hate myself
 
@@ -380,6 +381,7 @@ class CompilerParser :
         self.iterator += 1
         newparsed.addChild(self.compileExpression()) # using compile expression because unlike normies i am not a normie
         newparsed.addChild(self.token_array[self.iterator])
+        # self.iterator += 1
         return newparsed 
 
 
