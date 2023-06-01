@@ -337,8 +337,8 @@ class CompilerParser :
                         newparsed.addChild(self.compileStatements())
                         i = self.iterator
         else:
-            newparsed.addChild(compileStatements())
-            
+            newparsed.addChild(self.compileStatements())
+
         newparsed.addChild(self.token_array[self.iterator])
         self.iterator += 1
         return newparsed 
