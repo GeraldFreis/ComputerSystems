@@ -418,8 +418,9 @@ class CompilerParser :
 
         self.iterator += 2
         if(self.token_array[self.iterator].value != "}"):
+            i = self.iterator
+            while i < len(self.token_array):
 
-            for i in range(self.iterator, len(self.token_array)):
                 if    (self.token_array[i].value == "}"):
                     self.iterator = i; break;
                 else: 
