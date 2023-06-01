@@ -324,7 +324,7 @@ class CompilerParser :
 
         self.iterator += 2
         if(self.token_array[self.iterator].value != "}"):
-            
+
             for i in range(self.iterator, len(self.token_array)):
                 if    (self.token_array[i].value == "}"):
                     self.iterator = i; break;
@@ -336,7 +336,9 @@ class CompilerParser :
                         self.iterator = i # updating the iterator
                         newparsed.addChild(self.compileStatements())
                         i = self.iterator
-
+        else:
+            newparsed.addChild(compileStatements())
+            
         newparsed.addChild(self.token_array[self.iterator])
         self.iterator += 1
         return newparsed 
