@@ -317,17 +317,24 @@ class CompilerParser :
 
         newparsed.addChild(self.token_array[self.iterator])
         newparsed.addChild(self.token_array[self.iterator+1]); 
+
         self.iterator += 2
+
         newparsed.addChild(self.compileExpression())
+
         newparsed.addChild(self.token_array[self.iterator])
         newparsed.addChild(self.token_array[self.iterator+1])
+
         self.iterator += 2
 
         if(self.token_array[self.iterator].value != "}"):
+
             i = self.iterator
+
             while i < len(self.token_array):
                 if    (self.token_array[i].value == "}"):
                     self.iterator = i; break;
+
                 else: 
                     if    (self.token_array[i].value not in self.statements):
                         raise ParseException
@@ -335,14 +342,17 @@ class CompilerParser :
                     else:
                         self.iterator = i # updating the iterator
                         newparsed.addChild(self.compileStatements())
-                        i = self.iterator
+                        i = self.iterator+1
 
         else:
+
             newparsed.addChild(self.compileStatements())
 
         if(self.token_array[self.iterator].value == "else"):
+
             newparsed.addChild(self.token_array[self.iterator])
             self.iterator += 1
+
             newparsed.addChild(self.token_array[self.iterator])
             self.iterator += 1
 
