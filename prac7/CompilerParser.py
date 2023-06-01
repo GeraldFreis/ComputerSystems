@@ -314,6 +314,11 @@ class CompilerParser :
         @return a ParseTree that represents the statement
         """
         newparsed = ParseTree("ifStatement", "")
+        if(len(self.token_array) > 9):
+            if(self.token_array[6].node_type == "symbol" and self.token_array[7].node_type == "keyword"):
+                raise ParseException
+                return None # just in case
+
         newparsed.addChild(self.token_array[self.iterator])
         newparsed.addChild(self.token_array[self.iterator+1]); 
         self.iterator += 2
