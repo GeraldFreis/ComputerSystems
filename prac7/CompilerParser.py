@@ -342,7 +342,7 @@ class CompilerParser :
 
         if(self.token_array[self.iterator].value == "else"):
             newparsed.addChild(self.token_array[self.iterator])
-            self iterator += 1
+            self.iterator += 1
             newparsed.addChild(self.token_array[self.iterator])
             self.iterator += 1
 
@@ -350,7 +350,7 @@ class CompilerParser :
                 self.iterator = i
                 newparsed.addChild(self.compileStatements())
                 i = self.iterator
-             
+
 
         newparsed.addChild(self.token_array[self.iterator]) # adding the last } onto the end
         self.iterator += 1
