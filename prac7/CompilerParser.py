@@ -2,6 +2,7 @@ from ParseTree import *
 
 class CompilerParser :
 
+
     def __init__(self,tokens):
         """
         Constructor for the CompilerParser
@@ -234,17 +235,18 @@ class CompilerParser :
         @return a ParseTree that represents the series of statements
         """
         newparsed = ParseTree("statements", "")
-        
-        for i in range(self.iterator, len(self.token_array)): # iterating until we do not have a token in the statements list
-            
-            if    (self.token_array[i].value not in self.statements):
-                self.iterator = i
+        i = self.iterator
+        while i < len(self.token_array): # iterating until we do not have a token in the statements list
+            # print(self.token_array[i].value)
+            if (self.token_array[i].value not in self.statements):
+                self.iterator = i 
                 break;
             
             else:
                 self.iterator = i # updating iterator to be the current token
                 if      (self.token_array[i].value == "let"):
                     newparsed.addChild(self.compileLet())
+                    i = self.iterator
 
                 elif    (self.token_array[i].value == "do"):
                     newparsed.addChild(self.compileDo())
@@ -257,10 +259,13 @@ class CompilerParser :
 
                 elif    (self.token_array[i].value == "if"):
                     newparsed.addChild(self.compileIf())
-
+                else:
+                    newparsed.addChild(self.token_array[i])
+                    self.iterator += 1
                 i = self.iterator # updating i to be the current token
 
-
+            i += 1
+        self.iterator = i
         return newparsed 
     
     # woo we have all the ones above working 
@@ -273,19 +278,21 @@ class CompilerParser :
         newparsed = ParseTree("letStatement", "")
         newparsed.addChild(self.token_array[self.iterator])
         newparsed.addChild(self.token_array[self.iterator+1])
-
-        if    (self.token_array[self.iterator+2].value == "["):
-            newparsed.addChild(self.token_array[self.iterator + 2])
+        # print(self.token_array[self.iterator + 2])
+        self.iterator += 2
+        if    (self.token_array[self.iterator].value == "["):
+            newparsed.addChild(self.token_array[self.iterator])
             # self.iterator += 3
-            self.iterator += 3
+            self.iterator += 1
             newparsed.addChild(self.compileExpression())
             newparsed.addChild(Token("symbol", "]"))
         else:
-            if    (self.token_array[self.iterator+2].value != "[" and self.token_array[self.iterator+2].value != "="):
+            if    (self.token_array[self.iterator].value != "[" and self.token_array[self.iterator].value != "="):
                 raise ParseException; return None; #just in case
         
         newparsed.addChild(self.token_array[self.iterator]) # iterator should be updated from the compile expression function
         self.iterator += 1
+        print(self.token_array[self.iterator-1].value)
         
         newparsed.addChild(self.compileExpression())
         newparsed.addChild(self.token_array[self.iterator]) # iterator should be updated from the compile expression function
@@ -316,6 +323,7 @@ class CompilerParser :
             else: 
                 if    (self.token_array[i].value not in self.statements):
                     raise ParseException
+                    return None;
                 else:
                     self.iterator = i # updating the iterator
                     newparsed.addChild(self.compileStatements())
@@ -463,15 +471,17 @@ if __name__ == "__main__":
         }
     """
     tokens = []
-    tokens.append(Token("keyword","class"))
-    tokens.append(Token("identifier","Main"))
-    tokens.append(Token("identifier", "Main"))
-    tokens.append(Token("symbol","{"))
-    tokens.append(Token("symbol","}"))
-
+    tokens.append(Token("keyword", "let"))
+    tokens.append(Token("identifier", "a"))
+    tokens.append(Token("symbol", "="))
+    tokens.append(Token("keyword", "skip"))
+    tokens.append(Token("symbol", ";"))
+    tokens.append(Token("keyword", "do"))
+    tokens.append(Token("keyword", "skip"))
+    tokens.append(Token("symbol", ";"))
     parser = CompilerParser(tokens)
     try:
-        result = parser.compileClass()
+        result = parser.compileStatements()
         print(result)
     except ParseException:
         print("Error Parsing!")

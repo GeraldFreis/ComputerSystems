@@ -67,6 +67,7 @@ class ParseTree(): # this tree is made in regards to the tokens passed to it
             # Output if the node has children
             output += self.node_type + "\n"
             for child in self.children:
+                # print(child)
                 output += indent + "  \u2514 " + child.__str__(depth+1)
             
             output += indent + "\n"
