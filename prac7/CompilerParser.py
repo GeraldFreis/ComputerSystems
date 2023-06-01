@@ -302,12 +302,13 @@ class CompilerParser :
         newparsed = ParseTree("ifStatement", "")
 
         newparsed.addChild(self.token_array[self.iterator])
-        newparsed.addChild(self.token_array[self.iterator+1]); self.iterator += 1
+        newparsed.addChild(self.token_array[self.iterator+1]); 
+        self.iterator += 2
         newparsed.addChild(self.compileExpression())
         newparsed.addChild(self.token_array[self.iterator])
         newparsed.addChild(self.token_array[self.iterator+1])
 
-        self.iterator += 1
+        self.iterator += 2
         for i in range(self.iterator, len(self.token_array)):
             if    (self.token_array[i].value == "}"):
                 self.iterator = i; break;
@@ -317,8 +318,8 @@ class CompilerParser :
                 else:
                     self.iterator = i # updating the iterator
                     newparsed.addChild(self.compileStatements())
-                    
                     i = self.iterator
+
         newparsed.addChild(self.token_array[self.iterator])
         self.iterator += 1
         return newparsed 
