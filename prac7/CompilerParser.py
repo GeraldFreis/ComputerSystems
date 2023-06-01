@@ -332,6 +332,10 @@ class CompilerParser :
                     if    (self.token_array[i].value not in self.statements):
                         raise ParseException
                         return None;
+                    elif    (self.token_array[i].value == "if"):
+                        self.iterator = i
+                        newparsed.addChild(self.compileIf())
+                        i = self.iterator # updating i to be the current token
                     else:
                         self.iterator = i # updating the iterator
                         newparsed.addChild(self.compileStatements())
