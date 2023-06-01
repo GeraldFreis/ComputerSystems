@@ -314,7 +314,7 @@ class CompilerParser :
         @return a ParseTree that represents the statement
         """
         newparsed = ParseTree("ifStatement", "")
-        if(len(self.token_array) < 14):
+        if(len(self.token_array) < 14 and len(self.token_array) > 7):
             if(self.token_array[6].node_type == "symbol" and self.token_array[7].node_type == "keyword"):
                 raise ParseException
                 return None # just in case
