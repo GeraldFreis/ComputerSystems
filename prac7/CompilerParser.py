@@ -237,7 +237,7 @@ class CompilerParser :
         newparsed = ParseTree("statements", "")
         i = self.iterator
         while i < len(self.token_array): # iterating until we do not have a token in the statements list
-            # print(self.token_array[i].value)
+            print(self.token_array[i].value)
             if (self.token_array[i].value not in self.statements):
                 self.iterator = i 
                 break;
@@ -250,21 +250,27 @@ class CompilerParser :
 
                 elif    (self.token_array[i].value == "do"):
                     newparsed.addChild(self.compileDo())
+                    i = self.iterator # updating i to be the current token
 
                 elif    (self.token_array[i].value == "while"):
                     newparsed.addChild(self.compileWhile())
+                    i = self.iterator # updating i to be the current token
 
                 elif    (self.token_array[i].value == "return"):
                     newparsed.addChild(self.compileReturn())
+                    i = self.iterator # updating i to be the current token
 
                 elif    (self.token_array[i].value == "if"):
                     newparsed.addChild(self.compileIf())
+                    i = self.iterator # updating i to be the current token
                 else:
                     newparsed.addChild(self.token_array[i])
                     self.iterator += 1
-                i = self.iterator # updating i to be the current token
+                    i = self.iterator # updating i to be the current token
 
-            i += 1
+                
+
+            
         self.iterator = i
         return newparsed 
     
@@ -297,6 +303,7 @@ class CompilerParser :
         newparsed.addChild(self.compileExpression())
         newparsed.addChild(self.token_array[self.iterator]) # iterator should be updated from the compile expression function
         self.iterator += 1
+        # print(self.token_array[self.iterator].)
 
         return newparsed 
 
