@@ -329,7 +329,7 @@ class CompilerParser :
                 if    (self.token_array[i].value == "}"):
                     self.iterator = i; break;
                 else: 
-                    if    (self.token_array[i].value not in self.statements and self.token_array[i].value not in self.symbols):
+                    if    (self.token_array[i].value not in self.statements):
                         raise ParseException
                         return None;
                     elif    (self.token_array[i].value == "if"):
