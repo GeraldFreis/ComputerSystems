@@ -337,7 +337,8 @@ class CompilerParser :
 
                 else: 
                     if    (self.token_array[i].value not in self.statements):
-                        raise ParseException
+                        # raise ParseException
+                        raise TypeError
                         return None;
                     else:
                         self.iterator = i # updating the iterator
